@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -38,15 +38,15 @@
 <body data-background-color="bg1">
 	<div class="wrapper">
 
-        {% include 'includes/navigation.html' %}
+        {% include 'school/includes/navigation.html' %}
 
-        {% include 'includes/sidebar.html' %}
+        {% include 'school/includes/sidebar.html' %}
 
 		<div class="main-panel">
 			
 			{% block content %}{% endblock content %}
 
-			{% include 'includes/footer.html' %}
+			{% include 'school/includes/footer.html' %}
 
 		</div>
         
@@ -59,7 +59,7 @@
 
 	</div>
 
-	{% include 'includes/scripts.html' %}
+	{% include 'school/includes/scripts.html' %}
 
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}{% endblock javascripts %}

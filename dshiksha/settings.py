@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-f$6j)8^w-9m!&8bj2=vio1-xq#lcjnsx)4b$wz2ce^=upn+bpu
 DEBUG = True
 
 ALLOWED_HOSTS = [    
-    '127.0.0.1', 'erp.dshiksha.in',"school.dshiksha.in" # TODO : Change the allowed hosts settings when deploying to production" 
+    '127.0.0.1', 'erp.dshiksha.in','school.dshiksha.in' # TODO : Change the allowed hosts settings when deploying to production" 
 ]
 
 
@@ -40,9 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'dshiksha_erp',
+    'school',
+    'django_hosts',
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,9 +55,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware'
+
 ]
 
 ROOT_URLCONF = 'dshiksha.urls'
+ROOT_HOSTCONF = 'dshiksha.hosts'
+DEFAULT_HOST = "erp"
+DEFAULT_PORT = "8000"
+PARENT_HOST = "dshiksha.in"
 
 TEMPLATES = [
     {
