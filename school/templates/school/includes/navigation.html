@@ -24,7 +24,7 @@
 			<!-- Navbar Header -->
 			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="dark2">
 				
-				{% if request.user.is_authenticated %}
+				{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
 				<div class="container-fluid">
 					<div class="collapse" id="search-nav">
 						<form class="navbar-left navbar-form nav-search mr-md-3">
@@ -255,14 +255,14 @@
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="#">Account Setting</a>
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+										{% comment %} <a class="dropdown-item" href="{% url 'logout' %}">Logout</a> {% endcomment %}
 									</li>
 								</div>
 							</ul>
 						</li>
 					</ul>
 				</div>
-				{% endif %}
+				{% comment %} {% endif %} {% endcomment %}
 
 			</nav>
 			<!-- End Navbar -->

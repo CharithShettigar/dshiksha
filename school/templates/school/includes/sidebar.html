@@ -3,7 +3,7 @@
 			<div class="sidebar-wrapper scrollbar scrollbar-inner">
 				<div class="sidebar-content">
 
-				{% if request.user.is_authenticated %}	
+				{% comment %} {% if request.user.is_authenticated %}	 {% endcomment %}
 					<div class="user">
 						<div class="avatar-sm float-left mr-2">
 							<img src="/static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
@@ -28,9 +28,9 @@
 										</a>
 									</li>
 									<li>
-										<a href="{% url 'logout' %}">
+										{% comment %} <a href="{% url 'logout' %}"> {% endcomment %}
 											<span class="link-collapse">Logout</span>
-										</a>
+										{% comment %} </a> {% endcomment %}
 									</li>
 								</ul>
 							</div>
@@ -295,16 +295,16 @@
                                 <span class="btn-label mr-2"> <i class="fa fa-rocket"></i> </span>PRO Version</a> 
 						</li>
 					</ul>
-				{% else %}
-					<ul class="nav nav-primary">
+				{% comment %} {% else %} {% endcomment %}
+					{% comment %} <ul class="nav nav-primary">
 						<li class="mx-4 mt-2">
                             <a target="_blank"
                                href="https://appseed.us/admin-dashboards/django-dashboard-atlantis-dark-pro" 
                                class="btn btn-danger btn-block">
                                 <span class="btn-label mr-2"> <i class="fa fa-rocket"></i> </span>PRO Version</a> 
 						</li>
-					</ul>
-				{% endif %}	
+					</ul> {% endcomment %}
+				{% comment %} {% endif %}	 {% endcomment %}
 				</div>
 			</div>
 		</div>
