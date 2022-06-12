@@ -1,5 +1,5 @@
-
 {% extends "dshiksha_erp/base-fullscreen.html" %}
+{% load widget_tweaks %}
 
 {% block title %} Login {% endblock title %}
 
@@ -37,20 +37,23 @@
                     <div class="card-header">
                         <div class="card-title">
 
-                            {% if msg %}
-                                <span class="text-danger">{{ msg | safe }}</span>
+                            {% if messages %}
+                                {% for message in messages %} 
+                                    <span class="{% if message.tags == 'error' %} alert alert-danger alert-dismissible d-flex align-items-center fade show my-3 {% endif %}">
+                                        Error!</strong> {{ message.message }}
+                                    </span>
+                                {% endfor %}
                             {% else %}
-                            <span>
-                                Add your credentials
-                            </span>
-                            {% endif %}
-
-                        </div>
+                                <span>
+                                    Add your credentials
+                                </span>
+                            {% endif %}                       
                     </div>
 
                     <form method="post" action="">
 
                         {% csrf_token %}
+                        <input type="hidden" name="redirect_to_url" value="{{ redirect_url }}"> 
 
                         <div class="card-body">
                             <div class="row">
@@ -63,7 +66,7 @@
                                                     <i class="icon-user"></i>
                                                 </span>
                                             </div>
-                                            {{ form.username }}
+                                            {% render_field form.username type="text" placeholder="Username" class="form-control" %}
                                         </div>
                                     </div>
 
@@ -74,7 +77,8 @@
                                                     <i class="icon-lock"></i>
                                                 </span>
                                             </div>
-                                            {{ form.password }}
+                                            {% render_field form.password type="password" placeholder="Password" class="form-control" %}
+
                                         </div>
                                     </div>
 
