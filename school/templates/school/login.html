@@ -1,5 +1,6 @@
-
 {% extends "dshiksha_erp/base-fullscreen.html" %}
+{% load widget_tweaks %}
+
 
 {% block title %} Login {% endblock title %}
 
@@ -36,7 +37,6 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-
                             {% if msg %}
                                 <span class="text-danger">{{ msg | safe }}</span>
                             {% else %}
@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    <form method="post" action="">
+                    <form action="/login" method="post">
 
                         {% csrf_token %}
 
@@ -63,7 +63,7 @@
                                                     <i class="icon-user"></i>
                                                 </span>
                                             </div>
-                                            {{ form.username }}
+                                            {% comment %} {% render_field form.password type="text" placeholder="Username" class="form-control" %} {% endcomment %}
                                         </div>
                                     </div>
 
@@ -74,7 +74,9 @@
                                                     <i class="icon-lock"></i>
                                                 </span>
                                             </div>
-                                            {{ form.password }}
+                                            {% comment %} {{ form.password }} {% endcomment %}
+                                            {% comment %} {% render_field form.password type="password" placeholder="Password" class="form-control" %} {% endcomment %}
+
                                         </div>
                                     </div>
 

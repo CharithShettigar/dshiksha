@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-f$6j)8^w-9m!&8bj2=vio1-xq#lcjnsx)4b$wz2ce^=upn+bpu
 DEBUG = True
 
 ALLOWED_HOSTS = [    
-    '127.0.0.1', 'erp.dshiksha.in','school.dshiksha.in' # TODO : Change the allowed hosts settings when deploying to production" 
+    '127.0.0.1', 'erp.dshiksha.in','school.dshiksha.in','www.dshiksha.in' # TODO : Change the allowed hosts settings when deploying to production" 
 ]
 
 
@@ -43,7 +43,10 @@ INSTALLED_APPS = [
 
     'dshiksha_erp',
     'school',
+    'main',
     'django_hosts',
+    'widget_tweaks',
+
 ]
 
 MIDDLEWARE = [
@@ -61,7 +64,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'dshiksha.urls'
 ROOT_HOSTCONF = 'dshiksha.hosts'
-DEFAULT_HOST = "erp"
+DEFAULT_HOST = "www"
 DEFAULT_PORT = "8000"
 PARENT_HOST = "dshiksha.in"
 
