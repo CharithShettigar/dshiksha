@@ -1,13 +1,15 @@
-{% extends "dshiksha_erp/base-fullscreen.html" %}
+{% extends "school/base-fullscreen.html" %}
 {% load widget_tweaks %}
 
 
-{% block title %} Login {% endblock title %}
+{% block title %} School Login {% endblock title %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+
+    
 
     <div class="page-inner">
         <div class="page-header">
@@ -37,20 +39,24 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            {% if msg %}
-                                <span class="text-danger">{{ msg | safe }}</span>
-                            {% else %}
-                            <span>
-                                Add your credentials
-                            </span>
-                            {% endif %}
 
-                        </div>
+                            {% if messages %}
+                                {% for message in messages %} 
+                                    <span class="{% if message.tags == 'error' %} alert alert-danger alert-dismissible d-flex align-items-center fade show my-3 {% endif %}">
+                                        Error!</strong> {{ message.message }}
+                                    </span>
+                                {% endfor %}
+                            {% else %}
+                                <span>
+                                    Add your credentials
+                                </span>
+                            {% endif %}
                     </div>
 
-                    <form action="/login" method="post">
+                    <form method="post" action="">
 
                         {% csrf_token %}
+                        <input type="hidden" name="redirect_to_url" value="{{ redirect_url }}"> 
 
                         <div class="card-body">
                             <div class="row">
@@ -63,7 +69,7 @@
                                                     <i class="icon-user"></i>
                                                 </span>
                                             </div>
-                                            {% comment %} {% render_field form.password type="text" placeholder="Username" class="form-control" %} {% endcomment %}
+                                            {% render_field login_form.Email type="email" placeholder="Email" class="form-control" %}
                                         </div>
                                     </div>
 
@@ -74,8 +80,7 @@
                                                     <i class="icon-lock"></i>
                                                 </span>
                                             </div>
-                                            {% comment %} {{ form.password }} {% endcomment %}
-                                            {% comment %} {% render_field form.password type="password" placeholder="Password" class="form-control" %} {% endcomment %}
+                                            {% render_field login_form.Password type="password" placeholder="Password" class="form-control" %}
 
                                         </div>
                                     </div>
