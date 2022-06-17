@@ -4,6 +4,12 @@ from main.models import User
 
 
 # Create your models here.
+class AcademicYear(models.Model):
+    AcademicYearID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    AcademicYear = models.CharField(max_length=50)
+    IsActive = models.BooleanField()
+    OrderID = models.IntegerField(unique=True)
+
 
 class State(models.Model):
     StateID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
@@ -27,9 +33,12 @@ class Village(models.Model):
     VillageName = models.CharField(max_length=50)
     Taluk = models.ForeignKey(Taluk, on_delete=models.CASCADE)
 
-class Area(models.Model):
-    AreaID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    AreaType = models.CharField(max_length=100)
+
+class Parish(models.Model):
+    ParishID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    ParishName = models.CharField(max_length=50)
+    ParishArea = models.CharField(max_length=50)
+
 
 class Gender(models.Model):
     GenderID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
@@ -117,9 +126,46 @@ class StaffSubject(models.Model):
     StaffSubjectID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     StaffSubjectName = models.CharField(max_length=50)
 
+
+class SchoolAffiliation(models.Model):
+    SchoolAffiliationID = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    SchoolAffiliation = models.CharField(max_length=50)
+
+
 class MediumOfInstruction(models.Model):
     MediumOfInstructionID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     MediumOfInstruction = models.CharField(max_length=50)
+
+
+class ModeOfTransport(models.Model):
+    ModeOfTransportID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    TransportName = models.CharField(max_length=50)
+    OrderID = models.IntegerField()
+
+
+class TransportData(models.Model):
+    TransportDataID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    ModeOfTransport = models.ForeignKey(ModeOfTransport, on_delete=models.CASCADE)
+    DriverName = models.CharField(max_length=50, null=True)
+    DriverMobileNo = models.CharField(max_length=50, null=True)
+    DriverEmail = models.EmailField(max_length=50, null=True)
+    DriverAddress = models.TextField(null=True)
+
+
+class NatureOfAppointment(models.Model):
+    NatureOfAppointmentID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    NatureOfAppointment = models.CharField(max_length=100)
+
+
+class SchoolType(models.Model):
+    SchoolTypeID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    SchoolType = models.CharField(max_length=100)
+
+
+class Area(models.Model):
+    AreaID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    AreaType = models.CharField(max_length=100)
+
 
 class InstitutionLevel(models.Model):
     InstitutionLevelID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)

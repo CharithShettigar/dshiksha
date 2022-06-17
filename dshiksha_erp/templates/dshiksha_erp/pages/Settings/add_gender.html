@@ -1,0 +1,101 @@
+{% extends 'dshiksha_erp/index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Add Gender {% endblock title %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="home-tab">
+                    <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
+                    <div class="row">
+                        <div class="col-lg-12 d-flex flex-column">
+                            <div class="row flex-grow">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                        <div class="card-body">
+                                            <h4 class="card-title text-white">Add Gender </h4>
+                                            <form action="/Settings/AddGender" method="post">
+                                                {% csrf_token %}                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="" class="text-white form-label"> Gender </label>
+                                                             {{ gender_form.GenderName | attr:"class=form-control" }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-white"> Order ID </label>
+                                                            {{ gender_form.GenderOrder | attr:"class=form-control" | attr:"type=number" }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputUsername1">&nbsp;</label>    
+                                                            <div class="input-group col-xs-12">                                                        
+                                                                <span class="input-group-append">
+                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                                </span>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 d-flex flex-column">
+                            <div class="row flex-grow">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                        <div class="card-body">
+                                            <div class="d-sm-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h4 class="card-title card-title-dash text-white">Gender List</h4>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive  mt-1">
+                                                <!-- Table details here -->
+                                                <table class="table text-white">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="10%">Sr.No.</th>
+                                                            <th>Gender Order  </th>
+                                                            <th>Gender Name </th>
+    
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if gender_list %}
+                                                        {% for gender in gender_list %}
+                                                        <tr>
+                                                            <td>  {{ forloop.counter }}  </td>
+                                                            <td> {{ gender.GenderOrder }}  </td>
+                                                            <td>                                                           
+                                                              
+                                                                        <a href="/Settings/UpdateGender/{{ gender.GenderID }}">{{ gender.GenderName }} - {{ gender.GenderOrder }}</a>
+                                                           </td>                                                       
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
