@@ -27,6 +27,11 @@ class Village(models.Model):
     VillageName = models.CharField(max_length=50)
     Taluk = models.ForeignKey(Taluk, on_delete=models.CASCADE)
 
+class Parish(models.Model):
+    ParishID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    ParishName = models.CharField(max_length=50)
+    ParishArea = models.CharField(max_length=50)
+
 class Area(models.Model):
     AreaID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     AreaType = models.CharField(max_length=100)
@@ -167,6 +172,12 @@ class SubFee(models.Model):
     SubFeeID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     FeesType = models.ForeignKey(FeesType, on_delete=models.CASCADE)
     SubFeeName = models.CharField(max_length=50)
+
+class AcademicYear(models.Model):
+    AcademicYearID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    AcademicYear = models.CharField(max_length=50)
+    IsActive = models.BooleanField()
+    OrderID = models.IntegerField(unique=True)
 
 
 class ClassLevelFees(models.Model):

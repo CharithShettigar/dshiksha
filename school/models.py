@@ -73,7 +73,6 @@ class Staff(models.Model):
     StaffProQualification = models.ForeignKey(erp.StaffProQualification, on_delete = models.CASCADE, null=True)
     Subject1 = models.ForeignKey(erp.StaffSubject, on_delete = models.CASCADE, related_name='Subject1', null=True)
     Subject2 = models.ForeignKey(erp.StaffSubject, on_delete = models.CASCADE, related_name='Subject2', null=True)
-    NatureOfAppointment = models.ForeignKey(erp.NatureOfAppointment, on_delete = models.CASCADE, null=True)
     DateOfAppointment = models.DateField(null=True)
     DateOfRetirement = models.DateField(null=True)
     ProvidentFund = models.BooleanField(default=False)

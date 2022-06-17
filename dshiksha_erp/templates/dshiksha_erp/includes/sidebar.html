@@ -6,8 +6,11 @@
 				{% comment %} {% if request.user.is_authenticated %}	 {% endcomment %}
 					<div class="user">
 						<div class="avatar-sm float-left mr-2">
-							<img src="/static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+							
+							<span class="avatar-title rounded-circle text-warning fw-bold">RC</span>
+									
 						</div>
+						
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
@@ -23,14 +26,9 @@
 							<div class="collapse in" id="collapseExample">
 								<ul class="nav">
 									<li>
-										<a href="#profile">
-											<span class="link-collapse">My Profile</span>
+										<a href="/accounts/logout">
+											<span class="link-collapse">logout</span>
 										</a>
-									</li>
-									<li>
-										{% comment %} <a href="{% url 'logout' %}"> {% endcomment %}
-											<span class="link-collapse">Logout</span>
-										{% comment %} </a> {% endcomment %}
 									</li>
 								</ul>
 							</div>
@@ -97,9 +95,9 @@
 										</a>
 									</li>
 									<li>
-										<a href="/Settings/AddStaffQualification">
+										{% comment %} <a href="/Settings/AddStaffQualification">
 											<span class="sub-item">Add Staff Qualification</span>
-										</a>
+										</a> {% endcomment %}
 									</li>
 									<li>
 										<a href="/Settings/AddReligion">
@@ -107,50 +105,60 @@
 										</a>
 									</li>
 									<li>
-										<a href="/Settings/AddExtras">
+										{% comment %} <a href="/Settings/AddExtras">
 											<span class="sub-item">Add AddExtras</span>
-										</a>
+										</a> {% endcomment %}
 									</li>
 									<li>
-										<a href="/Settings/CreateClass">
+										{% comment %} <a href="/Settings/CreateClass">
 											<span class="sub-item">Create Class</span>
-										</a>
+										</a> {% endcomment %}
 									</li>
 									<li>
-										<a href="/Settings/AssignClassLevel">
+										{% comment %} <a href="/Settings/AssignClassLevel">
 											<span class="sub-item">Assign Class Level</span>
+										</a> {% endcomment %}
+									</li>
+									<li>
+										<a href="/Settings/AddPostOffice">
+											<span class="sub-item">Add Post Office</span>
 										</a>
 									</li>
 									<li>
-										<a href="/Settings/AddPostOffices">
-											<span class="sub-item">Add Post Offices</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Settings/AddMediumOfInstrusction">
+										<a href="/Settings/AddMediumOfInstruction">
 											<span class="sub-item">Add Medium Of Instruction</span>
 										</a>
 									</li>
 									<li>
-										<a href="/Settings/AddSchoolAffiliation">
+										<a href="/Settings/AddDesignation">
+											<span class="sub-item">Add Designation</span>
+										</a>
+									</li>
+									<li>
+										<a href="/Settings/AddSubject">
+											<span class="sub-item">Add subject</span>
+										</a>
+									</li>
+									<li>
+										{% comment %} <a href="/Settings/AddSchoolAffiliation">
 											<span class="sub-item">Add School Affiliation</span>
-										</a>
+										</a> {% endcomment %}
 									</li>
 									<li>
-										<a href="/Settings/CreateFeesType">
+										{% comment %} <a href="/Settings/CreateFeesType">
 											<span class="sub-item">Create Fees Type</span>
-										</a>
+										</a> {% endcomment %}
 									</li>
 									<li>
 									<li>
-										<a href="/Settings/AssignClassLevel">
+										{% comment %} <a href="/Settings/AssignClassLevel">
 											<span class="sub-item">School Assign Class Level</span>
-										</a>
+										</a> {% endcomment %}
 									</li>
 									<li>
-										<a href="/Settings/CreateSchool">
+										{% comment %} <a href="/Settings/CreateSchool">
 											<span class="sub-item">Create School</span>
-										</a>
+										</a> {% endcomment %}
 									</li>
 								</ul>
 							</div>
