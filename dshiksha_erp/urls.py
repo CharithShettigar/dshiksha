@@ -28,6 +28,4 @@ urlpatterns = [
     path('Settings/AddDesignation', views.add_designation, name="add_designation"),
     path('Settings/AddSubject', views.add_subject, name="add_subject"),
 
-
-
 ]

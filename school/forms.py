@@ -12,5 +12,5 @@ class LoginForm(forms.ModelForm):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['Password'] = forms.CharField(widget=forms.PasswordInput)
 
-    # def clean(self) :
-    #     pass
+    def clean(self) :
+        pass

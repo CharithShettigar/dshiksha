@@ -44,18 +44,17 @@
 
 		<div class="main-panel">
 			
-			{% block content %}{% endblock content %}
-
-			{% include 'school/includes/footer.html' %}
-
+			{% block body %}{% endblock body %}
+	
 		</div>
+		{% include 'school/includes/footer.html' %}
         
-		{% if request.user.is_authenticated %}
+		{% comment %} {% if request.user.is_authenticated %}
 
 			<!-- Custom template | don't include it in your project! -->
-			{% comment %} {% include 'includes/configuration-plugin.html' %} {% endcomment %}
+			{% comment %} {% include 'includes/configuration-plugin.html' %}
 
-		{% endif %}		
+		{% endif %}		 {% endcomment %}
 
 	</div>
 
