@@ -80,16 +80,6 @@ class VillageForm(forms.ModelForm):
             raise forms.ValidationError('Village already exists')
 
 
-class ParishForm(forms.ModelForm):
-    class Meta:
-        model = md.Parish
-        fields = ['ParishName', 'ParishArea']
-
-    def clean(self) :
-        if md.Parish.objects.filter(ParishName = self.cleaned_data['ParishName']).exists():
-            raise forms.ValidationError('Parish already exists')
-
-
 class GenderForm(forms.ModelForm):
     class Meta:
         model = md.Gender

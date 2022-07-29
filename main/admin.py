@@ -14,7 +14,7 @@ class UserAdminConfig(UserAdmin):
     
     fieldsets = (
         (None, {'fields': ('Email', 'FirstName', 'LastName', 'username')}),
-        ('Permission', {'fields': ('IsActive', 'is_superuser')}),
+        ('Permission', {'fields': ('IsActive', 'is_superuser','is_staff')}),
         ('Personal', {'fields': ("StartDate",)}),
     )
 

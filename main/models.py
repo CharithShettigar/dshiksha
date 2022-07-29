@@ -8,8 +8,8 @@ class UserTypes(models.Model):
     UserTypeID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     UserTypeName = models.CharField(max_length=50)
     OrderNo = models.IntegerField()
-    def __str__(self):
-        return self.UserTypeName
+    # def __str__(self):
+    #     return self.UserTypeName
 
 
 class UserManager(BaseUserManager):

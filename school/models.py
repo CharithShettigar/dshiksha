@@ -43,7 +43,6 @@ class School(models.Model):
     Village = models.ForeignKey(erp.Village, on_delete=models.CASCADE)
     SchoolCode = models.CharField(max_length=25)
     SchoolUsername = models.CharField(max_length=50)
-    Parish = models.ForeignKey(erp.Parish, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     CurrentAcademicYear = models.ForeignKey(erp.AcademicYear, on_delete=models.CASCADE)
 
@@ -81,7 +80,7 @@ class Staff(models.Model):
     Gratuity = models.BooleanField(default=False)
     CautionDeposit = models.BooleanField(default=False)
     StaffNo = models.CharField(max_length=50)
-    AcademicYear = models.ForeignKey(erp.AcademicYear, on_delete=models.CASCADE)
+    AcademicYear = models.ForeignKey(erp.AcademicYear, on_delete=models.CASCADE,null=True)
 
 
 class CBSEHead(models.Model):
