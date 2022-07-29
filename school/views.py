@@ -101,7 +101,7 @@ def school_info(request):
 def assign_class(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            print(request.POST)
+            print("++++++++++++++++++++++",request.POST)
             if request.POST.get('Class') is None:
                 messages.error(request, "Please select a class")
                 print("Please select a class")
@@ -159,3 +159,86 @@ def assign_application_fees(request):
         return render(request, "school/Pages/School/assign_application_fees.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/School/AssignApplicationFees")
+
+
+def create_staff(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            staff_form = fm.StaffCreateForm(request.POST)
+            if staff_form.is_valid():
+                if sm.Staff.objects.filter(StaffEmailID = staff_form.cleaned_data['StaffEmailID'],
+                                            SchoolID = sm.School.objects.get(SchoolID = request.session[
+                                                'school_id'])).exists() \
+                        or \
+                        sm.Staff.objects.filter(StaffMobile = staff_form.cleaned_data['StaffMobile'],
+                                                 SchoolID = sm.School.objects.get(SchoolID =
+                                                                                   request.session[
+                                                                                       'school_id'])).exists():
+                    messages.error(request, "Staff Already exists")
+                else:
+                    # print(f"******Staff email:{staff_form.cleaned_data['StaffEmailID']}" )
+                    # print(f"******gender:{staff_form.cleaned_data['Gender'].GenderName}" )
+                    user = User.objects.create_user(email=staff_form.cleaned_data['StaffEmailID'],
+                                                    username=staff_form.cleaned_data['StaffName'],
+                                                    first_name=staff_form.cleaned_data['StaffName'],
+                                                    password=staff_form.cleaned_data['Password'],
+                                                    UserType=UserTypes.objects.get(UserTypeName = "SCHOOL Staff").UserTypeID,
+                                                    )
+                    sm.Staff(StaffID = uuid.uuid4(), 
+                            UserID = User.objects.get(UserID = user.UserID),
+                            StaffName=staff_form.cleaned_data['StaffName'], 
+                            StaffEmailID=staff_form.cleaned_data['StaffEmailID'],
+                            StaffMobile=staff_form.cleaned_data['StaffMobile'], 
+                            SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
+                            StaffNo = request.POST.get('staff_id_no'),
+                            ).save()
+                    
+                    new_staff_no = "{0:04}".format(int(request.POST.get('staff_id_no').replace("SCHOOL", '')) + int(1))
+                    staff_no_data = sm.StaffNo.objects.all()[:1].get()
+                    staff_no_data.StaffNo = new_staff_no
+                    staff_no_data.save()
+                    return redirect("/Staff/CreateStaff")
+            else:
+                messages.error(request, staff_form.errors.as_text()[14:])              
+                print(staff_form.errors)
+        else:
+            staff_form = fm.StaffCreateForm()
+
+        if sm.StaffNo.objects.last()==None:
+            sm.StaffNo(StaffNo="0001").save()
+            
+        context = {
+            "staff_form": staff_form,
+            "staff_list": sm.Staff.objects.filter(SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).all().order_by("StaffNo"),
+            "staff_id_no": "SCHOOL" + sm.StaffNo.objects.all()[:1].get().StaffNo,            
+        }
+        return render(request, "school/Pages/Staff/create_staff.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Staff/CreateStaff")
+
+def staff_info(request):
+    if request.user.is_authenticated:
+        staff_data=None
+        if request.method == 'POST':            
+            staff_id=request.POST['staff_selected']
+            if not staff_id=='':
+                staff_data=sm.Staff.objects.get(StaffID = staff_id)
+
+        staff_list = sm.Staff.objects.all()
+        context = {
+            "staff_list": staff_list,
+            "staff":staff_data,
+        }
+        return render(request, "school/Pages/Staff/staff_info.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Staff/StaffInfo")
+
+def staff_info_show(request,staff_ID):
+    if request.user.is_authenticated:
+        staff_data=sm.Staff.objects.get(StaffID = staff_ID)
+        context = {
+            "staff":staff_data,
+        }
+        return render(request, "school/Pages/Staff/staff_info_show.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Staff/StaffInfo")

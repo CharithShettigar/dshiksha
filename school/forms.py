@@ -14,3 +14,19 @@ class LoginForm(forms.ModelForm):
 
     def clean(self) :
         pass
+
+class StaffCreateForm(forms.ModelForm):
+    class Meta:
+        model = cbm.Staff    
+        fields = ['StaffName', 'StaffEmailID', 'StaffMobile']
+        # exclude = ['UserID']
+        # fields = ['StaffName', 'StaffEmailID', 'StaffMobile','DOB','Gender','BloodGroup','MaritalStatus','Caste','MotherTongue','AddressLine1','AddressLine2']
+
+    def __init__(self, *args, **kwaargs):
+        super(StaffCreateForm, self).__init__(*args, **kwaargs)
+        self.fields['Password'] = forms.CharField(widget=forms.PasswordInput)
+        self.fields['PasswordConfirm'] = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        if self.cleaned_data['Password'] != self.cleaned_data['PasswordConfirm']:
+            raise forms.ValidationError("Password does not match")

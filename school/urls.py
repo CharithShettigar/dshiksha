@@ -15,5 +15,11 @@ urlpatterns = [
     path('School/AssignApplicationFees', views.assign_application_fees, name="school_assign_application_fees"),
     # path('School/NewApplication', views.student_application, name="school_student_application"),
 
+    # Staff Paths
+    path('Staff/CreateStaff', views.create_staff, name="school_create_staff"),
+    path('Staff/StaffInfo', views.staff_info, name="school_staff_info"),
+    path('Staff/StaffInfoShow/<str:staff_ID>', views.staff_info_show, name="school_staff_info_show"),
+
+
     
 ]
