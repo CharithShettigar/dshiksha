@@ -6,8 +6,11 @@
 				{% comment %} {% if request.user.is_authenticated %}	 {% endcomment %}
 					<div class="user">
 						<div class="avatar-sm float-left mr-2">
-							<img src="/static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+							
+							<span class="avatar-title rounded-circle text-warning fw-bold">RC</span>
+									
 						</div>
+						
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
@@ -23,14 +26,9 @@
 							<div class="collapse in" id="collapseExample">
 								<ul class="nav">
 									<li>
-										<a href="#profile">
-											<span class="link-collapse">My Profile</span>
+										<a href="/accounts/logout">
+											<span class="link-collapse">logout</span>
 										</a>
-									</li>
-									<li>
-										{% comment %} <a href="{% url 'logout' %}"> {% endcomment %}
-											<span class="link-collapse">Logout</span>
-										{% comment %} </a> {% endcomment %}
 									</li>
 								</ul>
 							</div>
@@ -133,7 +131,12 @@
 									</li>
 									<li>
 										<a href="/Settings/AddDesignation">
-											<span class="sub-item">Add Designation and subject</span>
+											<span class="sub-item">Add Designation</span>
+										</a>
+									</li>
+									<li>
+										<a href="/Settings/AddSubject">
+											<span class="sub-item">Add subject</span>
 										</a>
 									</li>
 									<li>

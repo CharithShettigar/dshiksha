@@ -1,7 +1,7 @@
 from django import forms
 from . import models as md
 from main.models import User
-from school import models as cbm
+from . import models as md
 
 
 class LoginForm(forms.ModelForm):
@@ -123,24 +123,10 @@ class BloodGroupForm(forms.ModelForm):
             raise forms.ValidationError('Blood Group already exists')
 
 
-class StaffQualificationForm(forms.ModelForm):
+class PostOfficeForm(forms.ModelForm):
     class Meta:
-        model = md.StaffQualification
-        fields = ['StaffQualificationName']
-
-    def clean(self):
-        if md.StaffQualification.objects.filter(StaffQualificationName = self.cleaned_data['StaffQualificationName']).exists():
-            raise forms.ValidationError('Staff Qualification already exists')
-
-
-class StaffProQualificationForm(forms.ModelForm):
-    class Meta:
-        model = md.StaffProQualification
-        fields = ['StaffProQualificationName']
-
-    def clean(self):
-        if md.StaffProQualification.objects.filter(StaffProQualificationName = self.cleaned_data['StaffProQualificationName'].capitalize()).exists():
-            raise forms.ValidationError('Staff Professional Qualification already exists')
+        model = md.PostOffice
+        fields = ['PostOfficeName', 'Pincode']
 
 
 class ReligionForm(forms.ModelForm):
@@ -151,7 +137,6 @@ class ReligionForm(forms.ModelForm):
     def clean(self):
         if md.Religion.objects.filter(ReligionName = self.cleaned_data['ReligionName'].capitalize()).exists():
             raise forms.ValidationError('Religion already exists')
-
 
 class CasteCategoryForm(forms.ModelForm):
     class Meta:
@@ -174,15 +159,6 @@ class CasteForm(forms.ModelForm):
         self.fields['Religion'] = forms.ModelChoiceField(queryset=md.Religion.objects.all())
 
 
-class MaritalStatusForm(forms.ModelForm):
-    class Meta:
-        model = md.MaritalStatus
-        fields = ['MaritalStatus']
-
-    def clean(self):
-        if md.MaritalStatus.objects.filter(MaritalStatus=self.cleaned_data['MaritalStatus'].capitalize()).exists():
-            raise forms.ValidationError('Marital Status already exists')
-
 
 class DesignationForm(forms.ModelForm):
     class Meta:
@@ -192,40 +168,6 @@ class DesignationForm(forms.ModelForm):
     def clean(self):
         if md.Designation.objects.filter(DesignationName=self.cleaned_data['DesignationName'].capitalize()).exists():
             raise forms.ValidationError('Designation already exists')
-
-
-class ClassLevelForm(forms.ModelForm):
-    class Meta:
-        model = md.ClassLevel
-        fields = ['ClassLevelName', 'ClassLevelCode']
-
-
-class ClassListForm(forms.ModelForm):
-    class Meta:
-        model = md.ClassList
-        fields = ['ClassName', 'OrderID']
-
-
-class ClassForm(forms.ModelForm):
-    class Meta:
-        model = cbm.Class
-        fields = ['ClassList', 'ClassLevel']
-
-    def __init__(self, *args, **kwaargs):
-        super(ClassForm, self).__init__(*args, **kwaargs)
-        self.fields['ClassList'] = forms.ModelChoiceField(queryset=md.ClassList.objects.all())
-        self.fields['ClassLevel'] = forms.ModelChoiceField(queryset=md.ClassLevel.objects.all())
-
-
-class SectionForm(forms.ModelForm):
-    class Meta:
-        model = md.Section
-        fields = ['SectionName']
-
-    def clean(self):
-        if md.Section.objects.filter(SectionName = self.cleaned_data['SectionName'].capitalize()).exists():
-            raise forms.ValidationError('Section already exists')
-
 
 class StaffSubjectForm(forms.ModelForm):
     class Meta:
@@ -238,157 +180,8 @@ class StaffSubjectForm(forms.ModelForm):
         )).exists():
             raise forms.ValidationError('Staff Subject already exists')
 
-    
-class PostOfficeForm(forms.ModelForm):
-    class Meta:
-        model = md.PostOffice
-        fields = ['PostOfficeName', 'Pincode']
-
-
-class ModeOfTransportForm(forms.ModelForm):
-    class Meta:
-        model = md.ModeOfTransport
-        fields = ["TransportName", "OrderID"]
-
-
-class SchoolAffiliationForm(forms.ModelForm):
-    class Meta:
-        model = md.SchoolAffiliation
-        fields = ['SchoolAffiliation']
-
 
 class MediumOfInstructionForm(forms.ModelForm):
     class Meta:
         model = md.MediumOfInstruction
         fields = ['MediumOfInstruction']
-
-
-class NatureOfAppointmentForm(forms.ModelForm):
-    class Meta:
-        model = md.NatureOfAppointment
-        fields = ['NatureOfAppointment']
-
-
-class TransportDataForm(forms.ModelForm):
-    class Meta:
-        model = md.TransportData
-        fields = ['DriverName', 'DriverMobileNo', 'DriverEmail', 'DriverAddress']
-
-    def __init__(self, *args, **kwaargs):
-        super(TransportDataForm, self).__init__(*args, **kwaargs)
-        self.fields['ModeOfTransport'] = forms.ModelChoiceField(queryset = md.ModeOfTransport.objects.all())
-
-
-class SchoolTypeForm(forms.ModelForm):
-    class Meta :
-        model = md.SchoolType
-        fields = ['SchoolType']
-
-
-class AreaForm(forms.ModelForm):
-    class Meta:
-        model = md.Area
-        fields = ['AreaType']
-
-
-class InstitutionLevelForm(forms.ModelForm):
-    class Meta:
-        model = md.InstitutionLevel
-        fields = ['InstitutionLevel']
-
-
-class SyllabusTypeForm(forms.ModelForm):
-    class Meta:
-        model = md.SyllabusType
-        fields = ['SyllabusType']
-
-
-class ModeOfPaymentForm(forms.ModelForm):
-    class Meta:
-        model = md.ModeOfPayment
-        fields = ['ModeOfPayment', 'OrderID']
-
-
-class PaymentStatus(forms.ModelForm):
-    class Meta:
-        model = md.PaymentStatus
-        fields = ['PaymentStatus']
-
-
-class CorrespondentForm(forms.ModelForm):
-    class Meta:
-        model = md.Correspondent
-        fields = ['CorrespondentFirstName','CorrespondentLastName', 'CorrespondentMobile', 'CorrespondentEmail', 'CorrespondentWhatsAppNo']
-
-
-    def __init__(self, *args, **kwaargs):
-        super(CorrespondentForm, self).__init__(*args, **kwaargs)
-        self.fields['Username'] = forms.CharField()
-        self.fields['Password'] = forms.CharField(widget=forms.PasswordInput())
-        self.fields['ConfirmPassword'] = forms.CharField(widget=forms.PasswordInput())
-
-    def clean(self):
-        if self.cleaned_data['Password'] != self.cleaned_data['ConfirmPassword']:
-            raise forms.ValidationError('Passwords donot match')
-
-
-# Forms related to CBSE
-class SchoolForm(forms.ModelForm):
-
-    class Meta:
-        model = cbm.School
-        fields = ['SchoolName', 'SchoolName', 'Landline','SchoolCode', 'Email', 'SchoolUsername']
-
-    def __init__(self, *args, **kwaargs):
-        super(SchoolForm, self).__init__(*args, **kwaargs)
-        self.fields['Village'] = forms.ModelChoiceField(queryset=md.Village.objects.all())
-        self.fields['Taluk'] = forms.ModelChoiceField(queryset=md.Taluk.objects.all(), required=False)
-        self.fields['District'] = forms.ModelChoiceField(queryset=md.District.objects.all(), required=False)
-        self.fields['State'] = forms.ModelChoiceField(queryset=md.State.objects.all(), required=False)
-        self.fields['Pincode'] = forms.ModelChoiceField(queryset=md.PostOffice.objects.all())
-        self.fields['Parish'] = forms.ModelChoiceField(queryset=md.Parish.objects.all())
-        self.fields['PostOfficeName'] = forms.CharField(max_length=100, required=False)
-        self.fields['Password'] = forms.CharField(max_length=100, widget=forms.PasswordInput)
-        self.fields['ConfirmPassword'] = forms.CharField(max_length=100, widget=forms.PasswordInput)
-        self.fields['CurrentAcademicYear'] = forms.ModelChoiceField(queryset= md.AcademicYear.objects.all())
-
-    def clean(self):
-        if self.cleaned_data['Password'] != self.cleaned_data['ConfirmPassword']:
-            raise forms.ValidationError("Password do not match")
-
-
-class FeesTypeForm(forms.ModelForm):
-    class Meta:
-        model = md.FeesType
-        fields = ['FeesTypeName', 'FeeTypeCode']
-
-
-class InstallmentForm(forms.ModelForm):
-    class Meta:
-        model = md.Installment
-        fields = ['InstallmentName']
-
-
-class SubFeeForm(forms.ModelForm):
-    class Meta:
-        model = md.SubFee
-        fields = ['FeesType']
-
-    def __init__(self, *args, **kwaargs):
-        super(SubFeeForm, self).__init__(*args, **kwaargs)
-        self.fields['FeesType'] = forms.ModelChoiceField(queryset=md.FeesType.objects.all(), required=False)
-
-    def clean(self):
-        if self.fields['FeesType'] is None:
-            raise forms.ValidationError("Fees Type is required")
-
-
-class ClassLevelFeesForm(forms.ModelForm):
-    class Meta:
-        model = md.ClassLevelFees
-        fields = ['ClassLevel', 'FeesType']
-
-    def __init__(self, *args, **kwaargs):
-        super(ClassLevelFeesForm, self).__init__(*args, **kwaargs)
-        self.fields['ClassLevel'] = forms.ModelChoiceField(queryset=md.ClassLevel.objects.all())
-        self.fields['FeesType'] = forms.ModelChoiceField(queryset=md.FeesType.objects.all())
