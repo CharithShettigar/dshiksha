@@ -19,7 +19,6 @@ urlpatterns = [
     # settings
     path('Settings/AddState', views.add_state, name="add_state"),
     path('Settings/AddAcademicYear', views.add_academic_year, name="add_academic_year"),
-    path('Settings/AddParish', views.add_parish, name="add_parish"),
     path('Settings/AddGender', views.add_gender, name="add_gender"),
     path('Settings/AddNationality', views.add_nationality, name="add_nationality"),
     path('Settings/AddMotherTongue', views.add_mother_tongue, name="add_mother_tomgue"),

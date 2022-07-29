@@ -1,0 +1,297 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} School Info | {{ school_name }} {% endblock title %}
+
+{% block body %}
+{% comment %} <div class="content-wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="home-tab">
+                <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4">  
+                    
+                </div>
+                <h3 class="display-4">School Info</h3>
+                <div class="row">
+                    <div class="col-sm mb-5">
+                        <img src={{school_data.SchoolLogo}} alt="school Logo">
+                    </div>
+                    <div class="col-sm">
+                    <div> {{school_data.SchoolName}} </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}
+<div class="content">
+    <div class="page-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">School Info</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm mb-5">
+                            <img src={{school_data.SchoolLogo}} alt="school Logo">
+                        </div>
+                        <div class="col-sm">
+                        <div> {{school_data.SchoolName}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td>Insitution ID</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.SchoolCode }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Insitution Type</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.SchoolType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>School DISE Code</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.SchoolDISECode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Syllabus</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Syllabus.SyllabusType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Insitution Level</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.InstitutionLevel.InstitutaionLevel}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Section</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.Section.SectionName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>GSTI Number</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.GSTINo}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>School Pan Number</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.SchoolPANNo}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Area</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.Area.AreaType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Village</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.Village.VillageName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taluk</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.Village.Taluk.TalukName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>District</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.Village.Taluk.District.DistrictName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>State</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.Village.Taluk.District.State.StateName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pincode</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Pincode.Pincode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current Accadamic Year</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.CurrentAcademicYear.AcademicYear}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Head of the Institution Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>First Name</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff_form.Staff.StaffName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">Last Name</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentLastName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mobile</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentMobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WhatsApp</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentWhatsAppNo}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.CorrespondentEmail}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="col-sm"> 
+                                <!-- Correspondent Info -->
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Correspondent Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>First Name</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentFirstName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">Last Name</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentLastName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mobile</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentMobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WhatsApp</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentWhatsAppNo}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{school_data.CorrespondentEmail}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <!--Account Info  -->
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Accountant Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Accountant.AccountantName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">Email</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Accountant.AccountantEmail}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mobile</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Accountant.AccountantMobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WhatsApp</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Accountant.AccountantWhatsAppNo}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <!-- Contact Info -->
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Contact Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Landline</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Landline}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">Mobile</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Mobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.Email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Website</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.WhatsAppNo}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- School History Info -->
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">School Histroy Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Est Date</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.EstDate}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Years</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_year}} </td> 
+                                        </tr>
+                                        <tr>
+                                            <td>Histroy</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ school_data.History}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-primary m-3" id="edit-school" value="hello"> Edit </button>
+</div>
+
+{% endblock body %}
+
+{% block javascripts %}
+<script>
+    $("#edit-school").click(function () {
+        window.location.href = "/School/EditSchoolInfo/{{ school_id }}"
+    })
+</script>
+{% endblock javascripts %}

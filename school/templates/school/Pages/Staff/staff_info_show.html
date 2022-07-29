@@ -1,0 +1,227 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Staff Info | {{ school_name }} {% endblock title %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+
+{% block body %}
+<div class="content">
+    <div class="page-inner">
+
+    {% if staff %}
+    <h3 class="my-3">Staff Info: <b>{{staff.StaffName}}</b></h3>
+    <div class="row">
+        <div class="col-sm">
+            <table class="table table-hover"> 
+                <thead>
+                    <th class="fw-bold" colspan="3">Personal Info</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Staff No</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.StaffNo }}</td>
+                    </tr>
+                    <tr>
+                        <td>Staff Photo</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.StaffPhoto}}</td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.Gender.GenderName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Date of Birth</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.DOB}}</td>
+                    </tr>
+                    <tr>
+                        <td>Blood Group</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{staff.BloodGroup.BloodGroupName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Marital Status</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{staff.MaritalStatus.MaritalStatus}}</td>
+                    </tr>
+                    <tr>
+                        <td>Caste</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{staff.Caste.CasteName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Mother Tongue</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{staff.MotherTongue.MotherTongueName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-hover mt-3">
+                <thead>
+                    <th class="fw-bold" colspan="3">Work Info</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Designation</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.Designation.DesignationName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Qualification</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.StaffQualification.StaffQualificationName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Professional Qualification</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.StaffProQualification.StaffProQualificationName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Subject 1</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.Subject1.StaffSubjectName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Subject 2</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.Subject2.StaffSubjectName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-hover mt-3">
+                <thead>
+                    <th class="fw-bold" colspan="3">Contact Info</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mobile</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.StaffMobile}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.StaffEmailID}}</td>
+                    </tr>
+                    <tr>
+                        <td>Website</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.WhatsAppNo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-sm"> 
+            
+            <table class="table table-hover">
+                <thead>
+                    <th class="fw-bold" colspan="3">Address Info</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Address Line1</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.AddressLine1}}</td>
+                    </tr>
+                    <tr>
+                        <td>Address Line2</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.AddressLine2}}</td>
+                    </tr>
+                    <tr>
+                        <td>Village</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.Village.VillageName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Taluk</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{staff.Village.Taluk.TalukName}}</td>
+                    </tr>
+                    <tr>
+                        <td>District</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{staff.Village.Taluk.District.DistrictName}}</td>
+                    </tr>
+                    <tr>
+                        <td>State</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{staff.Village.Taluk.District.State.StateName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Pincode</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.Pincode.Pincode}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            
+            <table class="table table-hover mt-3">
+                <thead>
+                    <th class="fw-bold" colspan="3">Appointment Info</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nature of Appointment</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.NatureOfAppointment.NatureOfAppointment}}</td>
+                    </tr>
+                    <tr>
+                        <td>Date Of Appointment</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.DateOfAppointment}} </td> 
+                    </tr>
+                    <tr>
+                        <td>Date Of Retirement</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.DateOfRetirement }}</td>
+                    </tr>
+                    <tr>
+                        <td>Provident Fund</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.ProvidentFund }}</td>
+                    </tr>
+                    <tr>
+                        <td>ESI</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.ESI }}</td>
+                    </tr>
+                    <tr>
+                        <td>Professional Tax</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.ProfessionalTax }}</td>
+                    </tr>
+                    <tr>
+                        <td>Gratuity</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.Gratuity }}</td>
+                    </tr>
+                    <tr>
+                        <td>Caution Deposit</td>
+                        <td class="fw-bold">:</td>
+                        <td class="fw-bold">{{ staff.CautionDeposit }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+
+{% endblock body %}
+
+{% block js_files %}
+
+{% endblock js_files %}

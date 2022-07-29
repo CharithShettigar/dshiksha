@@ -33,11 +33,6 @@ class Village(models.Model):
     VillageName = models.CharField(max_length=50)
     Taluk = models.ForeignKey(Taluk, on_delete=models.CASCADE)
 
-class Parish(models.Model):
-    ParishID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    ParishName = models.CharField(max_length=50)
-    ParishArea = models.CharField(max_length=50)
-
 class Area(models.Model):
     AreaID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     AreaType = models.CharField(max_length=100)

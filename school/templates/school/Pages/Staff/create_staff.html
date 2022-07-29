@@ -1,0 +1,154 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Create Staff
+{% endblock title %}
+
+
+{% comment %} {% block cbse_app_data %} {% endcomment %}
+{% block body %}
+
+<div class="content">
+    <div class="page-inner">
+        {% if messages %}
+            <div>
+                {% for message in messages %} 
+                <div class="{% if message.tags == 'error' %} alert alert-danger alert-dismissible d-flex align-items-center fade show my-1 {% endif %}">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Error!</strong> {{ message.message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert">
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/Staff/CreateStaff" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <h3 class="card-title">Create Staff</h3>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Staff Name</label>
+                                                {{ staff_form.StaffName | attr:"class=form-control" }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label"> Staff ID </label>
+                                                <input type="hidden" name="staff_id_no" value="{{ staff_id_no }}">
+                                                <div class="form-control"> {{ staff_id_no }}</div>                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Staff Email ID</label>
+                                                {{ staff_form.StaffEmailID | attr:"class=form-control" }}                    
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label"> Staff Mobile No</label>
+                                                {{ staff_form.StaffMobile | attr:"class=form-control" }}                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label"> Password </label>
+                                                {{ staff_form.Password | attr:'class=form-control' }}                    
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label"> Confirm Password </label>
+                                                {{ staff_form.PasswordConfirm | attr:"class=form-control" }}                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                                                       
+                            </div>  
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary"> Create </button>
+                        </div>
+                    </form>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    {% if staff_list %}
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    
+                    <div>
+                        <h3>Staff List</h3>
+
+                            <table class="table table-hover">
+                                <tbody>
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.No.</th>
+                                            <th>StaffName</th>
+                                            <th>StaffEmailID</th>
+                                            <th>StaffNo</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    {% for staff in staff_list %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>
+                                            <div>
+                                                {{ staff.StaffName }} 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                 {{ staff.StaffEmailID }} 
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                {{ staff.StaffNo }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <a name="" id="" class="btn btn-dark py-1" href="/Staff/StaffInfoShow/{{ staff.StaffID }}" role="button">View</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+
+{% endblock body %}
+{% comment %} {% endblock cbse_app_data %} {% endcomment %}

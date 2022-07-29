@@ -162,28 +162,6 @@ def add_academic_year(request):
         return redirect("/accounts/login/?redirect_to=/Settings/AddAcademicYear")
 
 
-def add_parish(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            parish_form = fm.ParishForm(request.POST)
-            if parish_form.is_valid():
-                md.Parish(ParishID=uuid.uuid4(), ParishName=parish_form.cleaned_data['ParishName'],
-                          ParishArea=parish_form.cleaned_data['ParishArea']).save()
-                return redirect("/Settings/AddParish")
-            else:
-                print("Something went wrong while adding new parish")
-        else:
-            parish_form = fm.ParishForm()
-        parish_list = md.Parish.objects.all()
-        context = {
-            "parish_form": parish_form,
-            "parish_list": parish_list,
-        }
-        return render(request, "dshiksha_erp/Pages/Settings/add_parish.html", context)
-    else:
-        return redirect("/accounts/login/?redirect_to=/Settings/AddParish")
-
-
 def add_gender(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
