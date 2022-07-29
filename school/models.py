@@ -30,7 +30,7 @@ class School(models.Model):
     Correspondent = models.ForeignKey(erp.Correspondent, on_delete=models.CASCADE, null=True)
     Area = models.ForeignKey(erp.Area, on_delete=models.CASCADE, null=True)
     Syllabus = models.ForeignKey(erp.SyllabusType, on_delete=models.CASCADE, null=True)
-    erp.InsitutionLevel = models.ForeignKey(erp.InstitutionLevel, on_delete=models.CASCADE, null=True)
+    InsitutionLevel = models.ForeignKey(erp.InstitutionLevel, on_delete=models.CASCADE, null=True)
     Landline = models.CharField(max_length=100)
     Mobile = models.CharField(max_length=100)
     Email = models.EmailField(max_length=100)
