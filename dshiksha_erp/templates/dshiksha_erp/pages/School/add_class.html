@@ -1,0 +1,258 @@
+{% extends 'dshiksha_erp/index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Add Class
+{% endblock title %}
+
+{% block body %}
+    
+
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="home-tab">
+                    <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
+                    <div class="row">
+                        <div class="col-lg-4 d-flex flex-column">
+                            <div class="row flex-grow">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Add Class Level </h4>
+                                             <!-- form details here -->
+                                             <form action="/School/CreateClass" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="form-type" value="class-level-form">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label"> Class Level Name</label>
+                                                            {{ class_level_form.ClassLevelName | attr:"class=form-control" }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label"> Class Level Code</label>
+                                                            {{ class_level_form.ClassLevelCode | attr:"class=form-control" }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                          <div class="input-group col-xs-12">                                                        
+                                                                <span class="input-group-append">
+                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                                </span>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-flex flex-column">
+                            <div class="row flex-grow">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Add Class   </h4>
+                                             <!-- form details here -->
+                                             <form action="/School/CreateClass" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="form-type" value="class-list-form">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label"> Class </label>
+                                                            {{ class_list_form.ClassName | attr:"class=form-control" }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label"> OrderID </label>
+                                                            {{ class_list_form.OrderID | attr:"class=form-control" }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                          <div class="input-group col-xs-12">                                                        
+                                                                <span class="input-group-append">
+                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                                </span>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-flex flex-column">
+                            <div class="row flex-grow">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Add Section   </h4>
+                                             <!-- form details here -->
+                                             <form action="/School/CreateClass" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="form-type" value="section-form">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label"> Section </label>
+                                                            {{ section_form.SectionName | attr:"class=form-control" }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                          <div class="input-group col-xs-12">                                                        
+                                                                <span class="input-group-append">
+                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                                </span>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 d-flex flex-column">
+                            <div class="row flex-grow">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded">
+                                        <div class="card-body">
+                                            <div class="d-sm-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h4 class="card-title card-title-dash">Class Level List</h4>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive  mt-1">
+                                                <!-- Table details here -->
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="10%">Sr.No.</th>
+                                                            <th>Academic Year </th>
+    
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if class_level_list %}
+                                                        {% for cl in class_level_list %}
+                                                        <tr>
+                                                            <td>  {{ forloop.counter }}  </td>
+                                                            <td> 
+                                                                   <a href="/Settings/UpdateClassLevel/{{ cl.ClassLevelID }}"> {{ cl.ClassLevelName }} - {{ cl.ClassLevelCode   }}
+                                                                    </a>
+                                                            </td>                                                       
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-flex flex-column">
+                            <div class="row flex-grow">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded">
+                                        <div class="card-body">
+                                            <div class="d-sm-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h4 class="card-title card-title-dash">Class List</h4>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive  mt-1">
+                                                <!-- Table details here -->
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="10%">Sr.No.</th>
+                                                            <th>Academic Year </th>
+    
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if class_list %}
+                                                        {% for class in class_list %}
+                                                        <tr>
+                                                            <td>  {{ forloop.counter }}  </td>
+                                                            <td> 
+                                                               
+                                                                    <a href="/Settings/UpdateClass/{{ class.ClassID }}">{{ class.ClassName }}</a>
+                                                             
+                                                            </td>                                                       
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-flex flex-column">
+                            <div class="row flex-grow">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded">
+                                        <div class="card-body">
+                                            <div class="d-sm-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h4 class="card-title card-title-dash">Class List</h4>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive  mt-1">
+                                                <!-- Table details here -->
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="10%">Sr.No.</th>
+                                                            <th>Academic Year </th>
+    
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% if section_list %}
+                                                        {% for section in section_list %}
+                                                        <tr>
+                                                            <td>  {{ forloop.counter }}  </td>
+                                                            <td> 
+                                                               
+                                                                    <a href="/Settings/UpdateSection/{{ section.SectionID }}">{{ section.SectionName }}</a>
+                                                            
+                                                            </td>                                                       
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

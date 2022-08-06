@@ -30,3 +30,8 @@ class StaffCreateForm(forms.ModelForm):
     def clean(self):
         if self.cleaned_data['Password'] != self.cleaned_data['PasswordConfirm']:
             raise forms.ValidationError("Password does not match")
+
+class SchoolForm(forms.ModelForm):
+    class Meta:
+        model = cbm.School
+        exclude = ['UserID']

@@ -63,16 +63,9 @@ class StaffQualification(models.Model):
     StaffQualificationID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     StaffQualificationName = models.CharField(max_length=50)
 
-
-class StaffProQualification(models.Model):
-    StaffProQualificationID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    StaffProQualificationName = models.CharField(max_length=50)
-
-
 class Religion(models.Model):
     ReligionID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     ReligionName = models.CharField(max_length=50)
-
 
 class CasteCategory(models.Model):
     CasteCategoryID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
@@ -129,11 +122,6 @@ class SchoolAffiliation(models.Model):
     SchoolAffiliation = models.CharField(max_length=50)
 
 
-class MediumOfInstruction(models.Model):
-    MediumOfInstructionID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    MediumOfInstruction = models.CharField(max_length=50)
-
-
 class ModeOfTransport(models.Model):
     ModeOfTransportID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     TransportName = models.CharField(max_length=50)
@@ -168,12 +156,6 @@ class InstitutionLevel(models.Model):
     InstitutionLevelID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     InstitutionLevel = models.CharField(max_length=100)
 
-
-class SyllabusType(models.Model):
-    SyllabusTypeID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    SyllabusType = models.CharField(max_length=100)
-
-
 class ModeOfPayment(models.Model):
     ModeOfPaymentID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     ModeOfPayment = models.CharField(max_length=50)
@@ -183,17 +165,6 @@ class ModeOfPayment(models.Model):
 class PaymentStatus(models.Model):
     PaymentStatusID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     PaymentStatus = models.CharField(max_length=50)
-
-
-class Correspondent(models.Model):
-    CorrespondentID = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
-    CorrespondentFirstName = models.CharField(max_length=100)
-    CorrespondentLastName = models.CharField(max_length=100, null=True)
-    CorrespondentEmail = models.EmailField(max_length=100)
-    CorrespondentMobile = models.CharField(max_length=100)
-    CorrespondentWhatsAppNo = models.CharField(max_length=100)
-
 
 class FeesType(models.Model):
     FeesTypeID = models.UUIDField(primary_key=True, default=uuid.uuid4)

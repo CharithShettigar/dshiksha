@@ -1,0 +1,30 @@
+{% extends 'dshiksha_erp/index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Create Institution Level
+{% endblock title %}
+
+
+{% block body %}
+    <div class="content">
+        <div class="col-sm">
+            <form action="/School/CreateInstitutionLevel" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="" class="form-label"> Institution Level</label>
+                    {{ il_form.InstitutionLevel | attr:"class=form-control" }}
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary"> Submit </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm">
+            {% for il in il_list %}
+                <div> {{ il.InstitutionLevel }}</div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}
