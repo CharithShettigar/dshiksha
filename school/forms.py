@@ -46,3 +46,8 @@ class ApplicationForm(forms.ModelForm):
     class Meta:
         model = sm.Application
         fields = ['StudentName','Gender','StudentDOB','StudentMobileNo','ParentName', 'ParentMobileNo','Class','Amount','ModeOfPayment']
+
+class SchoolForm(forms.ModelForm):
+    class Meta:
+        model = sm.School
+        exclude = ['UserID']

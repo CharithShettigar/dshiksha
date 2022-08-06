@@ -81,7 +81,10 @@ def school_info(request):
         # year calculation
         school_date=school_data.EstDate
         today=date.today()
-        school_year=today.year-school_date.year-int((today.month,today.day)<(school_date.month,school_date.day))
+        if school_data.EstDate==None:
+            school_year=" "
+        else:
+            school_year=today.year- school_date.year-int((today.month,today.day)<(school_date.month,school_date.day))
 
         context = {
             "school_data": school_data,

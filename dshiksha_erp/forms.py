@@ -1,7 +1,7 @@
 from django import forms
-from main.models import User
 from . import models as md
-
+from main.models import User
+from school import models as cbm
 
 class LoginForm(forms.ModelForm):
     class Meta:
@@ -169,8 +169,84 @@ class StaffSubjectForm(forms.ModelForm):
         )).exists():
             raise forms.ValidationError('Staff Subject already exists')
 
+class SchoolForm(forms.ModelForm):
 
-class MediumOfInstructionForm(forms.ModelForm):
     class Meta:
-        model = md.MediumOfInstruction
-        fields = ['MediumOfInstruction']
+        model = cbm.School
+        fields = ['SchoolName', 'Landline','SchoolCode', 'Email', 'SchoolUsername','SyllabusType','AccountantName','AccountantEmail','AccountantMobile','AccountantWhatsAppNo','CorrespondentFirstName','CorrespondentLastName','CorrespondentEmail','CorrespondentMobile','CorrespondentWhatsAppNo']#,'EstDate']#, 'SchoolDISECode','History','Website','SchoolPANNo','GSTINo']
+
+    def __init__(self, *args, **kwaargs):
+        super(SchoolForm, self).__init__(*args, **kwaargs)
+        self.fields['Village'] = forms.ModelChoiceField(queryset=md.Village.objects.all())
+        self.fields['Taluk'] = forms.ModelChoiceField(queryset=md.Taluk.objects.all(), required=False)
+        self.fields['District'] = forms.ModelChoiceField(queryset=md.District.objects.all(), required=False)
+        self.fields['State'] = forms.ModelChoiceField(queryset=md.State.objects.all(), required=False)
+        self.fields['Pincode'] = forms.ModelChoiceField(queryset=md.PostOffice.objects.all())
+        self.fields['PostOfficeName'] = forms.CharField(max_length=100, required=False)
+        self.fields['Password'] = forms.CharField(max_length=100, widget=forms.PasswordInput)
+        self.fields['ConfirmPassword'] = forms.CharField(max_length=100, widget=forms.PasswordInput)
+        self.fields['CurrentAcademicYear'] = forms.ModelChoiceField(queryset= md.AcademicYear.objects.all())
+        #self.fields['Insitution']=forms.ModelChoiceField(queryset=md.InstitutionLevel.objects.all())
+
+    def clean(self):
+        if self.cleaned_data['Password'] != self.cleaned_data['ConfirmPassword']:
+            raise forms.ValidationError("Password do not match")
+
+class ClassLevelForm(forms.ModelForm):
+    class Meta:
+        model = md.ClassLevel
+        fields = ['ClassLevelName', 'ClassLevelCode']
+
+
+class ClassListForm(forms.ModelForm):
+    class Meta:
+        model = md.ClassList
+        fields = ['ClassName', 'OrderID']
+
+
+class ClassForm(forms.ModelForm):
+    class Meta:
+        model = cbm.Class
+        fields = ['ClassList', 'ClassLevel']
+
+    def __init__(self, *args, **kwaargs):
+        super(ClassForm, self).__init__(*args, **kwaargs)
+        self.fields['ClassList'] = forms.ModelChoiceField(queryset=md.ClassList.objects.all())
+        self.fields['ClassLevel'] = forms.ModelChoiceField(queryset=md.ClassLevel.objects.all())
+
+class SectionForm(forms.ModelForm):
+    class Meta:
+        model = md.Section
+        fields = ['SectionName']
+
+    def clean(self):
+        if md.Section.objects.filter(SectionName = self.cleaned_data['SectionName'].capitalize()).exists():
+            raise forms.ValidationError('Section already exists')
+
+class DesignationForm(forms.ModelForm):
+    class Meta:
+        model = md.Designation
+        fields = ['DesignationName']
+
+    def clean(self):
+        if md.Designation.objects.filter(DesignationName=self.cleaned_data['DesignationName'].capitalize()).exists():
+            raise forms.ValidationError('Designation already exists')
+
+class InstitutionLevelForm(forms.ModelForm):
+    class Meta:
+        model = md.InstitutionLevel
+        fields = ['InstitutionLevel']
+
+class StaffQualificationForm(forms.ModelForm):
+    class Meta:
+        model = md.StaffQualification
+        fields = ['StaffQualificationName']
+
+    def clean(self):
+        if md.StaffQualification.objects.filter(StaffQualificationName = self.cleaned_data['StaffQualificationName']).exists():
+            raise forms.ValidationError('Staff Qualification already exists')
+
+class SchoolAffiliationForm(forms.ModelForm):
+    class Meta:
+        model = md.SchoolAffiliation
+        fields = ['SchoolAffiliation']
