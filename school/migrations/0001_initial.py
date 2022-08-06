@@ -172,22 +172,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Application',
-            fields=[
-                ('ApplicationID', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('ApplicationNo', models.CharField(max_length=100)),
-                ('StudentName', models.CharField(max_length=100)),
-                ('FatherName', models.CharField(max_length=100)),
-                ('FatherMobileNo', models.CharField(max_length=30)),
-                ('ApplicationDate', models.DateField()),
-                ('Amount', models.FloatField()),
-                ('Class', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='school.class')),
-                ('ModeOfPayment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dshiksha_erp.modeofpayment')),
-                ('PaymentStatus', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dshiksha_erp.paymentstatus')),
-                ('School', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='school.school')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Admission',
             fields=[
                 ('AdmissionID', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),

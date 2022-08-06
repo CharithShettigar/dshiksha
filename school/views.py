@@ -1,5 +1,6 @@
-from datetime import date
+from datetime import date, datetime
 import uuid
+from django.utils.dateformat import DateFormat
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -8,15 +9,10 @@ from dshiksha_erp import models as md
 from school import models as sm
 from main.models import UserTypes, User
 import dshiksha_erp.models as erp
-
+from django.core import serializers
 
 # Create your views here.
 
-# def index(request):
-#     return render(request,'school/index.html')
-
-# def login_view(request):
-#     return render(request,'school/login.html')
 
 def index(request):
     if request.user.is_authenticated:
@@ -101,7 +97,6 @@ def school_info(request):
 def assign_class(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            print("++++++++++++++++++++++",request.POST)
             if request.POST.get('Class') is None:
                 messages.error(request, "Please select a class")
                 print("Please select a class")
@@ -116,12 +111,12 @@ def assign_class(request):
                 for cl in class_list:
                     for s in section_list:
                         if not sm.AssignClass.objects.filter(Class = sm.Class.objects.get(ClassID = cl).ClassID, Section = erp.Section.objects.get(SectionID = s).SectionID, School = sm.School.objects.get(SchoolID = request.session['school_id']).SchoolID, AcademicYear = md.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']).AcademicYearID).exists():
-                            if md.AcademicYear.objects.get(IsActive = True).AcademicYearID == erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']).AcademicYearID:
-                                sm.AssignClass(AssignClassID = uuid.uuid4(), Class = sm.Class.objects.get(ClassID = cl), Section = erp.Section.objects.get(SectionID = s), School = sm.School.objects.get(SchoolID = request.session['school_id']), AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year'])).save()
-                            else:
-                                print("Please verify your academic year")
+                            # if md.AcademicYear.objects.get(IsActive = True).AcademicYearID == erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']).AcademicYearID:
+                            sm.AssignClass(AssignClassID = uuid.uuid4(), Class = sm.Class.objects.get(ClassID = cl), Section = erp.Section.objects.get(SectionID = s), School = sm.School.objects.get(SchoolID = request.session['school_id']), AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year'])).save()
+                            # else:
+                                # print("Please verify your academic year")
 
-                    # Create Appplication No Details
+                    #Create Appplication No Details
                     if not sm.ApplicationNo.objects.filter(Class = sm.Class.objects.get(ClassID = cl).ClassID, School = sm.School.objects.get(SchoolID = request.session['school_id']).SchoolID, AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']).AcademicYearID).exists():
                         sm.ApplicationNo(ApplicationNoID = uuid.uuid4(), Class = sm.Class.objects.get(ClassID = cl), School = sm.School.objects.get(SchoolID = request.session['school_id']), AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']), Amount = 0, ApplicationNo = 1).save()
 
@@ -144,10 +139,10 @@ def assign_application_fees(request):
             apf_form = fm.ApplicationFeesForm(request.POST)
             if apf_form.is_valid():
                 apf_data = sm.ApplicationNo.objects.get(ApplicationNoID = apf_form.cleaned_data['ApplicationNoID'].ApplicationNoID)
-                if apf_data.Amount == 0:
-                    apf_data.Amount = float(apf_form.cleaned_data['Amount'])
-                    apf_data.save()
-                return redirect("/School/AssignApplicationFees")
+                # if apf_data.Amount == 0:
+                apf_data.Amount = float(apf_form.cleaned_data['Amount'])
+                apf_data.save()
+                return redirect("/Application/AssignApplicationFees")
             else:
                 print(apf_form.errors)
         else:
@@ -156,10 +151,82 @@ def assign_application_fees(request):
             "apf_form": apf_form,
             "apf_list": sm.ApplicationNo.objects.filter(School = sm.School.objects.get(SchoolID = request.session['school_id']).SchoolID, AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']).AcademicYearID).all().order_by("Class__ClassList__OrderID"),
         }
-        return render(request, "school/Pages/School/assign_application_fees.html", context)
+        return render(request, "school/Pages/Application/assign_application_fees.html", context)
     else:
-        return redirect("/accounts/login/?redirect_to=/School/AssignApplicationFees")
+        return redirect("/accounts/login/?redirect_to=/Application/AssignApplicationFees")
 
+def student_application(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            student_application_form = fm.ApplicationForm(request.POST)
+            if student_application_form.is_valid():
+                if sm.Application.objects.filter(ApplicationNo=request.POST.get('application_id_no'),SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).exists() \
+                    or sm.Application.objects.filter(StudentMobileNo=student_application_form.cleaned_data['StudentMobileNo'],SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).exists():
+                    messages.error(request, "Applicant Already exists")
+                else:
+                    sm.Application(
+                        ApplicationID=uuid.uuid4(),
+                        ApplicationNo=request.POST.get('application_id_no'),
+                        StudentName=student_application_form.cleaned_data['StudentName'],
+                        StudentDOB=student_application_form.cleaned_data['StudentDOB'],
+                        # Gender=md.Gender.objects.get(GenderID=student_application_form.cleaned_data['Gender']),
+                        Gender=student_application_form.cleaned_data['Gender'],
+                        StudentMobileNo=student_application_form.cleaned_data['StudentMobileNo'],
+                        ParentName=student_application_form.cleaned_data['ParentName'],
+                        ParentMobileNo=student_application_form.cleaned_data['ParentMobileNo'],
+                        Class=student_application_form.cleaned_data['Class'],
+                        SchoolID=sm.School.objects.get(SchoolID = request.session['school_id']),
+                        ApplicationDate=DateFormat(date.today()).format('Y-m-d'),
+                        Amount=student_application_form.cleaned_data['Amount'],
+                        ModeOfPayment=student_application_form.cleaned_data['ModeOfPayment']
+                        # ModeOfPayment=md.ModeOfPayment.objects.get(ModeOfPaymentID=student_application_form.cleaned_data['ModeOfPayment'])
+                    ).save()
+                    messages.info(request,"Data saved succesfully")
+                    print("Data saved succesfully")
+            else:
+                print(student_application_form.errors)
+
+            return redirect("/Application/NewApplication")
+
+        else:
+            application_form=fm.ApplicationForm()
+            school_id = request.session['school_id']
+
+            #creating application number autogenerate 
+            if sm.Application.objects.filter(SchoolID=school_id).exists():
+                old_applicationno=sm.Application.objects.filter(SchoolID=school_id)[0].ApplicationNo
+                new_applicationno="{0:03}".format(int(old_applicationno.replace(f"A/{date.today().year-1}-{date.today().year}/", '')) + int(1))
+            else:
+                new_applicationno="001"
+
+            # passing class and fees details to javascript
+            objset=sm.ApplicationNo.objects.filter(School=school_id)
+            jsondata=serializers.serialize("json",objset)
+
+        context = {
+            "application_form": application_form,
+            "application_id_no": f"A/{date.today().year-1}-{date.today().year}/{new_applicationno}",
+            "amount_no":0.00,
+            "application_date": DateFormat(date.today()).format('d-m-Y'),
+            "gender_list":md.Gender.objects.all().order_by('GenderOrder'),
+            "class_list":objset,
+            "payment_list":md.ModeOfPayment.objects.all(),
+            "applicant_list":sm.Application.objects.filter(SchoolID=request.session['school_id']).order_by('ApplicationNo'),
+            "data":jsondata,
+        }
+        return render(request, "school/Pages/Application/new_application.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Application/NewApplication")
+
+def application_info_show(request,application_ID):
+    if request.user.is_authenticated:
+        application_ID_data=sm.Application.objects.get(ApplicationID = application_ID)
+        context = {
+            "applicant":application_ID_data,
+        }
+        return render(request, "school/Pages/Application/application_info_show.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Application/NewApplication")
 
 def create_staff(request):
     if request.user.is_authenticated:
@@ -176,8 +243,6 @@ def create_staff(request):
                                                                                        'school_id'])).exists():
                     messages.error(request, "Staff Already exists")
                 else:
-                    # print(f"******Staff email:{staff_form.cleaned_data['StaffEmailID']}" )
-                    # print(f"******gender:{staff_form.cleaned_data['Gender'].GenderName}" )
                     user = User.objects.create_user(email=staff_form.cleaned_data['StaffEmailID'],
                                                     username=staff_form.cleaned_data['StaffName'],
                                                     first_name=staff_form.cleaned_data['StaffName'],
@@ -193,10 +258,6 @@ def create_staff(request):
                             StaffNo = request.POST.get('staff_id_no'),
                             ).save()
                     
-                    new_staff_no = "{0:04}".format(int(request.POST.get('staff_id_no').replace("SCHOOL", '')) + int(1))
-                    staff_no_data = sm.StaffNo.objects.all()[:1].get()
-                    staff_no_data.StaffNo = new_staff_no
-                    staff_no_data.save()
                     return redirect("/Staff/CreateStaff")
             else:
                 messages.error(request, staff_form.errors.as_text()[14:])              
@@ -204,13 +265,18 @@ def create_staff(request):
         else:
             staff_form = fm.StaffCreateForm()
 
-        if sm.StaffNo.objects.last()==None:
-            sm.StaffNo(StaffNo="0001").save()
-            
+            #Creating staffNo according to school
+            school_id = request.session['school_id']
+            if sm.Staff.objects.filter(SchoolID=school_id).exists():
+                old_staffNo=sm.Staff.objects.filter(SchoolID=school_id)[0].StaffNo
+                new_staffNo="{0:03}".format(int(old_staffNo.replace("SCHOOL", '')) + int(1))
+            else:
+                new_staffNo="001"
+
         context = {
             "staff_form": staff_form,
             "staff_list": sm.Staff.objects.filter(SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).all().order_by("StaffNo"),
-            "staff_id_no": "SCHOOL" + sm.StaffNo.objects.all()[:1].get().StaffNo,            
+            "staff_id_no": "SCHOOL" +new_staffNo,            
         }
         return render(request, "school/Pages/Staff/create_staff.html", context)
     else:
@@ -218,13 +284,14 @@ def create_staff(request):
 
 def staff_info(request):
     if request.user.is_authenticated:
+
         staff_data=None
         if request.method == 'POST':            
             staff_id=request.POST['staff_selected']
             if not staff_id=='':
                 staff_data=sm.Staff.objects.get(StaffID = staff_id)
 
-        staff_list = sm.Staff.objects.all()
+        staff_list = sm.Staff.objects.filter(SchoolID=request.session['school_id'])
         context = {
             "staff_list": staff_list,
             "staff":staff_data,

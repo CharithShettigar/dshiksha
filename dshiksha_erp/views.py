@@ -21,7 +21,6 @@ def index(request):
 def dashboard(request):
     if request.user.is_authenticated and request.user.is_superuser:
         return render(request, 'dshiksha_erp/Pages/dashboard.html')
-        # return render(request, 'dshiksha_erp/Pages/dashboard.html')
     else:
         return redirect("/")
 
