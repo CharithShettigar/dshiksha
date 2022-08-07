@@ -295,12 +295,12 @@ def add_designation(request):
                 if designation_form.is_valid():
                     md.Designation(DesignationID=uuid.uuid4(),
                                    DesignationName=designation_form.cleaned_data['DesignationName'].capitalize()).save()
-                    return redirect("/School/AddDesignation")
+                    return redirect("/Staff/AddDesignation")
             elif request.POST.get('form-type') == 'staff-subject-form':
                 if staff_subject_form.is_valid():
                     md.StaffSubject(StaffSubjectID=uuid.uuid4(), StaffSubjectName=staff_subject_form.cleaned_data[
                         'StaffSubjectName'].capitalize()).save()
-                    return redirect("/School/AddDesignation")
+                    return redirect("/Staff/AddDesignation")
         else:
             designation_form = fm.DesignationForm()
             staff_subject_form = fm.StaffSubjectForm()
@@ -310,9 +310,9 @@ def add_designation(request):
             "staff_subject_form": staff_subject_form,
             "staff_subject_list": md.StaffSubject.objects.all(),
         }
-        return render(request, "dshiksha_erp/Pages/School/add_subject.html", context)
+        return render(request, "dshiksha_erp/Pages/Staff/add_subject.html", context)
     else:
-        return redirect("/accounts/login/?redirect_to=/School/AddDesignation")
+        return redirect("/accounts/login/?redirect_to=/Staff/AddDesignation")
 
 # Create Subject
 def add_subject(request):
@@ -453,7 +453,7 @@ def add_class(request):
     else:
         return redirect("/accounts/login/?redirect_to=/School/CreateClass")
 
-def cbse_assign_class_level(request):
+def school_assign_class_level(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             class_form = fm.ClassForm(request.POST)
@@ -510,7 +510,7 @@ def add_staff_qualification(request):
                     md.StaffQualification(StaffQualificationID=uuid.uuid4(),
                                           StaffQualificationName=staff_qualification_form.cleaned_data[
                                               'StaffQualificationName']).save()
-                    return redirect("/School/AddStaffQualification")
+                    return redirect("/Staff/AddStaffQualification")
                 else:
                     print("Something went wrong while adding the staff qualification data")
             else:
@@ -522,9 +522,9 @@ def add_staff_qualification(request):
             "staff_qualification_form": staff_qualification_form,
             "staff_qualification_list": md.StaffQualification.objects.all(),
         }
-        return render(request, "dshiksha_erp/Pages/School/add_staff_qualification.html", context)
+        return render(request, "dshiksha_erp/Pages/Staff/add_staff_qualification.html", context)
     else:
-        return redirect("/accounts/login/?redirect_to=/School/AddStaffQualification")
+        return redirect("/accounts/login/?redirect_to=/Staff/AddStaffQualification")
 
 def add_school_affiliation(request):
     if request.user.is_authenticated:
@@ -549,3 +549,74 @@ def add_school_affiliation(request):
         return render(request, "dshiksha_erp/Pages/School/add_school_affiliation.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/School/AddSchoolAffiliation")
+
+# Fees Section
+#Create Fees Types
+def create_fees_type(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            ft_form = fm.FeesTypeForm(request.POST)
+            installment_form = fm.InstallmentForm(request.POST)
+
+            if request.POST.get('form-type') == "fees-type-form":
+                if ft_form.is_valid():
+                    if not md.FeesType.objects.filter(FeesTypeName = ft_form.cleaned_data['FeesTypeName']).exists() and not md.FeesType.objects.filter(FeeTypeCode = ft_form.cleaned_data['FeeTypeCode']).exists():
+                        md.FeesType(FeesTypeID = uuid.uuid4(), FeesTypeName = ft_form.cleaned_data['FeesTypeName'], FeeTypeCode = ft_form.cleaned_data['FeeTypeCode']).save()
+                        return redirect("/Fees/CreateFeesType")
+                    else:
+                        print("Something went wrong")
+                        messages.error(request, "Fees Type already exists")
+                else:
+                    print(ft_form.errors)
+            elif request.POST.get("form-type") == "installment-form":
+                if installment_form.is_valid():
+                    if not md.Installment.objects.filter(InstallmentName = installment_form.cleaned_data['InstallmentName']).exists():
+                        md.Installment(InstallmentID = uuid.uuid4(), InstallmentName = installment_form.cleaned_data['InstallmentName']).save()
+                        return redirect("/Fees/CreateFeesType")
+                    else:
+                        messages.error(request, "Installment already exists")
+                else:
+                    print(installment_form.errors)
+        else:
+            ft_form = fm.FeesTypeForm()
+            installment_form = fm.InstallmentForm()
+        context = {
+            "ft_form": ft_form,
+            "ft_list": md.FeesType.objects.all(),
+            "installment_form": installment_form,
+            "installment_list": md.Installment.objects.all(),
+        }
+        return render(request, "dshiksha_erp/Pages/Fees/create_fees_type.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Fees/create_fees_type")
+        
+#Create Sub Fees Type 
+def create_sub_fee_type(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            sft_form = fm.SubFeeForm(request.POST)
+            if sft_form.is_valid():
+                print(sft_form.cleaned_data['SubFeeName'])
+                if sft_form.cleaned_data['FeesType'] is not None:
+                    for i in range(1, int(request.POST.get('FeesTypeCount')) + 1):
+                        print(request.POST.get('subfee-type-'+str(i)))
+                        if md.SubFee.objects.filter(SubFeeName = request.POST.get('subfee-type-'+str(i)), FeesType = sft_form.cleaned_data['FeesType']).exists():
+                            messages.error(request, "Sub Fee Type already exists")
+                        else:
+                            md.SubFee(SubFeeID = uuid.uuid4(), SubFeeName = request.POST.get('subfee-type-'+str(i)), FeesType = sft_form.cleaned_data['FeesType']).save()
+                    return redirect("/Fees/CreateSubFeesType")
+                else:
+                    messages.error(request, "Fees Type is required")
+            else:
+                print(sft_form.errors)
+        else:
+            sft_form = fm.SubFeeForm()
+        context = {
+            "sft_form": sft_form,
+            "sft_list": md.SubFee.objects.all().order_by('SubFeeName'),
+            "fs_list": md.FeesType.objects.all().order_by('FeesTypeName'),
+            "fees_type_count": 1,
+        }
+        return render(request, "dshiksha_erp/Pages/Fees/create_sub_fee_type.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Fees/CreateSubFeesType")

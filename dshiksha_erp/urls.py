@@ -25,11 +25,18 @@ urlpatterns = [
     path('Settings/AddPostOffice', views.add_post_office, name="add_post_office"),
     
     #School
-    path('School/AddDesignation', views.add_designation, name="add_subject"),
     path('School/CreateClass', views.add_class, name="add_class"),
-    path('School/AssignClassLevel', views.cbse_assign_class_level, name="cbse_assign_class_level"),
+    path('School/AssignClassLevel', views.school_assign_class_level, name="school_assign_class_level"),
     path('School/create_school', views.create_school, name="create_school"),
     path('School/CreateInstitutionLevel', views.create_institution_level, name="create_institution_level"),
     path('School/AddSchoolAffiliation', views.add_school_affiliation, name="add_school_affiliation"),
-    path('School/AddStaffQualification', views.add_staff_qualification, name="add_staff_qualification"),
+    
+    
+    #Staff
+    path('Staff/AddStaffQualification', views.add_staff_qualification, name="add_staff_qualification"),
+    path('Staff/AddDesignation', views.add_designation, name="add_subject"),
+
+    #Fees
+    path('Fees/CreateFeesType', views.create_fees_type, name="create_fees_type"),
+    path('Fees/CreateSubFeesType', views.create_sub_fee_type, name="create_sub_fee_type"),
 ]

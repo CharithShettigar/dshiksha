@@ -7,10 +7,9 @@
 {% endblock title %}
 
 {% block body %}
-    
-
     <div class="content">
-        <div class="row">
+        <div class="page-inner">
+            <div class="row">
             <div class="col-sm-12">
                 <div class="home-tab">
                     <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
@@ -18,9 +17,9 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
-                                            <h4 class="card-title">Add Class Level </h4>
+                                            <h4 class="card-title text-white">Add Class Level </h4>
                                              <!-- form details here -->
                                              <form action="/School/CreateClass" method="post">
                                                 {% csrf_token %}
@@ -28,13 +27,13 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label"> Class Level Name</label>
+                                                            <label for="" class="form-label text-white"> Class Level Name</label>
                                                             {{ class_level_form.ClassLevelName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label"> Class Level Code</label>
+                                                            <label for="" class="form-label text-white"> Class Level Code</label>
                                                             {{ class_level_form.ClassLevelCode | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
@@ -57,23 +56,23 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
-                                            <h4 class="card-title">Add Class   </h4>
+                                            <h4 class="card-title text-white">Add Class   </h4>
                                              <!-- form details here -->
                                              <form action="/School/CreateClass" method="post">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="form-type" value="class-list-form">
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 ">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label"> Class </label>
+                                                            <label for="" class="form-label text-white"> Class </label>
                                                             {{ class_list_form.ClassName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label"> OrderID </label>
+                                                            <label for="" class="form-label text-white"> OrderID </label>
                                                             {{ class_list_form.OrderID | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
@@ -96,9 +95,9 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
-                                            <h4 class="card-title">Add Section   </h4>
+                                            <h4 class="card-title text-white">Add Section   </h4>
                                              <!-- form details here -->
                                              <form action="/School/CreateClass" method="post">
                                                 {% csrf_token %}
@@ -106,7 +105,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label"> Section </label>
+                                                            <label for="" class="form-label text-white"> Section </label>
                                                             {{ section_form.SectionName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
@@ -131,16 +130,16 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash">Class Level List</h4>
+                                                    <h4 class="card-title card-title-dash text-white">Class Level List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table">
+                                                <table class="table text-white">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
@@ -171,16 +170,16 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash">Class List</h4>
+                                                    <h4 class="card-title card-title-dash text-white">Class List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table">
+                                                <table class="table text-white">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
@@ -212,16 +211,16 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash">Class List</h4>
+                                                    <h4 class="card-title card-title-dash text-white">Class List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table">
+                                                <table class="table text-white">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
@@ -242,15 +241,16 @@
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}
-                                                    </tbody>
-                                                </table>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div> 
+                        </div> 
+                    </div>
                 </div>
             </div>
         </div>

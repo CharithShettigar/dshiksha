@@ -9,22 +9,50 @@
 
 {% block body %}
     <div class="content">
-        <div class="col-sm">
-            <form action="/School/CreateInstitutionLevel" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="" class="form-label"> Institution Level</label>
-                    {{ il_form.InstitutionLevel | attr:"class=form-control" }}
+        <div class="page-inner">
+            <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                <div class="card-body">
+                    <h4 class="card-title text-white">Add Institution Level </h4>
+                    <div class="col-sm">
+                        <form action="/School/CreateInstitutionLevel" method="post">
+                            {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="" class="form-label text-white"> Institution Level</label>
+                                        {{ il_form.InstitutionLevel | attr:"class=form-control" }}
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary"> Submit </button>
+                                </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary"> Submit </button>
+            </div>
+            <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                <div class="card-body">
+                    <h4 class="card-title text-white">List of  Institution Level </h4>
+                    <div class="table-responsive  mt-1">
+                        <!-- Table details here -->
+                        <table class="table text-white">
+                            <thead>
+                                <tr>
+                                    <th width="10%">Sr.No.</th>
+                                    <th>Subject  </th>    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if il_list %}
+                                    {% for il in il_list %}
+                                        <tr>
+                                            <td> {{ forloop.counter }} </td>
+                                            <td> {{ il.InstitutionLevel }} </td>
+                                        </tr>
+                                    {% endfor %}
+                                {%endif%}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <div class="col-sm">
-            {% for il in il_list %}
-                <div> {{ il.InstitutionLevel }}</div>
-            {% endfor %}
+            </div>    
         </div>
     </div>
 {% endblock body %}

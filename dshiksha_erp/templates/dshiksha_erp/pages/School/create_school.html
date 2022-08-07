@@ -13,6 +13,7 @@
     {% endfor %}
 {% endif %} {% endcomment %}
     <div class="content">
+        <div class="page-inner">
         <form action="/School/create_school" method="post">
             {% csrf_token %}
             <div class="row">
@@ -221,6 +222,7 @@
                 {% endfor %}
             {% endif %}
         </div>
+    </div>
     </div>
 {% endblock body %}
 

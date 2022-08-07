@@ -192,10 +192,6 @@ class SchoolForm(forms.ModelForm):
         if self.cleaned_data['Password'] != self.cleaned_data['ConfirmPassword']:
             raise forms.ValidationError("Password do not match")
 
-class ClassLevelForm(forms.ModelForm):
-    class Meta:
-        model = md.ClassLevel
-        fields = ['ClassLevelName', 'ClassLevelCode']
 
 
 class ClassListForm(forms.ModelForm):
@@ -250,3 +246,44 @@ class SchoolAffiliationForm(forms.ModelForm):
     class Meta:
         model = md.SchoolAffiliation
         fields = ['SchoolAffiliation']
+
+class ClassLevelForm(forms.ModelForm):
+    class Meta:
+        model = md.ClassLevel
+        fields = ['ClassLevelName', 'ClassLevelCode']
+
+class FeesTypeForm(forms.ModelForm):
+    class Meta:
+        model = md.FeesType
+        fields = ['FeesTypeName', 'FeeTypeCode']
+
+
+class InstallmentForm(forms.ModelForm):
+    class Meta:
+        model = md.Installment
+        fields = ['InstallmentName']
+
+
+class SubFeeForm(forms.ModelForm):
+    class Meta:
+        model = md.SubFee
+        fields = ['FeesType','SubFeeName']
+
+    def __init__(self, *args, **kwaargs):
+        super(SubFeeForm, self).__init__(*args, **kwaargs)
+        self.fields['FeesType'] = forms.ModelChoiceField(queryset=md.FeesType.objects.all(), required=False)
+
+    def clean(self):
+        if self.fields['FeesType'] is None:
+            raise forms.ValidationError("Fees Type is required")
+
+
+class ClassLevelFeesForm(forms.ModelForm):
+    class Meta:
+        model = md.ClassLevelFees
+        fields = ['ClassLevel', 'FeesType']
+
+    def __init__(self, *args, **kwaargs):
+        super(ClassLevelFeesForm, self).__init__(*args, **kwaargs)
+        self.fields['ClassLevel'] = forms.ModelChoiceField(queryset=md.ClassLevel.objects.all())
+        self.fields['FeesType'] = forms.ModelChoiceField(queryset=md.FeesType.objects.all())
