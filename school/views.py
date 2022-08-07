@@ -4,6 +4,7 @@ from django.utils.dateformat import DateFormat
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from numpy import save
 from school import forms as fm
 from dshiksha_erp import models as md
 from school import models as sm
@@ -77,6 +78,7 @@ def dashboard(request):
 def school_info(request):
     if request.user.is_authenticated:
         school_data = sm.School.objects.get(SchoolID = request.session['school_id'])
+        staffhead_data=sm.SCHOOLHead.objects.first()
 
         # year calculation
         school_date=school_data.EstDate
@@ -88,6 +90,7 @@ def school_info(request):
 
         context = {
             "school_data": school_data,
+            "staffhead_data": staffhead_data,
             "school_id": request.session['school_id'],
             "school_name": request.session['school_name'],
             "school_year":school_year,
@@ -187,17 +190,17 @@ def student_application(request):
                     messages.info(request,"Data saved succesfully")
                     print("Data saved succesfully")
             else:
+                messages.error(request,student_application_form.errors)
                 print(student_application_form.errors)
 
             return redirect("/Application/NewApplication")
-
         else:
             application_form=fm.ApplicationForm()
             school_id = request.session['school_id']
 
             #creating application number autogenerate 
             if sm.Application.objects.filter(SchoolID=school_id).exists():
-                old_applicationno=sm.Application.objects.filter(SchoolID=school_id)[0].ApplicationNo
+                old_applicationno=sm.Application.objects.filter(SchoolID=school_id).order_by('-ApplicationNo')[0].ApplicationNo
                 new_applicationno="{0:03}".format(int(old_applicationno.replace(f"A/{date.today().year-1}-{date.today().year}/", '')) + int(1))
             else:
                 new_applicationno="001"
@@ -252,14 +255,23 @@ def create_staff(request):
                                                     password=staff_form.cleaned_data['Password'],
                                                     UserType=UserTypes.objects.get(UserTypeName = "SCHOOL Staff").UserTypeID,
                                                     )
-                    sm.Staff(StaffID = uuid.uuid4(), 
+                    staff_save=sm.Staff(StaffID = uuid.uuid4(), 
                             UserID = User.objects.get(UserID = user.UserID),
                             StaffName=staff_form.cleaned_data['StaffName'], 
                             StaffEmailID=staff_form.cleaned_data['StaffEmailID'],
-                            StaffMobile=staff_form.cleaned_data['StaffMobile'], 
+                            StaffMobile=staff_form.cleaned_data['StaffMobile'],
+                            StaffQualification=staff_form.cleaned_data['StaffQualification'],
+                            Designation=staff_form.cleaned_data['Designation'],
                             SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
                             StaffNo = request.POST.get('staff_id_no'),
-                            ).save()
+                            )
+                    staff_save.save()
+
+                    if request.POST.get('StaffHead')!=None:
+                        print('--------------',request.POST.get('StaffHead'))
+                        sm.SCHOOLHead(School=sm.School.objects.get(SchoolID = request.session['school_id']),Staff=staff_save).save()
+
+                    messages.info(request,f"Record saved successfully")              
                     
                     return redirect("/Staff/CreateStaff")
             else:
@@ -268,17 +280,19 @@ def create_staff(request):
         else:
             staff_form = fm.StaffCreateForm()
 
-            #Creating staffNo according to school
-            school_id = request.session['school_id']
-            if sm.Staff.objects.filter(SchoolID=school_id).exists():
-                old_staffNo=sm.Staff.objects.filter(SchoolID=school_id)[0].StaffNo
-                new_staffNo="{0:03}".format(int(old_staffNo.replace("SCHOOL", '')) + int(1))
-            else:
-                new_staffNo="001"
+        #Creating staffNo according to school
+        school_id = request.session['school_id']
+        if sm.Staff.objects.filter(SchoolID=school_id).exists():
+            old_staffNo=sm.Staff.objects.filter(SchoolID=school_id).order_by('-StaffNo')[0].StaffNo
+            new_staffNo="{0:03}".format(int(old_staffNo.replace("SCHOOL", '')) + int(1))
+        else:
+            new_staffNo="001"
 
         context = {
             "staff_form": staff_form,
             "staff_list": sm.Staff.objects.filter(SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).all().order_by("StaffNo"),
+            "designation_list":md.Designation.objects.all(),
+            "staffquaify_list":md.StaffQualification.objects.all(),
             "staff_id_no": "SCHOOL" +new_staffNo,            
         }
         return render(request, "school/Pages/Staff/create_staff.html", context)

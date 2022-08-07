@@ -73,17 +73,17 @@ class Staff(models.Model):
     Subject2 = models.ForeignKey(erp.StaffSubject, on_delete = models.CASCADE, related_name='Subject2', null=True)
     DateOfAppointment = models.DateField(null=True)
     DateOfRetirement = models.DateField(null=True)
-    ProvidentFund = models.BooleanField(default=False)
-    ESI = models.BooleanField(default=False)
-    ProfessionalTax = models.BooleanField(default=False)
-    Gratuity = models.BooleanField(default=False)
-    CautionDeposit = models.BooleanField(default=False)
+    # ProvidentFund = models.BooleanField(default=False)
+    # ESI = models.BooleanField(default=False)
+    # ProfessionalTax = models.BooleanField(default=False)
+    # Gratuity = models.BooleanField(default=False)
+    # CautionDeposit = models.BooleanField(default=False)
     StaffNo = models.CharField(max_length=50)
     AcademicYear = models.ForeignKey(erp.AcademicYear, on_delete=models.CASCADE,null=True)
 
 
-class CBSEHead(models.Model):
-    CBSEHeadID = models.UUIDField(default=uuid.uuid4, primary_key=True)
+class SCHOOLHead(models.Model):
+    SCHOOLHeadID = models.UUIDField(default=uuid.uuid4, primary_key=True)
     School = models.ForeignKey(School, on_delete=models.CASCADE)
     Staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
 

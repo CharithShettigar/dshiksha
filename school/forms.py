@@ -18,7 +18,7 @@ class LoginForm(forms.ModelForm):
 class StaffCreateForm(forms.ModelForm):
     class Meta:
         model = sm.Staff    
-        fields = ['StaffName', 'StaffEmailID', 'StaffMobile']
+        fields = ['StaffName', 'StaffEmailID', 'StaffMobile','Designation','StaffQualification']
         # exclude = ['UserID']
         # fields = ['StaffName', 'StaffEmailID', 'StaffMobile','DOB','Gender','BloodGroup','MaritalStatus','Caste','MotherTongue','AddressLine1','AddressLine2']
 
@@ -30,6 +30,12 @@ class StaffCreateForm(forms.ModelForm):
     def clean(self):
         if self.cleaned_data['Password'] != self.cleaned_data['PasswordConfirm']:
             raise forms.ValidationError("Password does not match")
+
+
+class StaffForm(forms.ModelForm):
+    class Meta:
+        model = sm.Staff    
+        exclude = ['UserID','SchoolID','StaffNo','StaffID']
 
 class ApplicationFeesForm(forms.ModelForm):
     class Meta:
@@ -50,4 +56,4 @@ class ApplicationForm(forms.ModelForm):
 class SchoolForm(forms.ModelForm):
     class Meta:
         model = sm.School
-        exclude = ['UserID']
+        exclude = ['UserID','SchoolID','SchoolName','SchoolType','SchoolUsername','SchoolCode','Email']

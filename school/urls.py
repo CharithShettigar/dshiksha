@@ -1,5 +1,6 @@
 from django.urls import include, path
 from . import views
+from . import update_views
 
 urlpatterns = [
     path('', views.index, name="index"),
@@ -23,6 +24,8 @@ urlpatterns = [
     path('Staff/StaffInfo', views.staff_info, name="school_staff_info"),
     path('Staff/StaffInfoShow/<str:staff_ID>', views.staff_info_show, name="school_staff_info_show"),
 
-
+    #update the information
+    path('Update/UpdateSchoolInfo/<str:school_id>',update_views.update_school,name="update_school_info"),
+    path('Update/UpdateStaffInfo/<str:staff_id>',update_views.update_staff,name="update_staff_info"),
     
 ]
