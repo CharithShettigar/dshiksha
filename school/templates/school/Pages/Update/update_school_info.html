@@ -1,0 +1,185 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Update School | {{ school_name }}
+{% endblock title %}
+
+{% block stylesheets %}
+<style>
+    #id_SchoolCode,#id_SchoolUsername,#id_Email{
+        background-color:green;
+        pointer-events:none;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block body %}
+
+<div class="content">
+    <div class="page-inner">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">School Info-{{school_data.SchoolName}}</div>
+                    </div>
+                    <div class="card-body">
+
+                        <form action="/Update/UpdateSchoolInfo/{{ school_id }}" method="post">
+                            {% csrf_token %}
+                            {% comment %} <div class="mb-3">
+                                <label for="" class="form-label"> School Code </label>
+                                {{ school_form.SchoolCode | attr:"class=form-control" }}
+                            </div> {% endcomment %}
+                            <div class="mb-3">
+                                <label for="" class="form-label"> SchoolDISECode</label>
+                                {{ school_form.SchoolDISECode | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Syllabus</label>
+                                {{ school_form.SyllabusType | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> InsitutionLevel</label>
+                                <select name="InsitutionLevel" id="id_InsitutionLevel" class="form-control">
+                                    <option value=""> ---------- </option>
+                                    {% for i in institution_list %}
+                                        <option value="{{ i.InstitutionLevelID }}"> {{ i.InstitutionLevel }}</option>
+                                    {% endfor %}
+                                </select>  
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> CurrentAcademicYear</label>
+                                <select name="CurrentAcademicYear" id="id_CurrentAcademicYear" class="form-control">
+                                    <option value=""> ---------- </option>
+                                    {% for s in currentacademicYear_list %}
+                                        <option value="{{ s.AcademicYearID }}"> {{ s.AcademicYear }}</option>
+                                    {% endfor %}
+                                </select>  
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> SchoolLogo</label>
+                                {{ school_form.SchoolLogo | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Landline</label>
+                                {{ school_form.Landline | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Mobile</label>
+                                {{ school_form.Mobile | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Website</label>
+                                {{ school_form.Website | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> EstDate</label>
+                                {{ school_form.EstDate | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> History</label>
+                                {{ school_form.History | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> SchoolPANNo</label>
+                                {{ school_form.SchoolPANNo | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> GSTINo</label>
+                                {{ school_form.GSTINo | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Area</label>
+                                <select name="Area" id="id_Area" class="form-control">
+                                    {% for area in area_list %}
+                                        <option value="{{ area.AreaID }}"> {{ area.AreaType }}</option>
+                                    {% endfor %}
+                                </select>                            
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Village</label>
+                                <select name="Village" id="id_Village" class="form-control">
+                                    {% for village in village_list %}
+                                        <option value="{{ village.VillageID }}"> {{ village.VillageName }}</option>
+                                    {% endfor %}
+                                </select>                            
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Pincode</label>
+                                <select name="Pincode" id="id_Pincode" class="form-control">
+                                    {% for p in post_list %}
+                                        <option value="{{ p.PostOfficeID }}"> {{ p.Pincode }}</option>
+                                    {% endfor %}
+                                </select>                            
+                            </div>
+                            {% comment %} <div class="mb-3">
+                                <label for="" class="form-label"> SchoolUsername</label>
+                                {{ school_form.SchoolUsername | attr:"class=form-control"}}
+                            </div> {% endcomment %}
+                            {% comment %} <div class="mb-3">
+                                <label for="" class="form-label"> Email</label>
+                                {{ school_form.Email | attr:"class=form-control"}}
+                            </div> {% endcomment %}
+                            
+                            {% comment %} Accountant info {% endcomment %}
+                            <div class="card-header">
+                                <div class="card-title">Accountant Info</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> AccountantName</label>
+                                {{ school_form.AccountantName | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> AccountantEmail</label>
+                                {{ school_form.AccountantEmail | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> AccountantMobile</label>
+                                {{ school_form.AccountantMobile | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> AccountantWhatsAppNo</label>
+                                {{ school_form.AccountantWhatsAppNo | attr:"class=form-control"}}
+                            </div>
+
+
+                            {% comment %} Correspondent info {% endcomment %}
+                            <div class="card-header">
+                                <div class="card-title">Correspondent Info</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> CorrespondentFirstName</label>
+                                {{ school_form.CorrespondentFirstName | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> CorrespondentLastName</label>
+                                {{ school_form.CorrespondentLastName | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> CorrespondentEmail</label>
+                                {{ school_form.CorrespondentEmail | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> CorrespondentMobile</label>
+                                {{ school_form.CorrespondentMobile | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> CorrespondentWhatsAppNo</label>
+                                {{ school_form.CorrespondentWhatsAppNo | attr:"class=form-control"}}
+                            </div>
+
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary"> Update </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

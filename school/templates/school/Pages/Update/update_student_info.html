@@ -1,0 +1,237 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Update Student | {{ student_data.StudentName }}
+{% endblock title %}
+
+{% block stylesheets %}
+<style>
+    #id_SchoolCode,#id_SchoolUsername,#id_Email{
+        background-color:green;
+        pointer-events:none;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block body %}
+
+<div class="content">
+    <div class="page-inner">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Student Info-{{student_data.StudentName}}</div>
+                    </div>
+                    <div class="card-body">
+
+                        <form action="/Update/UpdateStudentInfo/{{ student_data.AdmissionID }}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="" class="form-label"> StudentName</label>
+                                {{ student_form.StudentName | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Date of Birth</label>
+                                {% render_field student_form.StudentDOB type="date" class="form-control" %}                    
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Gender</label>
+                                <select name="Gender" id="id_Gender" class="form-control">
+                                    <option value=""> ---------- </option>
+                                    {% for g in gender_list %}
+                                        <option value="{{ g.GenderID }}"> {{ g.GenderName }}</option>
+                                    {% endfor %}
+                                </select>  
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> BloodGroup</label>
+                                <select name="BloodGroup" id="id_BloodGroup" class="form-control">
+                                    <option value=""> ---------- </option>
+                                    {% for b in bloodgroup_list %}
+                                    <option value="{{ b.BloodGroupID }}"> {{ b.BloodGroupName }}</option>
+                                    {% endfor %}
+                                </select>  
+                            </div>
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="" class="form-label"> MotherTongue</label>
+                                    <select name="MotherTongue" id="id_MotherTongue" class="form-control">
+                                        <option value=""> ---------- </option>
+                                        {% for m in mothertongue_list %}
+                                            <option value="{{ m.MotherTongueID }}"> {{ m.MotherTongueName }}</option>
+                                            {% endfor %}
+                                        </select>  
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Religion</label>
+                                        <select name="Religion" id="id_Religion" class="form-control">
+                                            <option value=""> ----------- </option>
+                                            {% for r in religion_list %}
+                                            <option value="{{ r.ReligionID }}">{{ r.ReligionName }}</option>
+                                            {% endfor %}
+                                        </select>  
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="" class="form-label"> CasteCategory</label>
+                                    <select name="Caste" id="id_Caste" class="form-control">
+                                        <option value=""> ---------- </option>
+                                        {% for c in castecategory_list %}
+                                        <option value="{{ c.CasteCategoryID }}"> {{c.CasteCategoryName}}</option>
+                                        {% endfor %}
+                                    </select>  
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="" class="form-label"> Caste</label>
+                                    <select name="Caste" id="id_Caste" class="form-control">
+                                        <option value=""> ---------- </option>
+                                        {% for c in caste_list %}
+                                        <option value="{{ c.CasteID }}"> {{ c.CasteName }}</option>
+                                        {% endfor %}
+                                    </select>  
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">PreviousSchoolName</label>
+                                {{ student_form.PreviousSchoolName | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> StudentPhoto</label>
+                                {{ student_form.StudentPhoto | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> StudentMobile</label>
+                                {{ student_form.StudentMobileNo | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> AddressLine1</label>
+                                {{ student_form.AddressLine1 | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> AddressLine2</label>
+                                {{ student_form.AddressLine2 | attr:"class=form-control"}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Village</label>
+                                <select name="Village" id="id_Village" class="form-control">
+                                    {% for village in village_list %}
+                                        <option value="{{ village.VillageID }}"> {{ village.VillageName }}</option>
+                                    {% endfor %}
+                                </select>                            
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Pincode</label>
+                                <select name="Pincode" id="id_Pincode" class="form-control">
+                                    {% for p in postoffice_list %}
+                                        <option value="{{ p.PostOfficeID }}"> {{ p.Pincode }}</option>
+                                    {% endfor %}
+                                </select>                            
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Class</label>
+                                <select name="Class" id="id_Class" class="form-control">
+                                    {% for c in class_list %}
+                                        <option value="{{ c.ClassID }}"> {{c.ClassList.ClassName }}</option>
+                                    {% endfor %}
+                                </select>                            
+                            </div>
+
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> FatherName</label>
+                                {{ student_form.FatherName | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> FatherMobileNo</label>
+                                {{ student_form.FatherMobileNo | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> FatherEmail</label>
+                                {{ student_form.FatherEmail | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> FatherQualification</label>
+                                {{ student_form.FatherQualification | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> FatherOccupation</label>
+                                {{ student_form.FatherOccupation | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> FatherIncome</label>
+                                {{ student_form.FatherIncome | attr:"class=form-control"}}
+                            </div>
+
+
+
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> MotherName</label>
+                                {{ student_form.MotherName | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> MotherMobileNo</label>
+                                {{ student_form.MotherMobileNo | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> MotherEmail</label>
+                                {{ student_form.MotherEmail | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> MotherQualification</label>
+                                {{ student_form.MotherQualification | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> MotherOccupation</label>
+                                {{ student_form.MotherOccupation | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> MotherIncome</label>
+                                {{ student_form.MotherIncome | attr:"class=form-control"}}
+                            </div>
+
+
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> GaurdianName</label>
+                                {{ student_form.GaurdianName | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> GaurdianMobileNo</label>
+                                {{ student_form.GaurdianMobileNo | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> GaurdianEmail</label>
+                                {{ student_form.GaurdianEmail | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> GaurdianQualification</label>
+                                {{ student_form.GaurdianQualification | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> GaurdianOccupation</label>
+                                {{ student_form.GaurdianOccupation | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> GaurdianOccupation</label>
+                                {{ student_form.GaurdianOccupation | attr:"class=form-control"}}
+                            </div>
+                                                        
+
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary"> Update </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

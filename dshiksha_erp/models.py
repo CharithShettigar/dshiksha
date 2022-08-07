@@ -147,11 +147,6 @@ class SchoolType(models.Model):
     SchoolType = models.CharField(max_length=100)
 
 
-class Area(models.Model):
-    AreaID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    AreaType = models.CharField(max_length=100)
-
-
 class InstitutionLevel(models.Model):
     InstitutionLevelID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     InstitutionLevel = models.CharField(max_length=100)
@@ -182,11 +177,7 @@ class SubFee(models.Model):
     FeesType = models.ForeignKey(FeesType, on_delete=models.CASCADE)
     SubFeeName = models.CharField(max_length=50)
 
-class AcademicYear(models.Model):
-    AcademicYearID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    AcademicYear = models.CharField(max_length=50)
-    IsActive = models.BooleanField()
-    OrderID = models.IntegerField(unique=True)
+
 
 
 class ClassLevelFees(models.Model):

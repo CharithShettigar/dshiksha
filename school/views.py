@@ -77,6 +77,7 @@ def dashboard(request):
 def school_info(request):
     if request.user.is_authenticated:
         school_data = sm.School.objects.get(SchoolID = request.session['school_id'])
+        staffhead_data=sm.SCHOOLHead.objects.first()
 
         # year calculation
         school_date=school_data.EstDate
@@ -88,6 +89,7 @@ def school_info(request):
 
         context = {
             "school_data": school_data,
+            "staffhead_data": staffhead_data,
             "school_id": request.session['school_id'],
             "school_name": request.session['school_name'],
             "school_year":school_year,
@@ -187,24 +189,24 @@ def student_application(request):
                     messages.info(request,"Data saved succesfully")
                     print("Data saved succesfully")
             else:
+                messages.error(request,student_application_form.errors)
                 print(student_application_form.errors)
 
             return redirect("/Application/NewApplication")
-
         else:
             application_form=fm.ApplicationForm()
             school_id = request.session['school_id']
 
-            #creating application number autogenerate 
-            if sm.Application.objects.filter(SchoolID=school_id).exists():
-                old_applicationno=sm.Application.objects.filter(SchoolID=school_id)[0].ApplicationNo
-                new_applicationno="{0:03}".format(int(old_applicationno.replace(f"A/{date.today().year-1}-{date.today().year}/", '')) + int(1))
-            else:
-                new_applicationno="001"
+        #creating application number autogenerate 
+        if sm.Application.objects.filter(SchoolID=school_id).exists():
+            old_applicationno=sm.Application.objects.filter(SchoolID=school_id).order_by('-ApplicationNo')[0].ApplicationNo
+            new_applicationno="{0:03}".format(int(old_applicationno.replace(f"A/{date.today().year-1}-{date.today().year}/", '')) + int(1))
+        else:
+            new_applicationno="001"
 
-            # passing class and fees details to javascript
-            objset=sm.ApplicationNo.objects.filter(School=school_id)
-            jsondata=serializers.serialize("json",objset)
+        # passing class and fees details to javascript
+        objset=sm.ApplicationNo.objects.filter(School=school_id)
+        jsondata=serializers.serialize("json",objset)
 
         context = {
             "application_form": application_form,
@@ -231,6 +233,97 @@ def application_info_show(request,application_ID):
     else:
         return redirect("/accounts/login/?redirect_to=/Application/NewApplication")
 
+
+def student_admission(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            student_form = fm.StudentCreateForm(request.POST)
+            if student_form.is_valid():
+                print("--------------",student_form.cleaned_data['StudentName'])
+                print("--------------",student_form.cleaned_data['Application'])
+                print("--------------",request.POST.get('application_id_no'))
+                if sm.Students.objects.filter(AdmissionNo=request.POST.get('admission_id_no'),SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).exists() \
+                     or sm.Students.objects.filter(StudentMobileNo=student_form.cleaned_data['StudentMobileNo'],SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).exists():
+                     messages.error(request, "Applicant Already exists")
+                else:
+                    sm.Students(
+                        AdmissionNo=request.POST.get('admission_id_no'),
+                        AdmissionDate=DateFormat(date.today()).format('Y-m-d'),
+                        Application=student_form.cleaned_data['Application'],
+                        StudentName=student_form.cleaned_data['StudentName'],
+                        StudentDOB=student_form.cleaned_data['StudentDOB'],
+                        Gender=student_form.cleaned_data['Gender'],
+                        Class=student_form.cleaned_data['Class'],
+                        StudentMobileNo=student_form.cleaned_data['StudentMobileNo'],
+                        FatherName=student_form.cleaned_data['FatherName'],
+                        MotherName=student_form.cleaned_data['MotherName'],
+                        GuardianName=student_form.cleaned_data['GuardianName'],
+                        SchoolID=sm.School.objects.get(SchoolID = request.session['school_id']),
+                        # ModeOfPayment=md.ModeOfPayment.objects.get(ModeOfPaymentID=student_application_form.cleaned_data['ModeOfPayment'])
+                    ).save()
+                    messages.info(request,"Data saved succesfully")
+                    print("Data saved succesfully")
+            else:
+                messages.error(request,student_form.errors)
+                print(student_form.errors)
+
+            return redirect("/Admission/NewAdmission")
+        else:
+            initial_data={
+                "FatherName":"None",
+                "MotherName":"None",
+                "GaurdianName":"None",
+            }
+            student_form=fm.StudentCreateForm(initial=initial_data)
+
+        school_id = request.session['school_id']
+        #creating admission number autogenerate 
+        if sm.Students.objects.filter(SchoolID=school_id).exists():
+            old_admissionno=sm.Students.objects.filter(SchoolID=school_id).order_by('-AdmissionNo')[0].AdmissionNo
+            new_admissionno="{0:03}".format(int(old_admissionno.replace(f"Adm/{date.today().year-1}-{date.today().year}/", '')) + int(1))
+        else:
+            new_admissionno="001"
+
+        # passing class and fees details to javascript
+        objset=sm.Application.objects.filter(SchoolID=school_id).order_by('ApplicationNo')
+        jsondata=serializers.serialize("json",objset)
+
+        context = {
+            "student_form": student_form,
+            "admission_id_no": f"Adm/{date.today().year-1}-{date.today().year}/{new_admissionno}",
+            "amount_no":0.00,
+            "admission_date": DateFormat(date.today()).format('d-m-Y'),
+            "gender_list":md.Gender.objects.all().order_by('GenderOrder'),
+            "application_list":objset,
+            "class_list":sm.ApplicationNo.objects.filter(School=school_id),
+            "student_list":sm.Students.objects.filter(SchoolID=request.session['school_id']).order_by('AdmissionNo'),
+            "data":jsondata,
+        }
+        return render(request, "school/Pages/Admission/new_admission.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
+
+
+def student_info_show(request,student_id):
+    if request.user.is_authenticated:
+        student_data=sm.Students.objects.get(AdmissionID = student_id)
+        context = {
+            "student":student_data,
+        }
+        return render(request, "school/Pages/Student/student_info_show.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
+
+
+
+
+
+
+
+
+
+
+
 def create_staff(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -252,14 +345,23 @@ def create_staff(request):
                                                     password=staff_form.cleaned_data['Password'],
                                                     UserType=UserTypes.objects.get(UserTypeName = "SCHOOL Staff").UserTypeID,
                                                     )
-                    sm.Staff(StaffID = uuid.uuid4(), 
+                    staff_save=sm.Staff(StaffID = uuid.uuid4(), 
                             UserID = User.objects.get(UserID = user.UserID),
                             StaffName=staff_form.cleaned_data['StaffName'], 
                             StaffEmailID=staff_form.cleaned_data['StaffEmailID'],
-                            StaffMobile=staff_form.cleaned_data['StaffMobile'], 
+                            StaffMobile=staff_form.cleaned_data['StaffMobile'],
+                            StaffQualification=staff_form.cleaned_data['StaffQualification'],
+                            Designation=staff_form.cleaned_data['Designation'],
                             SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
                             StaffNo = request.POST.get('staff_id_no'),
-                            ).save()
+                            )
+                    staff_save.save()
+
+                    if request.POST.get('StaffHead')!=None:
+                        print('--------------',request.POST.get('StaffHead'))
+                        sm.SCHOOLHead(School=sm.School.objects.get(SchoolID = request.session['school_id']),Staff=staff_save).save()
+
+                    messages.info(request,f"Record saved successfully")              
                     
                     return redirect("/Staff/CreateStaff")
             else:
@@ -268,17 +370,19 @@ def create_staff(request):
         else:
             staff_form = fm.StaffCreateForm()
 
-            #Creating staffNo according to school
-            school_id = request.session['school_id']
-            if sm.Staff.objects.filter(SchoolID=school_id).exists():
-                old_staffNo=sm.Staff.objects.filter(SchoolID=school_id)[0].StaffNo
-                new_staffNo="{0:03}".format(int(old_staffNo.replace("SCHOOL", '')) + int(1))
-            else:
-                new_staffNo="001"
+        #Creating staffNo according to school
+        school_id = request.session['school_id']
+        if sm.Staff.objects.filter(SchoolID=school_id).exists():
+            old_staffNo=sm.Staff.objects.filter(SchoolID=school_id).order_by('-StaffNo')[0].StaffNo
+            new_staffNo="{0:03}".format(int(old_staffNo.replace("SCHOOL", '')) + int(1))
+        else:
+            new_staffNo="001"
 
         context = {
             "staff_form": staff_form,
             "staff_list": sm.Staff.objects.filter(SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).all().order_by("StaffNo"),
+            "designation_list":md.Designation.objects.all(),
+            "staffquaify_list":md.StaffQualification.objects.all(),
             "staff_id_no": "SCHOOL" +new_staffNo,            
         }
         return render(request, "school/Pages/Staff/create_staff.html", context)
