@@ -13,8 +13,9 @@ urlpatterns = [
     path('accounts/logout', views.logout_form, name="logout"),
     path('accounts/login', views.login_view, name="login"),
 
-
+    #admin
     path('Dashboard/AdminData', views.dashboard, name="dashboard"),
+    # path('Dashboard/CreateSuperUser', views.create_superuser, name="create_superuser"),
 
     # settings
     path('Settings/AddState', views.add_state, name="add_state"),
@@ -23,7 +24,7 @@ urlpatterns = [
     path('Settings/AddMotherTongue', views.add_mother_tongue, name="add_mother_tomgue"),
     path('Settings/AddReligion', views.add_religion, name="add_religion"),
     path('Settings/AddPostOffice', views.add_post_office, name="add_post_office"),
-    
+    path('Settings/CreateArea', views.create_area, name="create_area"),
     #School
     path('School/CreateClass', views.add_class, name="add_class"),
     path('School/AssignClassLevel', views.school_assign_class_level, name="school_assign_class_level"),
@@ -39,4 +40,5 @@ urlpatterns = [
     #Fees
     path('Fees/CreateFeesType', views.create_fees_type, name="create_fees_type"),
     path('Fees/CreateSubFeesType', views.create_sub_fee_type, name="create_sub_fee_type"),
+    path('Fees/CreateBank', views.create_bank, name="create_bank"),
 ]

@@ -4,7 +4,6 @@ from django.utils.dateformat import DateFormat
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from numpy import save
 from school import forms as fm
 from dshiksha_erp import models as md
 from school import models as sm
@@ -262,6 +261,7 @@ def create_staff(request):
                             StaffMobile=staff_form.cleaned_data['StaffMobile'],
                             StaffQualification=staff_form.cleaned_data['StaffQualification'],
                             Designation=staff_form.cleaned_data['Designation'],
+                            Gender=staff_form.cleaned_data['Gender'],
                             SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
                             StaffNo = request.POST.get('staff_id_no'),
                             )
@@ -293,6 +293,7 @@ def create_staff(request):
             "staff_list": sm.Staff.objects.filter(SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).all().order_by("StaffNo"),
             "designation_list":md.Designation.objects.all(),
             "staffquaify_list":md.StaffQualification.objects.all(),
+            "gender_list":md.Gender.objects.all().order_by("GenderOrder"),
             "staff_id_no": "SCHOOL" +new_staffNo,            
         }
         return render(request, "school/Pages/Staff/create_staff.html", context)

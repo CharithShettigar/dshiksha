@@ -177,10 +177,17 @@ class SubFee(models.Model):
     FeesType = models.ForeignKey(FeesType, on_delete=models.CASCADE)
     SubFeeName = models.CharField(max_length=50)
 
-
-
-
 class ClassLevelFees(models.Model):
     ClassLevelFeesID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     ClassLevel = models.ForeignKey(ClassLevel, on_delete=models.CASCADE)
     FeesType = models.ForeignKey(FeesType, on_delete=models.CASCADE)
+
+class Bank(models.Model):
+    BankID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    BankName = models.CharField(max_length=50)
+    OrderID = models.IntegerField()
+
+class Online(models.Model):
+    OnlineID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    OnlineAppName = models.CharField(max_length=50)
+    OrderID = models.IntegerField()

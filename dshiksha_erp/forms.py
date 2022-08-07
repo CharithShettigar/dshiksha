@@ -79,7 +79,11 @@ class VillageForm(forms.ModelForm):
         if md.Village.objects.filter(VillageName = self.cleaned_data['VillageName'], Taluk = md.Taluk.objects.get(TalukID = self.cleaned_data['TalukName'].TalukID)).exists():
             raise forms.ValidationError('Village already exists')
 
-
+class AreaForm(forms.ModelForm):
+    class Meta:
+        model = md.Area
+        fields = ['AreaType']
+        
 class GenderForm(forms.ModelForm):
     class Meta:
         model = md.Gender
@@ -267,11 +271,11 @@ class InstallmentForm(forms.ModelForm):
 class SubFeeForm(forms.ModelForm):
     class Meta:
         model = md.SubFee
-        fields = ['FeesType','SubFeeName']
+        fields = ['SubFeeName','FeesType']
 
     def __init__(self, *args, **kwaargs):
         super(SubFeeForm, self).__init__(*args, **kwaargs)
-        self.fields['FeesType'] = forms.ModelChoiceField(queryset=md.FeesType.objects.all(), required=False)
+        self.fields['FeesType'] = forms.ModelChoiceField(queryset=md.FeesType.objects.all())
 
     def clean(self):
         if self.fields['FeesType'] is None:
@@ -287,3 +291,21 @@ class ClassLevelFeesForm(forms.ModelForm):
         super(ClassLevelFeesForm, self).__init__(*args, **kwaargs)
         self.fields['ClassLevel'] = forms.ModelChoiceField(queryset=md.ClassLevel.objects.all())
         self.fields['FeesType'] = forms.ModelChoiceField(queryset=md.FeesType.objects.all())
+
+class BankForm(forms.ModelForm):
+    class Meta:
+        model = md.Bank
+        fields = ['BankName','OrderID']
+
+    def clean(self):
+        if md.Bank.objects.filter(BankName = self.cleaned_data['BankName']).exists():
+            raise forms.ValidationError('Bank already exists')
+
+class OnlineForm(forms.ModelForm):
+    class Meta:
+        model = md.Online
+        fields = ['OnlineAppName','OrderID']
+
+    def clean(self):
+        if md.Online.objects.filter(OnlineAppName = self.cleaned_data['OnlineAppName']).exists():
+            raise forms.ValidationError('State already exists')

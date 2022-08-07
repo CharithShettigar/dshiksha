@@ -1,0 +1,74 @@
+{% extends 'dshiksha_erp/index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+Create Area
+{% endblock title %}
+
+{% block body %}
+<div class="content">
+    <div class="page-inner">
+        <div class="col-sm">
+            <div class="row flex-grow">
+                <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                        <div class="card-body">
+                            <form action="/Settings/CreateArea" method="post">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="" class="form-label text-white">Area Type</label>
+                                    {{ area_form.AreaType | attr:"class=form-control" }}
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="row flex-grow">
+                <div class="col-12 grid-margin stretch-card">
+                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                        <div class="card-body">
+                            <div class="d-sm-flex justify-content-between align-items-start">
+                                <div>
+                                    <h4 class="card-title card-title-dash text-white">Area List</h4>
+                                </div>
+                            </div>
+                            <div class="table-responsive  mt-1">
+                                <!-- Table details here -->
+                                <table class="table text-white">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">Sr.No.</th>
+                                            <th>Area Type </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if area_list %}
+                                        {% for area in area_list %}
+                                        <tr>
+                                            <td> {{ forloop.counter }} </td>
+                                            <td>
+                                                <a href="/Settings/UpdateArea/{{ area.AreaID }}"> {{ area.AreaType }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -142,4 +142,4 @@ class Admission(models.Model):
     Class = models.CharField(max_length=100)
 
 class Students(models.Model):
-    pass
+    Gender = models.ForeignKey(erp.Gender, on_delete=models.CASCADE, null=True)
