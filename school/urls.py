@@ -19,6 +19,13 @@ urlpatterns = [
     path('Application/NewApplication', views.student_application, name="school_student_application"),
     path('Application/NewApplicationShow/<str:application_ID>', views.application_info_show, name="school_application_info_show"),
 
+    # Admission
+    path('Admission/NewAdmission', views.student_admission, name="school_student_admission"),
+
+    #student
+    path('Student/StudentShow/<str:student_id>', views.student_info_show, name="school_student_info_show"),
+
+
     # Staff Paths
     path('Staff/CreateStaff', views.create_staff, name="school_create_staff"),
     path('Staff/StaffInfo', views.staff_info, name="school_staff_info"),
@@ -27,5 +34,6 @@ urlpatterns = [
     #update the information
     path('Update/UpdateSchoolInfo/<str:school_id>',update_views.update_school,name="update_school_info"),
     path('Update/UpdateStaffInfo/<str:staff_id>',update_views.update_staff,name="update_staff_info"),
+    path('Update/UpdateStudentInfo/<str:student_id>',update_views.update_student,name="update_student_info"),
     
 ]

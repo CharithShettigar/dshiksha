@@ -57,3 +57,15 @@ class SchoolForm(forms.ModelForm):
     class Meta:
         model = sm.School
         exclude = ['UserID','SchoolID','SchoolName','SchoolType','SchoolUsername','SchoolCode','Email']
+
+
+class StudentCreateForm(forms.ModelForm):
+    class Meta:
+        model=sm.Students
+        fields=['StudentName','Gender','StudentDOB','StudentMobileNo','Class','FatherName','MotherName','GaurdianName','Application']
+
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = sm.Students   
+        exclude = ['UserID','SchoolID','AdmissionNo','AdmissionID']
