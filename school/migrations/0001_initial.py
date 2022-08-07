@@ -60,12 +60,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Students',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Subject',
             fields=[
                 ('SubjectID', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
@@ -177,17 +171,5 @@ class Migration(migrations.Migration):
                 ('SchoolID', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='school.school')),
             ],
         ),
-        migrations.CreateModel(
-            name='Admission',
-            fields=[
-                ('AdmissionID', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('ApplicatioNo', models.CharField(max_length=50)),
-                ('StudentName', models.CharField(max_length=100)),
-                ('FatherName', models.CharField(max_length=100)),
-                ('Amount', models.FloatField()),
-                ('ApplicationDate', models.DateField()),
-                ('Class', models.CharField(max_length=100)),
-                ('SchoolID', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='school.school')),
-            ],
-        ),
+        
     ]

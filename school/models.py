@@ -131,15 +131,60 @@ class Application(models.Model):
     ModeOfPayment = models.ForeignKey(erp.ModeOfPayment, on_delete=models.CASCADE)
     #PaymentStatus = models.ForeignKey(erp.PaymentStatus, on_delete=models.CASCADE)
 
-class Admission(models.Model):
-    AdmissionID = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    SchoolID = models.ForeignKey(School, on_delete=models.CASCADE)
-    ApplicatioNo = models.CharField(max_length=50) 
-    StudentName = models.CharField(max_length=100)
-    FatherName = models.CharField(max_length=100)
-    Amount = models.FloatField()
-    ApplicationDate = models.DateField()
-    Class = models.CharField(max_length=100)
 
 class Students(models.Model):
+    AdmissionID = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    AdmissionNo=models.CharField(max_length=100)
+    AdmissionDate=models.DateField()
+    PreviousSchoolName=models.CharField(max_length=100)
+    SchoolID = models.ForeignKey(School, on_delete=models.CASCADE)
+    Class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    Application = models.ForeignKey(Application, on_delete=models.CASCADE)
+
+    #student info
+    StudentName = models.CharField(max_length=100)
+    StudentDOB= models.DateField()
     Gender = models.ForeignKey(erp.Gender, on_delete=models.CASCADE, null=True)
+    StudentMobileNo = models.CharField(max_length=30)
+    StudentPhoto=models.CharField(max_length=100)
+    Village = models.ForeignKey(erp.Village, on_delete = models.CASCADE, null=True)
+    Nationality=models.ForeignKey(erp.Nationality,on_delete=models.CASCADE,null=True)
+    BloodGroup = models.ForeignKey(erp.BloodGroup,on_delete=models.CASCADE, null=True)
+    Religion = models.ForeignKey(erp.Religion, on_delete=models.CASCADE,null=True)
+    CasteCategory = models.ForeignKey(erp.CasteCategory, on_delete=models.CASCADE,null=True)
+    Caste = models.ForeignKey(erp.Caste, on_delete=models.CASCADE,null=True)
+    MotherTongue = models.ForeignKey(erp.MotherTongue, on_delete = models.CASCADE, null=True)
+
+    # Address info
+    AddressLine1 = models.CharField(max_length=100)
+    AddressLine2 = models.CharField(max_length=100)
+    Village = models.ForeignKey(erp.Village, on_delete = models.CASCADE, null=True)
+    Pincode = models.ForeignKey(erp.PostOffice, on_delete = models.CASCADE, null=True)
+
+
+    #father info
+    FatherName = models.CharField(max_length=100)
+    FatherMobileNo = models.CharField(max_length=100)
+    FatherWhatsappNo = models.CharField(max_length=100)
+    FatherEmail = models.EmailField(max_length=100)
+    FatherQualification=models.CharField(max_length=100)
+    FatherOccupation=models.CharField(max_length=100)
+    FatherIncome=models.FloatField(null=True)
+
+    #Mother info
+    MotherName = models.CharField(max_length=100)
+    MotherMobileNo = models.CharField(max_length=100)
+    MotherWhatsappNo = models.CharField(max_length=100)
+    MotherEmail = models.EmailField(max_length=100)
+    MotherQualification=models.CharField(max_length=100)
+    MotherOccupation=models.CharField(max_length=100)
+    MotherIncome=models.FloatField(null=True)
+
+    #Guardian info
+    GaurdianName = models.CharField(max_length=100)
+    GaurdianMobileNo = models.CharField(max_length=100)
+    GaurdianWhatsappNo = models.CharField(max_length=100)
+    GaurdianEmail = models.EmailField(max_length=100)
+    GaurdianQualification=models.CharField(max_length=100)
+    GaurdianOccupation=models.CharField(max_length=100)
+    GaurdianIncome=models.FloatField(null=True)

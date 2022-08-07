@@ -141,7 +141,6 @@ def update_staff(request, staff_id):
                     })
 
         context = {
-            "staff_data": staff_data,
             "staff_form": staff_form,
             "gender_list":md.Gender.objects.all(),
             "bloodgroup_list":md.BloodGroup.objects.all(),
@@ -158,4 +157,95 @@ def update_staff(request, staff_id):
         }
         return render(request, "school/Pages/Update/update_staff_info.html", context)
     else:
-        return redirect("/accounts/login/?redirect_to=/School/SchoolInfo")
+        return redirect("/accounts/login/?redirect_to=/Staff/StaffInfo")
+
+
+def update_student(request, student_id):
+    if request.user.is_authenticated:
+        student_data = sm.Students.objects.get(AdmissionID = student_id)
+
+        if request.method == "POST":
+            student_form = fm.StaffForm(request.POST)
+            if student_form.is_valid():
+                student_data.StaffName=student_form.cleaned_data['StaffName']
+                student_data.StaffEmailID= student_form.cleaned_data['StaffEmailID']
+                student_data.StaffMobile= student_form.cleaned_data['StaffMobile']
+                student_data.StaffPhoto=student_form.cleaned_data['StaffPhoto']
+                student_data.Gender= student_form.cleaned_data['Gender']
+                student_data.DOB= student_form.cleaned_data['DOB']
+                student_data.BloodGroup= student_form.cleaned_data['BloodGroup']
+                student_data.MaritalStatus= student_form.cleaned_data['MaritalStatus']
+                student_data.Caste= student_form.cleaned_data['Caste']
+                student_data.MotherTongue= student_form.cleaned_data['MotherTongue']
+                student_data.AddressLine1= student_form.cleaned_data['AddressLine1']
+                student_data.AddressLine2= student_form.cleaned_data['AddressLine2']
+                student_data.Village= student_form.cleaned_data['Village']
+                student_data.Pincode= student_form.cleaned_data['Pincode']
+                student_data.StaffWhatsAppNo= student_form.cleaned_data['StaffWhatsAppNo']
+                student_data.Designation= student_form.cleaned_data['Designation']
+                student_data.StaffQualification= student_form.cleaned_data['StaffQualification']
+                student_data.Subject1= student_form.cleaned_data['Subject1']
+                student_data.Subject2= student_form.cleaned_data['Subject2']
+                student_data.DateOfAppointment=student_form.cleaned_data['DateOfAppointment']
+                student_data.DateOfRetirement= student_form.cleaned_data['DateOfRetirement']
+                student_data.AcademicYear= student_form.cleaned_data['AcademicYear']
+                student_data.save()
+                return redirect(f"/Staff/StaffInfoShow/{student_id}")
+            else:
+                print("-----------",student_form.cleaned_data['StaffName'])
+                print("---------------",student_form.errors)
+        else:
+            student_form = fm.StudentForm(
+                initial = { 
+                    "StudentName": student_data.StudentName, 
+                    "StudentPhoto": student_data.StudentPhoto,
+                    "StudentDOB": student_data.StudentDOB,
+                    "StudentMobileNo": student_data.StudentMobileNo,
+
+                    "AddressLine1": student_data.AddressLine1,
+                    "AddressLine2": student_data.AddressLine2,
+                    "PreviousSchoolName": student_data.PreviousSchoolName,
+
+                    "FatherName": student_data.FatherName,
+                    "FatherMobileNo": student_data.FatherMobileNo,
+                    "FatherWhatsappNo": student_data.FatherWhatsappNo,
+                    "FatherEmail": student_data.FatherEmail,
+                    "FatherQualification": student_data.FatherQualification,
+                    "FatherOccupation": student_data.FatherOccupation,
+                    "FatherIncome": student_data.FatherIncome,
+
+                    "MotherName": student_data.MotherName,
+                    "FatherMobileNo": student_data.MotherMobileNo,
+                    "MotherWhatsappNo": student_data.FatherWhatsappNo,
+                    "MotherEmail": student_data.MotherEmail,
+                    "MotherQualification": student_data.MotherQualification,
+                    "MotherOccupation": student_data.MotherOccupation,
+                    "MotherIncome": student_data.MotherIncome,
+
+                    
+                    "GaurdianName": student_data.GaurdianName,
+                    "GaurdianMobileNo": student_data.GaurdianMobileNo,
+                    "FatherWhatsappNo": student_data.GaurdianWhatsappNo,
+                    "GaurdianEmail": student_data.GaurdianEmail,
+                    "GaurdianQualification": student_data.GaurdianQualification,
+                    "GaurdianOccupation": student_data.GaurdianOccupation,
+                    "GaurdianIncome": student_data.GaurdianIncome,
+                    })
+
+        context = {
+            "student_form": student_form,
+            "student_data": student_data,
+            "gender_list":md.Gender.objects.all(),
+            "bloodgroup_list":md.BloodGroup.objects.all(),
+            "caste_list":md.Caste.objects.all(),
+            "religion_list":md.Religion.objects.all(),
+            "castecategory_list":md.CasteCategory.objects.all(),
+            "class_list":sm.Class.objects.all(),
+            "mothertongue_list":md.MotherTongue.objects.all(),
+            "nationality_list":md.Nationality.objects.all(),
+            "village_list":md.Village.objects.all(),
+            "postoffice_list":md.PostOffice.objects.all(),
+        }
+        return render(request, "school/Pages/Update/update_student_info.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")

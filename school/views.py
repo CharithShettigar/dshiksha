@@ -197,16 +197,16 @@ def student_application(request):
             application_form=fm.ApplicationForm()
             school_id = request.session['school_id']
 
-            #creating application number autogenerate 
-            if sm.Application.objects.filter(SchoolID=school_id).exists():
-                old_applicationno=sm.Application.objects.filter(SchoolID=school_id).order_by('-ApplicationNo')[0].ApplicationNo
-                new_applicationno="{0:03}".format(int(old_applicationno.replace(f"A/{date.today().year-1}-{date.today().year}/", '')) + int(1))
-            else:
-                new_applicationno="001"
+        #creating application number autogenerate 
+        if sm.Application.objects.filter(SchoolID=school_id).exists():
+            old_applicationno=sm.Application.objects.filter(SchoolID=school_id).order_by('-ApplicationNo')[0].ApplicationNo
+            new_applicationno="{0:03}".format(int(old_applicationno.replace(f"A/{date.today().year-1}-{date.today().year}/", '')) + int(1))
+        else:
+            new_applicationno="001"
 
-            # passing class and fees details to javascript
-            objset=sm.ApplicationNo.objects.filter(School=school_id)
-            jsondata=serializers.serialize("json",objset)
+        # passing class and fees details to javascript
+        objset=sm.ApplicationNo.objects.filter(School=school_id)
+        jsondata=serializers.serialize("json",objset)
 
         context = {
             "application_form": application_form,
@@ -232,6 +232,97 @@ def application_info_show(request,application_ID):
         return render(request, "school/Pages/Application/application_info_show.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/Application/NewApplication")
+
+
+def student_admission(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            student_form = fm.StudentCreateForm(request.POST)
+            if student_form.is_valid():
+                print("--------------",student_form.cleaned_data['StudentName'])
+                print("--------------",student_form.cleaned_data['Application'])
+                print("--------------",request.POST.get('application_id_no'))
+                if sm.Students.objects.filter(AdmissionNo=request.POST.get('admission_id_no'),SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).exists() \
+                     or sm.Students.objects.filter(StudentMobileNo=student_form.cleaned_data['StudentMobileNo'],SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).exists():
+                     messages.error(request, "Applicant Already exists")
+                else:
+                    sm.Students(
+                        AdmissionNo=request.POST.get('admission_id_no'),
+                        AdmissionDate=DateFormat(date.today()).format('Y-m-d'),
+                        Application=student_form.cleaned_data['Application'],
+                        StudentName=student_form.cleaned_data['StudentName'],
+                        StudentDOB=student_form.cleaned_data['StudentDOB'],
+                        Gender=student_form.cleaned_data['Gender'],
+                        Class=student_form.cleaned_data['Class'],
+                        StudentMobileNo=student_form.cleaned_data['StudentMobileNo'],
+                        FatherName=student_form.cleaned_data['FatherName'],
+                        MotherName=student_form.cleaned_data['MotherName'],
+                        GuardianName=student_form.cleaned_data['GuardianName'],
+                        SchoolID=sm.School.objects.get(SchoolID = request.session['school_id']),
+                        # ModeOfPayment=md.ModeOfPayment.objects.get(ModeOfPaymentID=student_application_form.cleaned_data['ModeOfPayment'])
+                    ).save()
+                    messages.info(request,"Data saved succesfully")
+                    print("Data saved succesfully")
+            else:
+                messages.error(request,student_form.errors)
+                print(student_form.errors)
+
+            return redirect("/Admission/NewAdmission")
+        else:
+            initial_data={
+                "FatherName":"None",
+                "MotherName":"None",
+                "GaurdianName":"None",
+            }
+            student_form=fm.StudentCreateForm(initial=initial_data)
+
+        school_id = request.session['school_id']
+        #creating admission number autogenerate 
+        if sm.Students.objects.filter(SchoolID=school_id).exists():
+            old_admissionno=sm.Students.objects.filter(SchoolID=school_id).order_by('-AdmissionNo')[0].AdmissionNo
+            new_admissionno="{0:03}".format(int(old_admissionno.replace(f"Adm/{date.today().year-1}-{date.today().year}/", '')) + int(1))
+        else:
+            new_admissionno="001"
+
+        # passing class and fees details to javascript
+        objset=sm.Application.objects.filter(SchoolID=school_id).order_by('ApplicationNo')
+        jsondata=serializers.serialize("json",objset)
+
+        context = {
+            "student_form": student_form,
+            "admission_id_no": f"Adm/{date.today().year-1}-{date.today().year}/{new_admissionno}",
+            "amount_no":0.00,
+            "admission_date": DateFormat(date.today()).format('d-m-Y'),
+            "gender_list":md.Gender.objects.all().order_by('GenderOrder'),
+            "application_list":objset,
+            "class_list":sm.ApplicationNo.objects.filter(School=school_id),
+            "student_list":sm.Students.objects.filter(SchoolID=request.session['school_id']).order_by('AdmissionNo'),
+            "data":jsondata,
+        }
+        return render(request, "school/Pages/Admission/new_admission.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
+
+
+def student_info_show(request,student_id):
+    if request.user.is_authenticated:
+        student_data=sm.Students.objects.get(AdmissionID = student_id)
+        context = {
+            "student":student_data,
+        }
+        return render(request, "school/Pages/Student/student_info_show.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
+
+
+
+
+
+
+
+
+
+
 
 def create_staff(request):
     if request.user.is_authenticated:

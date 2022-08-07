@@ -1,0 +1,271 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Student Info | {{ school_name }} {% endblock title %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+
+{% block body %}
+<div class="content">
+    <div class="page-inner">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Student Info: <b>{{student.StudentName}}</div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <table class="table table-hover"> 
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Personal Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>student No</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.studentNo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>student Photo</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.StudentPhoto}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gender</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.Gender.GenderName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date of Birth</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.StudentDOB}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blood Group</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.BloodGroup.BloodGroupName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nationality</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.Nationality.NationalityName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Religion</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.Religion.ReligionName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>CasteCategory</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.CasteCategory.CasteCategoryName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Caste</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.Caste.CasteName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mother Tongue</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.MotherTongue.MotherTongueName}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Address Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Address Line1</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.AddressLine1}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address Line2</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.AddressLine2}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Village</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.Village.VillageName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taluk</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.Village.Taluk.TalukName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>District</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.Village.Taluk.District.DistrictName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>State</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{student.Village.Taluk.District.State.StateName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pincode</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.Pincode.Pincode}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            
+                            <div class="col-sm">                                 
+                                
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Father Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Father Name</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherName}} </td> 
+                                        </tr>
+                                        <tr>
+                                            <td>Father MobileNo</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherMobileNo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Father WhatsappNo</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherWhatsappNo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Father Email</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherEmail }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Father Qualification</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherQualification }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Father Occupation</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherOccupation }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Father Income</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherIncome }}</td>
+                                        </tr>  
+                                    </tbody>
+                                </table>
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Mother Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Mother Name</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.MotherName}} </td> 
+                                        </tr>
+                                        <tr>
+                                            <td>Mother MobileNo</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.MotherMobileNo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mother WhatsappNo</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.MotherWhatsappNo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mother Email</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.MotherEmail }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mother Qualification</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.MotherQualification }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mother Occupation</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherOccupation }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mother Income</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.MotherIncome }}</td>
+                                        </tr>  
+                                    </tbody>
+                                </table>
+                                
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Gaurdian Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Gaurdian Name</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.GaurdianName}} </td> 
+                                        </tr>
+                                        <tr>
+                                            <td>Gaurdian MobileNo</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.GaurdianMobileNo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gaurdian WhatsappNo</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.GaurdianWhatsappNo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gaurdian Email</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.GaurdianEmail }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gaurdian Qualification</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.GaurdianQualification }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gaurdian Occupation</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.FatherOccupation }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gaurdian Income</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.GaurdianIncome }}</td>
+                                        </tr>  
+                                    </tbody>
+                                </table>
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block js_files %}
+
+{% endblock js_files %}
