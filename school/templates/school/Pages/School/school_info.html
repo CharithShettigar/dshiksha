@@ -63,18 +63,18 @@
                                         <tr>
                                             <td>Syllabus</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ school_data.Syllabus.SyllabusType}}</td>
+                                            <td class="fw-bold">{{ school_data.SyllabusType}}</td>
                                         </tr>
                                         <tr>
                                             <td>Insitution Level</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{school_data.InstitutionLevel.InstitutaionLevel}}</td>
+                                            <td class="fw-bold">{{school_data.InsitutionLevel.InstitutionLevel}}</td>
                                         </tr>
-                                        <tr>
+                                        {% comment %} <tr>
                                             <td>Section</td>
                                             <td class="fw-bold">:</td>
                                             <td class="fw-bold">{{school_data.Section.SectionName}}</td>
-                                        </tr>
+                                        </tr> {% endcomment %}
                                         <tr>
                                             <td>GSTI Number</td>
                                             <td class="fw-bold">:</td>
@@ -129,29 +129,20 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>First Name</td>
+                                            <td>Name</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ staff_form.Staff.StaffName}}</td>
+                                            <td class="fw-bold">{{ staffhead_data.Staff.StaffName }}</td>
                                         </tr>
-                                        <tr>
-                                            <td scope="row">Last Name</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentLastName}}</td>
-                                        </tr>
+                                        
                                         <tr>
                                             <td>Mobile</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentMobile}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>WhatsApp</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ school_data.Correspondent.CorrespondentWhatsAppNo}}</td>
+                                            <td class="fw-bold">{{ staffhead_data.Staff.StaffMobile }}</td>
                                         </tr>
                                         <tr>
                                             <td>Email</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{school_data.CorrespondentEmail}}</td>
+                                            <td class="fw-bold">{{ staffhead_data.Staff.StaffEmailID }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -245,7 +236,7 @@
                                         <tr>
                                             <td>Website</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ school_data.WhatsAppNo}}</td>
+                                            <td class="fw-bold">{{ school_data.Website}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -279,19 +270,21 @@
                 </div>
             </div>
         </div>
+        <div class="mb-3">
+            <button class="btn btn-primary m-3" id="edit-school" value="hello"> Edit </button>
+            {% comment %} <a name="" id="" class="btn btn-primary m-3" href="/Update/UpdateSchoolInfo/{{ school_data.SchoolID }}" role="button">View</a> {% endcomment %}
+        </div>
     </div>
 </div>
 
-<div class="mb-3">
-    <button class="btn btn-primary m-3" id="edit-school" value="hello"> Edit </button>
-</div>
 
 {% endblock body %}
 
 {% block javascripts %}
 <script>
     $("#edit-school").click(function () {
-        window.location.href = "/School/EditSchoolInfo/{{ school_id }}"
+        window.location.href = "/Update/UpdateSchoolInfo/{{ school_id }}";
     })
+
 </script>
 {% endblock javascripts %}

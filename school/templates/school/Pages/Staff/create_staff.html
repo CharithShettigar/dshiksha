@@ -6,8 +6,6 @@
     Create Staff
 {% endblock title %}
 
-
-{% comment %} {% block cbse_app_data %} {% endcomment %}
 {% block body %}
 
 <div class="content">
@@ -15,11 +13,20 @@
         {% if messages %}
             <div>
                 {% for message in messages %} 
-                <div class="{% if message.tags == 'error' %} alert alert-danger alert-dismissible d-flex align-items-center fade show my-1 {% endif %}">
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
                     <i class="bi-exclamation-octagon-fill"></i>
                     <strong class="mx-2">Error!</strong> {{ message.message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert">
                 </div>
+                {% endif %}
+                {% if message.tags == 'info' %}
+                <div class="alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Success!</strong> {{ message.message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert">
+                    </div>
+                {% endif %}
                 {% endfor %}
             </div>
         {% endif %}
@@ -66,6 +73,39 @@
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="mb-3">
+                                                <label for="" class="form-label">Designation</label>
+                                                <select name="Designation" id="id_Designation" class="form-control">
+                                                    <option value=""> ---------- </option>
+                                                    {% if designation_list %}
+                                                        {% for d in designation_list %}
+                                                        <option value="{{ d.DesignationID }}"> 
+                                                            {{ d.DesignationName }} 
+                                                        </option>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </select> 
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">StaffQualification</label>
+                                                <select name="StaffQualification" id="id_StaffQualification" class="form-control">
+                                                    <option value=""> ---------- </option>
+                                                    {% if staffquaify_list %}
+                                                        {% for s in staffquaify_list %}
+                                                        <option value="{{ s.StaffQualificationID }}"> 
+                                                            {{ s.StaffQualificationName }} 
+                                                        </option>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="mb-3">
                                                 <label for="" class="form-label"> Password </label>
                                                 {{ staff_form.Password | attr:'class=form-control' }}                    
                                             </div>
@@ -75,6 +115,16 @@
                                             <div class="mb-3">
                                                 <label for="" class="form-label"> Confirm Password </label>
                                                 {{ staff_form.PasswordConfirm | attr:"class=form-control" }}                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="StaffHead" class="form-check-input" value="True">    
+                                                    <span class="form-check-sign">Is Staff Head of the School.</span>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -131,8 +181,9 @@
                                         </td>
                                         <td>
                                             <div>
-                                                <a name="" id="" class="btn btn-dark py-1" href="/Staff/StaffInfoShow/{{ staff.StaffID }}" role="button">View</a>
-                                            </div>
+                                                <a name="" id="" class="btn btn-info" href="/Staff/StaffInfoShow/{{ staff.StaffID }}" role="button">V</a>
+                                                <a name="" id="" class="btn btn-warning" href="/Update/UpdateStaffInfo/{{ staff.StaffID }}" role="button">E</a>
+                                            </div>     
                                         </td>
                                     </tr>
                                     {% endfor %}

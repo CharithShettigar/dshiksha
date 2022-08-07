@@ -1,0 +1,101 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Application Info | {{ school_name }} {% endblock title %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+
+{% block body %}
+<div class="content">
+    <div class="page-inner">
+
+    {% if applicant %}
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="my-3">Applicant Info: <b>{{applicant.StudentName}}</b></h3>
+                    <div class="row">
+                        <div class="col-sm">
+                            <table class="table table-hover"> 
+                                {% comment %} <thead>
+                                    <th class="fw-bold" colspan="3">Personal Info</th>
+                                </thead> {% endcomment %}
+                                <tbody>
+                                    <tr>
+                                        <td>Application No</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{ applicant.ApplicationNo }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Application Date</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{ applicant.ApplicationDate }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Student Name</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{ applicant.StudentName }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gender</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{ applicant.Gender.GenderName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date of Birth</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{ applicant.StudentDOB}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>StudentMobileNo</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{applicant.StudentMobileNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Parent Name</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{applicant.ParentName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Parent Mobile No</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{applicant.ParentMobileNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Class of Joining</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{applicant.Class.ClassList.ClassName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amount</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{applicant.Amount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mode of Payment</td>
+                                        <td class="fw-bold">:</td>
+                                        <td class="fw-bold">{{applicant.ModeOfPayment.ModeOfPayment}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+
+{% endblock body %}
+
+{% block js_files %}
+
+{% endblock js_files %}

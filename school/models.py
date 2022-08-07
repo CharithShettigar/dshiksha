@@ -73,17 +73,17 @@ class Staff(models.Model):
     Subject2 = models.ForeignKey(erp.StaffSubject, on_delete = models.CASCADE, related_name='Subject2', null=True)
     DateOfAppointment = models.DateField(null=True)
     DateOfRetirement = models.DateField(null=True)
-    ProvidentFund = models.BooleanField(default=False)
-    ESI = models.BooleanField(default=False)
-    ProfessionalTax = models.BooleanField(default=False)
-    Gratuity = models.BooleanField(default=False)
-    CautionDeposit = models.BooleanField(default=False)
+    # ProvidentFund = models.BooleanField(default=False)
+    # ESI = models.BooleanField(default=False)
+    # ProfessionalTax = models.BooleanField(default=False)
+    # Gratuity = models.BooleanField(default=False)
+    # CautionDeposit = models.BooleanField(default=False)
     StaffNo = models.CharField(max_length=50)
     AcademicYear = models.ForeignKey(erp.AcademicYear, on_delete=models.CASCADE,null=True)
 
 
-class CBSEHead(models.Model):
-    CBSEHeadID = models.UUIDField(default=uuid.uuid4, primary_key=True)
+class SCHOOLHead(models.Model):
+    SCHOOLHeadID = models.UUIDField(default=uuid.uuid4, primary_key=True)
     School = models.ForeignKey(School, on_delete=models.CASCADE)
     Staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
 
@@ -107,12 +107,6 @@ class Chapter(models.Model):
     ChapterName = models.CharField(max_length=50)
     Subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
-
-class StaffNo(models.Model):
-    StaffNoID = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    StaffNo = models.CharField(max_length=50)
-
-
 class ApplicationNo(models.Model):
     ApplicationNoID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     Class = models.ForeignKey(Class, on_delete=models.CASCADE)
@@ -125,14 +119,17 @@ class Application(models.Model):
     ApplicationID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     ApplicationNo = models.CharField(max_length=100)
     StudentName = models.CharField(max_length=100)
-    FatherName = models.CharField(max_length=100)
-    FatherMobileNo = models.CharField(max_length=30)
+    StudentDOB= models.DateField()
+    Gender = models.ForeignKey(erp.Gender, on_delete=models.CASCADE, null=True)
+    StudentMobileNo = models.CharField(max_length=30)
+    ParentName = models.CharField(max_length=100)
+    ParentMobileNo = models.CharField(max_length=30)
     Class = models.ForeignKey(Class, on_delete=models.CASCADE)
-    School = models.ForeignKey(School, on_delete=models.CASCADE)
+    SchoolID = models.ForeignKey(School, on_delete=models.CASCADE)
     ApplicationDate = models.DateField()
     Amount = models.FloatField()
     ModeOfPayment = models.ForeignKey(erp.ModeOfPayment, on_delete=models.CASCADE)
-    PaymentStatus = models.ForeignKey(erp.PaymentStatus, on_delete=models.CASCADE)
+    #PaymentStatus = models.ForeignKey(erp.PaymentStatus, on_delete=models.CASCADE)
 
 class Admission(models.Model):
     AdmissionID = models.UUIDField(primary_key=True, default=uuid.uuid4)
