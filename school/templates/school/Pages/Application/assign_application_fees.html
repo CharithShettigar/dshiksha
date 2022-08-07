@@ -1,0 +1,103 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %}
+    Assign Application Fees
+{% endblock title %}
+
+{% comment %} {% block cbse_app_data %} {% endcomment %}
+{% block body %}
+
+
+<div class="content">
+    <div class="page-inner">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/Application/AssignApplicationFees" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <h3 class="card-title">Assign Application Fees</h3>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Select Class</label>
+                                        <select name="ApplicationNoID" id="id_ApplicationNoID" class="form-control">
+                                            <option value=""> ----------- </option>
+                                            {% for apf in apf_list %}
+                                                <option value="{{ apf.ApplicationNoID }}"> {{ apf.Class.ClassList.ClassName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>                                                                       
+                            </div>  
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Enter Application Amount </label>
+                                        {{ apf_form.Amount | attr:"class=form-control" }}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-primary">Assign</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    
+                    <div>
+                        <h3 class="card-title">Assigned Application Fees</h3>
+
+                        <div class="table-responsive  mt-1">
+                            <table class="table table-hover">
+                                <tbody>
+                                    {% for apf in apf_list %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>
+                                            <div>
+                                                {{ apf.Class.ClassList.ClassName }} - Rs. {{ apf.Amount }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                        {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+    
+{% endblock body %}
+{% comment %} {% endblock cbse_app_data %} {% endcomment %}

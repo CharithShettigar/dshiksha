@@ -1,9 +1,11 @@
-from django.urls import include, path
-from django.contrib import admin
+from django.urls import path, include
 from . import views
 
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', views.index, name="index"),
+    # path('login', views.login_form, name="login"),
+    path('Dashboard/AdminData', views.dashboard, name="dashboard"),
 
     path('',views.index,name='index'),
     
@@ -17,14 +19,17 @@ urlpatterns = [
     # settings
     path('Settings/AddState', views.add_state, name="add_state"),
     path('Settings/AddAcademicYear', views.add_academic_year, name="add_academic_year"),
-    path('Settings/AddGender', views.add_gender, name="add_gender"),
     path('Settings/AddNationality', views.add_nationality, name="add_nationality"),
     path('Settings/AddMotherTongue', views.add_mother_tongue, name="add_mother_tomgue"),
-    path('Settings/AddBloodGroup', views.add_blood_group, name="add_blood_group"),
     path('Settings/AddReligion', views.add_religion, name="add_religion"),
     path('Settings/AddPostOffice', views.add_post_office, name="add_post_office"),
-    path('Settings/AddMediumOfInstruction', views.add_medium_of_instruction, name="add_medium_of_instruction"),
-    path('Settings/AddDesignation', views.add_designation, name="add_designation"),
-    path('Settings/AddSubject', views.add_subject, name="add_subject"),
-
+    
+    #School
+    path('School/AddDesignation', views.add_designation, name="add_subject"),
+    path('School/CreateClass', views.add_class, name="add_class"),
+    path('School/AssignClassLevel', views.cbse_assign_class_level, name="cbse_assign_class_level"),
+    path('School/create_school', views.create_school, name="create_school"),
+    path('School/CreateInstitutionLevel', views.create_institution_level, name="create_institution_level"),
+    path('School/AddSchoolAffiliation', views.add_school_affiliation, name="add_school_affiliation"),
+    path('School/AddStaffQualification', views.add_staff_qualification, name="add_staff_qualification"),
 ]

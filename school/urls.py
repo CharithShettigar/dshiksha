@@ -12,8 +12,11 @@ urlpatterns = [
     # School Paths
     path('School/SchoolInfo', views.school_info, name="school_school_info"),
     path('School/AssignClass', views.assign_class, name="school_assign_class"),
-    path('School/AssignApplicationFees', views.assign_application_fees, name="school_assign_application_fees"),
-    # path('School/NewApplication', views.student_application, name="school_student_application"),
+
+    # Application
+    path('Application/AssignApplicationFees', views.assign_application_fees, name="school_assign_application_fees"),
+    path('Application/NewApplication', views.student_application, name="school_student_application"),
+    path('Application/NewApplicationShow/<str:application_ID>', views.application_info_show, name="school_application_info_show"),
 
     # Staff Paths
     path('Staff/CreateStaff', views.create_staff, name="school_create_staff"),

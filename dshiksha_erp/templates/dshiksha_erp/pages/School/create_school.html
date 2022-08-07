@@ -1,0 +1,289 @@
+{% extends 'dshiksha_erp/index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Create School
+{% endblock title %}
+
+{% block body %}
+{% comment %} {% if messages %}
+    {% for message in messages %}
+        <div>{{ message }} </div>
+    {% endfor %}
+{% endif %} {% endcomment %}
+    <div class="content">
+        <form action="/School/create_school" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> School Name</label>
+                        {{ school_form.SchoolName | attr:"class=form-control" }}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> School Email</label>
+                        {{ school_form.Email | attr:"class=form-control" }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Landline </label>
+                        {{ school_form.Landline | attr:"class=form-control" }}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> School Code</label>
+                        {{ school_form.SchoolCode | attr:"class=form-control" }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Village</label>
+                        <select name="Village" id="id_Village" class="form-control">
+                            <option value=""> ---------- </option>
+                            {% for village in village_list %}
+                                <option value="{{ village.VillageID }}"> {{ village.VillageName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> TalukName </label>
+                        
+                        <select name="Taluk" id="id_Taluk" class="form-control bg-white" disabled></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> District </label>
+                        <select name="District" id="id_District" class="form-control bg-white" disabled></select>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> State </label>
+                        <select name="State" id="id_State" class="form-control bg-white" disabled></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Pincode </label>
+                        <select name="Pincode" id="id_Pincode" class="form-control">
+                            <option value=""> ---------- </option>
+                            {% for pincode in post_office_list %}
+                                <option value="{{ pincode.PostOfficeID }}"> {{ pincode.Pincode }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Post Office </label>
+                        <select class="form-control bg-white" name="PostOffice" id="id_PostOffice" disabled></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label">School Username</label>
+                        {% comment %} <select name="ParishArea" id="id_ParishArea" class="form-control bg-white" disabled></select> {% endcomment %}
+                        {{ school_form.SchoolUsername | attr:"class=form-control" }}
+                    </div>
+                </div>
+                    <div class="col-sm">
+                        <div class="mb-3">
+                            <label for="" class="form-label"> Syllabus Type</label>
+                            {{ school_form.SyllabusType | attr:"class=form-control" }}
+                        </div>
+                    </div>
+            </div>
+            <!-- Accountant info enter-->
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Accountant Name</label>
+                        {% comment %} <select name="ParishArea" id="id_ParishArea" class="form-control bg-white" disabled></select> {% endcomment %}
+                        {{ school_form.AccountantName | attr:"class=form-control" }}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Accountant Email</label>
+                        {{ school_form.AccountantEmail | attr:"class=form-control" }}
+                    </div>   
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Accountant Mobile</label>
+                        {{ school_form.AccountantMobile | attr:"class=form-control" }}
+                    </div>   
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Accountant WhatsApp Number</label>
+                        {{ school_form.AccountantWhatsAppNo | attr:"class=form-control" }}
+                    </div>   
+                </div>
+            </div>
+
+            <!-- Correspondent info enter-->
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Correspondent First Name</label>
+                        {% comment %} <select name="ParishArea" id="id_ParishArea" class="form-control bg-white" disabled></select> {% endcomment %}
+                        {{ school_form.CorrespondentFirstName | attr:"class=form-control" }}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Correspondent Last Name</label>
+                        {{ school_form.CorrespondentLastName | attr:"class=form-control" }}
+                    </div>   
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Correspondent Email</label>
+                        {{ school_form.CorrespondentEmail | attr:"class=form-control" }}
+                    </div>   
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Correspondent Mobile</label>
+                        {{ school_form.CorrespondentMobile | attr:"class=form-control" }}
+                    </div>   
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Correspondent WhatsApp Number</label>
+                        {{ school_form.CorrespondentWhatsAppNo | attr:"class=form-control" }}
+                    </div>   
+                </div>
+            </div>
+
+            <!--Password and Academic Year-->
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Password</label>
+                        {{ school_form.Password | attr:"class=form-control" | attr:"type=password" }}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Confirm Password</label>
+                        {{ school_form.ConfirmPassword | attr:"class=form-control" | attr:"type=password" }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Current Academic Year </label>
+                        <select name="CurrentAcademicYear" id="id_CurrentAcademicYear" class="form-control">
+                            <option value=""> ---------- </option>
+                            {% for ac in academic_year_list %}
+                                <option value="{{ ac.AcademicYearID }}"> {{ ac.AcademicYear }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% comment %} <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> Established year</label>
+                        {{ school_form.EstDate | attr:"class=form-control" }}
+                    </div>   
+                </div> {% endcomment %}
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+        <div class="col">
+            <h3> Schools</h3>
+            {% if school_list %}
+                {% for school in school_list %}
+                    <div> {{ school.SchoolCode }} - {{ school.SchoolName }} - {{ school.Email }} - {{ school.Landline }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock body %}
+
+{% block js_files %}
+    <script>
+        $("#id_Village").change(function (){
+            const village_id = $("#id_Village").val()
+            $.ajax({
+                url: "/ajax/select_taluk",
+                data: {
+                    'village_id': village_id,
+                },
+                success: function(data){
+                    $("#id_Taluk").html(data)
+                }
+            });
+
+            
+            $.ajax({
+                url: "/ajax/select_district",
+                data: {
+                    'village_id': village_id,
+                },
+                success: function(data){
+                    $("#id_District").html(data)
+                }
+            });
+
+            $.ajax({
+                url: "/ajax/select_state",
+                data: {
+                    'village_id': village_id,
+                },
+                success: function(data){
+                    $("#id_State").html(data)
+                }
+            });
+        })
+
+        $("#id_Pincode").change(function(){
+            const po_id = $("#id_Pincode").val()
+            $.ajax({
+                url: "/ajax/select_post_office",
+                data:{
+                    'post_office_id': po_id
+                },
+                success: function(data){
+                    $("#id_PostOffice").html(data)
+                }
+            })
+        })
+
+        $("#id_Parish").change(function(){
+            const parish_id = $("#id_Parish").val()
+            $.ajax({
+                url:'/ajax/select_parish',
+                data:{
+                    'parish_id': parish_id
+                },
+                success: function(data){
+                    $("#id_ParishArea").html(data)
+                }
+            })
+        })
+    </script>
+{% endblock js_files %}
