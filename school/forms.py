@@ -68,4 +68,4 @@ class StudentCreateForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     class Meta:
         model = sm.Students   
-        exclude = ['UserID','SchoolID','AdmissionNo','AdmissionID']
+        exclude = ['UserID','SchoolID','AdmissionNo','AdmissionID','Application','AdmissionDate']

@@ -165,34 +165,51 @@ def update_student(request, student_id):
         student_data = sm.Students.objects.get(AdmissionID = student_id)
 
         if request.method == "POST":
-            student_form = fm.StaffForm(request.POST)
+            student_form = fm.StudentForm(request.POST)
             if student_form.is_valid():
-                student_data.StaffName=student_form.cleaned_data['StaffName']
-                student_data.StaffEmailID= student_form.cleaned_data['StaffEmailID']
-                student_data.StaffMobile= student_form.cleaned_data['StaffMobile']
-                student_data.StaffPhoto=student_form.cleaned_data['StaffPhoto']
-                student_data.Gender= student_form.cleaned_data['Gender']
-                student_data.DOB= student_form.cleaned_data['DOB']
-                student_data.BloodGroup= student_form.cleaned_data['BloodGroup']
-                student_data.MaritalStatus= student_form.cleaned_data['MaritalStatus']
-                student_data.Caste= student_form.cleaned_data['Caste']
-                student_data.MotherTongue= student_form.cleaned_data['MotherTongue']
-                student_data.AddressLine1= student_form.cleaned_data['AddressLine1']
-                student_data.AddressLine2= student_form.cleaned_data['AddressLine2']
-                student_data.Village= student_form.cleaned_data['Village']
-                student_data.Pincode= student_form.cleaned_data['Pincode']
-                student_data.StaffWhatsAppNo= student_form.cleaned_data['StaffWhatsAppNo']
-                student_data.Designation= student_form.cleaned_data['Designation']
-                student_data.StaffQualification= student_form.cleaned_data['StaffQualification']
-                student_data.Subject1= student_form.cleaned_data['Subject1']
-                student_data.Subject2= student_form.cleaned_data['Subject2']
-                student_data.DateOfAppointment=student_form.cleaned_data['DateOfAppointment']
-                student_data.DateOfRetirement= student_form.cleaned_data['DateOfRetirement']
-                student_data.AcademicYear= student_form.cleaned_data['AcademicYear']
+                student_data.StudentName=student_form.cleaned_data['StudentName']
+                student_data.StudentDOB=student_form.cleaned_data['StudentDOB']
+                student_data.Gender=student_form.cleaned_data['Gender']
+                student_data.StudentMobileNo=student_form.cleaned_data['StudentMobileNo']
+                student_data.StudentPhoto=student_form.cleaned_data['StudentPhoto']
+                student_data.Village=student_form.cleaned_data['Village']
+                student_data.Nationality=student_form.cleaned_data['Nationality']
+                student_data.BloodGroup=student_form.cleaned_data['BloodGroup']
+                student_data.Religion=student_form.cleaned_data['Religion']
+                student_data.CasteCategory=student_form.cleaned_data['CasteCategory']
+                student_data.StudentName=student_form.cleaned_data['StudentName']
+                student_data.MotherTongue=student_form.cleaned_data['MotherTongue']
+                student_data.Caste=student_form.cleaned_data['Caste']
+                student_data.AddressLine1=student_form.cleaned_data['AddressLine1']
+                student_data.AddressLine2=student_form.cleaned_data['AddressLine2']
+                student_data.Village=student_form.cleaned_data['Village']
+                student_data.Pincode=student_form.cleaned_data['Pincode']
+                student_data.Class=student_form.cleaned_data['Class']
+                student_data.FatherName=student_form.cleaned_data['FatherName']
+                student_data.FatherMobileNo=student_form.cleaned_data['FatherMobileNo']
+                student_data.FatherWhatsappNo=student_form.cleaned_data['FatherWhatsappNo']
+                student_data.FatherEmail=student_form.cleaned_data['FatherEmail']
+                student_data.FatherQualification=student_form.cleaned_data['FatherQualification']
+                student_data.FatherOccupation=student_form.cleaned_data['FatherOccupation']
+                student_data.FatherIncome=student_form.cleaned_data['FatherIncome']
+                student_data.MotherName=student_form.cleaned_data['MotherName']
+                student_data.MotherMobileNo=student_form.cleaned_data['MotherMobileNo']
+                student_data.MotherWhatsappNo=student_form.cleaned_data['MotherWhatsappNo']
+                student_data.MotherEmail=student_form.cleaned_data['MotherEmail']
+                student_data.MotherQualification=student_form.cleaned_data['MotherQualification']
+                student_data.MotherOccupation=student_form.cleaned_data['MotherOccupation']
+                student_data.MotherIncome=student_form.cleaned_data['MotherIncome']
+                student_data.GaurdianName=student_form.cleaned_data['GaurdianName']
+                student_data.GaurdianMobileNo=student_form.cleaned_data['GaurdianMobileNo']
+                student_data.GaurdianWhatsappNo=student_form.cleaned_data['GaurdianWhatsappNo']
+                student_data.GaurdianEmail=student_form.cleaned_data['GaurdianEmail']
+                student_data.GaurdianQualification=student_form.cleaned_data['GaurdianQualification']
+                student_data.GaurdianOccupation=student_form.cleaned_data['GaurdianOccupation']
+                student_data.GaurdianIncome=student_form.cleaned_data['GaurdianIncome']
                 student_data.save()
-                return redirect(f"/Staff/StaffInfoShow/{student_id}")
+                return redirect(f"/Student/StudentShow/{student_id}")
             else:
-                print("-----------",student_form.cleaned_data['StaffName'])
+                print("-----------",student_form.cleaned_data['StudentName'])
                 print("---------------",student_form.errors)
         else:
             student_form = fm.StudentForm(

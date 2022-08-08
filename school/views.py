@@ -73,7 +73,6 @@ def dashboard(request):
     else:
         return redirect("/accounts/login/?redirect_to=/")
 
-
 def school_info(request):
     if request.user.is_authenticated:
         school_data = sm.School.objects.get(SchoolID = request.session['school_id'])
@@ -97,7 +96,6 @@ def school_info(request):
         return render(request, "school/Pages/School/school_info.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/School/SchoolInfo")
-
 
 def assign_class(request):
     if request.user.is_authenticated:
@@ -136,7 +134,6 @@ def assign_class(request):
         return render(request, "school/Pages/School/assign_class.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/School/AssignClass")
-
 
 def assign_application_fees(request):
     if request.user.is_authenticated:
@@ -233,7 +230,6 @@ def application_info_show(request,application_ID):
     else:
         return redirect("/accounts/login/?redirect_to=/Application/NewApplication")
 
-
 def student_admission(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -257,7 +253,7 @@ def student_admission(request):
                         StudentMobileNo=student_form.cleaned_data['StudentMobileNo'],
                         FatherName=student_form.cleaned_data['FatherName'],
                         MotherName=student_form.cleaned_data['MotherName'],
-                        GuardianName=student_form.cleaned_data['GuardianName'],
+                        GaurdianName=student_form.cleaned_data['GaurdianName'],
                         SchoolID=sm.School.objects.get(SchoolID = request.session['school_id']),
                         # ModeOfPayment=md.ModeOfPayment.objects.get(ModeOfPaymentID=student_application_form.cleaned_data['ModeOfPayment'])
                     ).save()
@@ -303,7 +299,6 @@ def student_admission(request):
     else:
         return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
 
-
 def student_info_show(request,student_id):
     if request.user.is_authenticated:
         student_data=sm.Students.objects.get(AdmissionID = student_id)
@@ -313,16 +308,6 @@ def student_info_show(request,student_id):
         return render(request, "school/Pages/Student/student_info_show.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
-
-
-
-
-
-
-
-
-
-
 
 def create_staff(request):
     if request.user.is_authenticated:
@@ -352,7 +337,6 @@ def create_staff(request):
                             StaffMobile=staff_form.cleaned_data['StaffMobile'],
                             StaffQualification=staff_form.cleaned_data['StaffQualification'],
                             Designation=staff_form.cleaned_data['Designation'],
-                            Gender=staff_form.cleaned_data['Gender'],
                             SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
                             StaffNo = request.POST.get('staff_id_no'),
                             )
