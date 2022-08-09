@@ -1,3 +1,5 @@
+from dataclasses import fields
+from pyexpat import model
 from django import forms
 from main.models import User
 from school import models as sm
@@ -69,3 +71,14 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = sm.Students   
         exclude = ['UserID','SchoolID','AdmissionNo','AdmissionID','Application','AdmissionDate']
+
+class AssignFeeAmountForm(forms.ModelForm):
+    class Meta:
+        model=sm.AssignFeeAmount
+        fields=['Class','SubFee','FeesType','Amount']
+
+class CollectFeeForm(forms.ModelForm):
+    class Meta:
+        models=sm.CollectFee
+        fields=['Admission','Class','Section','School','ModeOfPayment','RefferenceNO','Bank','Online','PaidAmount','Installment','PaymentStatus']
+    

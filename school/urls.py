@@ -30,6 +30,10 @@ urlpatterns = [
     path('Staff/CreateStaff', views.create_staff, name="school_create_staff"),
     path('Staff/StaffInfo', views.staff_info, name="school_staff_info"),
     path('Staff/StaffInfoShow/<str:staff_ID>', views.staff_info_show, name="school_staff_info_show"),
+    
+    # Fees
+    path('Fees/AssignFeeAmount', views.assign_fee_amount, name="assign_fee_amount"),
+    path('Fees/CollectFee', views.collect_fee, name="collect_fee"),
 
     #update the information
     path('Update/UpdateSchoolInfo/<str:school_id>',update_views.update_school,name="update_school_info"),

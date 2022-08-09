@@ -1,4 +1,6 @@
 from datetime import date, datetime
+from msilib.schema import Class
+from multiprocessing import context
 import uuid
 from django.utils.dateformat import DateFormat
 from django.shortcuts import render,redirect
@@ -69,7 +71,13 @@ def logout_view(request):
 
 def dashboard(request):
     if request.user.is_authenticated:
-        return render(request, "school/Pages/dashboard.html")
+        context= {
+            "s_student_count": sm.Students.objects.filter(SchoolID = request.session['school_id']).count(),
+            "s_staff_count": sm.Staff.objects.filter(SchoolID = request.session['school_id']).count(),
+            "student_boys_count":sm.Students.objects.filter(Gender__GenderName ='Male', SchoolID=request.session['school_id']).count(),
+            "student_girls_count":sm.Students.objects.filter(Gender__GenderName ='Female', SchoolID=request.session['school_id']).count(),
+        }
+        return render(request, "school/Pages/dashboard.html",context)
     else:
         return redirect("/accounts/login/?redirect_to=/")
 
@@ -377,7 +385,6 @@ def create_staff(request):
 
 def staff_info(request):
     if request.user.is_authenticated:
-
         staff_data=None
         if request.method == 'POST':            
             staff_id=request.POST['staff_selected']
@@ -402,3 +409,50 @@ def staff_info_show(request,staff_ID):
         return render(request, "school/Pages/Staff/staff_info_show.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/Staff/StaffInfo")
+
+# Fees
+def assign_fee_amount(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            afa_form = fm.AssignFeeAmountForm(request.POST)
+            if afa_form.is_valid():
+                if sm.AssignFeeAmount.objects.filter(Class = afa_form.cleaned_data['Class'], SubFee = afa_form.cleaned_data['SubFee']).exists():
+                    messages.error(request, "Fees already assigned")
+                else:
+                    sm.AssignFeeAmount(AssignFeeAmountID=uuid.uuid4(), Class=afa_form.cleaned_data['Class'], FeesType=afa_form.cleaned_data['FeesType'], SubFee=afa_form.cleaned_data['SubFee'],Amount=afa_form.cleaned_data['Amount'], School=sm.School.objects.get(SchoolID = request.session['school_id']), AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year'])).save()
+
+                    return redirect("/Fees/AssignFeeAmount")
+            else:
+                print("Something went wrong")
+                print(afa_form.errors)
+        else:
+            afa_form = fm.AssignFeeAmountForm()
+        
+        # passing class and fees details to javascript
+        objset=md.SubFee.objects.all()
+        jsondata=serializers.serialize("json",objset)
+        
+        assignclass_value=sm.AssignClass.objects.filter(School=request.session['school_id']).order_by('Class__ClassList__OrderID').values_list("Class").distinct()
+        # print("------------------",assignclass_value)
+        classobj_value=[]
+        for i in assignclass_value:
+            classobj_value.append(sm.Class.objects.get(ClassID=i[0]))
+            # print("-------------------",sm.Class.objects.get(ClassID=i[0]).ClassList.ClassName)
+        # print(classobj_value)
+        # for x in classobj_value:
+        #     print("--------------",x.ClassID)
+        #     print("--------------",x.ClassList.ClassName)
+        context = {
+            "afa_form": afa_form,
+            "subfee_list": md.SubFee.objects.all(),
+            "feetype_list": md.FeesType.objects.all(),
+            "afa_list": sm.AssignFeeAmount.objects.all(),
+            "classobj_value":classobj_value,
+            "data":jsondata,
+        }
+        return render(request, "school/Pages/Fees/assign_fee_amount.html", context)
+    else:
+        return redirect("/accounts/login/>redirect_to=/Fees/AssignFeeAmount")
+
+def collect_fee(request):
+    pass
