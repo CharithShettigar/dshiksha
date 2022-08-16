@@ -1,0 +1,443 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Student Attendance Info | {{ school_name }} {% endblock title %}
+
+{% block stylesheets %}
+<style>
+
+      .calendar {
+        display:none;
+        //width: 45rem;
+        width: 35rem;
+        background-color: white;
+        box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.2);
+        border-radius:1rem;
+      }
+      
+      .month {
+        width: 100%;
+        height: 5rem;
+        background-color: blue;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+        text-align: center;
+        text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+        border-radius:1rem 1rem 0 0;
+      }
+      
+      .month i {
+        font-size: 2rem;
+        cursor: pointer;
+      }
+      
+      .month h1 {
+        font-size: 2rem;
+        color:white;
+        font-weight: 400;
+        text-align:center;
+        text-transform: uppercase;
+        letter-spacing: 0.2rem;
+      }
+      
+      .month p {
+        font-size: 1.6rem;
+        color:white;
+      }
+      
+      .weekdays {
+        width: 100%;
+        height: 3rem;
+        padding: 0 0.4rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .weekdays div {
+        font-size: 1.5rem;
+        font-weight: 400;
+        letter-spacing: 0.1rem;
+        width: calc(44.2rem / 7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+      }
+      
+      .days {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0.2rem;
+      }
+      
+      .days div {
+        font-size: 1.5rem;
+        margin: 0.3rem;
+        width: calc(30.2rem / 7);
+        height: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+        transition: background-color 0.2s;
+      }
+      
+      .prev-date,
+      .next-date {
+        opacity: 0.5;
+      }
+      
+      .present_day{
+        background-color: #02cd02;
+        color:white;
+        border-radius:0.5rem;
+    }
+    .half_day{
+        background-color: #fca910;
+        color:white;
+        border-radius:0.5rem;
+    }
+    .absent_day{
+        background-color:red;
+        color:white;
+        border-radius:0.5rem;
+      }
+
+    .box{
+        float:left;
+        width:3rem;
+        height:3rem;
+        margin:1rem;
+        clear:both;
+        border-radius:0.5rem;
+    }
+    .pcol{
+        background-color: #02cd02;
+    }
+    .hcol{
+        background-color: #fca910;
+    }
+    .acol{
+        background-color: red;
+    }
+    .letter{
+        font-size: 1.3rem;
+        margin: revert;
+        text-shadow: 0 0.3rem 0.5rem rgb(0 0 0 / 50%);
+        font-weight: 400;
+        letter-spacing: 0.1rem;
+    }
+    .color-list{
+        display:none;
+        margin:1rem;
+    }
+</style>
+
+{% endblock stylesheets %}
+
+
+{% block body %}
+<div class="content">
+    <div class="page-inner">
+
+    {% if student_data %}
+    {% comment %} <h3 class="my-3">Student Attendance Info: <b>{{student_data.StudentName}}</b></h3> {% endcomment %}
+    <h1>Attendance</h1>
+    
+    <div class="row flex-grow">
+        <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+            <div class="card card-rounded mt-2 mr-2 ml-2">
+                <div class="card-header">
+                    <div class="card-title">
+                        {{student_data.StudentName}}<br>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm">
+                            
+                                <div class="form-control-inline my-3">
+                                    Class:{{student_data.AssignedClass.Class.ClassList.ClassName}}-{{student_data.AssignedClass.Section.SectionName}}
+                                </div>
+                                <div class="form-control-inline my-3">
+                                    <a name="" id="" class="btn btn-success p-2" href="/Student/StudentShow/{{ student_data.AdmissionID }}" role="button">
+                                        <i class="fa fa-search"></i>
+                                        <i class="ml-2 fa">View Details</i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pl-md-0 pr-md-0">
+                                <div class="card card-pricing card-pricing-focus card-primary py-1">
+                                    <div class="card-header h2">
+                                        <h3 class="card-title fw-bold">Overview</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="specification-list">
+                                            <li>
+                                                <span class="name-specification h4">Present</span>
+                                                <span class="status-specification h4">{{ total_present }}</span>
+                                            </li>
+                                            <li>
+                                                <span class="name-specification h4">Half Days</span>
+                                                <span class="status-specification h4">{{ total_halfday }}</span>
+                                            </li>
+                                            <li>
+                                                <span class="name-specification h4">Absent</span>
+                                                <span class="status-specification h4">{{ total_absent}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="name-specification h4">Total Attendance</span>
+                                                <span class="status-specification h4">{{ total_attendance }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="col-sm">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="AttendanceChart" style="width: 50%; height: 50%"></canvas>
+                                        </div>
+                                    </div>
+                                </div>                            
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row flex-grow">
+        <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+            <div class="card card-rounded mt-2 mr-2 ml-2">
+                <div class="card-header">
+                    <div class="card-title">
+                        Attendance Monthly report
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                
+                                <div class="form-group">
+                                    Select Month:<input type="month" id="id_AttendanceMonth" name='AttendanceMonth' class="form-control">             
+                                </div>
+                            </div>
+                            
+                            <div class="col mt-3">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary text-white" onclick="monthcalendar()" id="month_btn"> Find by Month </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="attendanceCalendar" class="row">
+                            <div class="calendar">
+                                <div class="month">
+                                    <div class="date">
+                                        <h1></h1>
+                                    </div>
+                                </div>
+                                <div class="weekdays">
+                                    <div>Sun</div>
+                                    <div>Mon</div>
+                                    <div>Tue</div>
+                                    <div>Wed</div>
+                                    <div>Thu</div>
+                                    <div>Fri</div>
+                                    <div>Sat</div>
+                                </div>
+                                <div class="days"></div>
+                            </div>
+                            <div class="col color-list">
+                                <div class="row">
+                                    <div class="box pcol"></div>
+                                    <p class="letter">Present</p>
+                                </div>
+                                <div class="row">
+                                    <div class="box hcol"></div>
+                                    <p class="letter">Half Day</p>
+                                </div>
+                                <div class="row">
+                                    <div class="box acol"></div>
+                                    <p class="letter">Absent</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {% endif %}
+</div>
+</div>
+
+{% endblock body %}
+
+
+{% block javascripts %}
+<script> 
+    var present_perc=({{total_present}}*100)/{{total_attendance}}
+    var halfday_perc=({{total_halfday}}*100)/{{total_attendance}}
+    var absent_perc=({{total_absent}}*100)/{{total_attendance}}
+
+    pieChart = document.getElementById('AttendanceChart').getContext('2d');
+    var myAttendaceChart = new Chart(pieChart, {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: [halfday_perc, absent_perc, present_perc],
+                backgroundColor :["orange","red","#0cec39"],
+                borderWidth: 0
+            }],
+            labels: ['HalfDay', 'Absent','Present'] 
+        },
+        options : {
+            responsive: true, 
+            maintainAspectRatio: false,
+            legend: {
+                position : 'bottom',
+                labels : {
+                    fontColor: 'rgb(154, 154, 154)',
+                    fontSize: 13,
+                    usePointStyle : true,
+                    padding: 20
+                }
+            },
+            pieceLabel: {
+                render: 'percentage',
+                fontColor: 'white',
+                fontSize: 14,
+            },
+            tooltips: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 10,
+                    bottom: 10
+                }
+            }
+        }
+    });
+
+    //month and year datepicker
+    var now=new Date;
+    $('#id_AttendanceMonth').val(now.toJSON().slice(0,7));
+
+    var atobj=JSON.parse('{{ data | safe }}');
+    var present_arr=[];
+    var half_arr=[];
+    var absent_arr=[];
+    for(var a in atobj)
+    {
+        if(atobj[a].fields.AttendanceMark=="Present")
+        {
+            pdate=new Date(atobj[a].fields.AttendanceDate)
+            present_arr.push(`${pdate.getFullYear()}-${pdate.getMonth()+1}-${pdate.getDate()}`);        
+        }
+        if(atobj[a].fields.AttendanceMark=="Half Day")
+        {
+            pdate=new Date(atobj[a].fields.AttendanceDate)
+            half_arr.push(`${pdate.getFullYear()}-${pdate.getMonth()+1}-${pdate.getDate()}`);  
+        }
+        if(atobj[a].fields.AttendanceMark=="Absent")
+        {
+            pdate=new Date(atobj[a].fields.AttendanceDate)
+            absent_arr.push(`${pdate.getFullYear()}-${pdate.getMonth()+1}-${pdate.getDate()}`);  
+        }
+    }
+
+    function monthcalendar(){
+        month_year=document.getElementById('id_AttendanceMonth').value;
+        sel_year=parseInt(month_year.slice(0,4))
+        sel_month=parseInt(month_year.slice(5,7))
+
+        //Creating calendar
+        document.querySelector('.calendar').style.display="block";
+        document.querySelector('.color-list').style.display="block";
+        const date = new Date('"'+sel_year+'-'+sel_month+'"');
+        const renderCalendar = () => {
+            date.setDate(1);
+        
+            const monthDays = document.querySelector(".days");
+        
+            const lastDay = new Date(
+            sel_year,
+            sel_month,
+            0
+            ).getDate();
+
+            const prevLastDay = new Date(
+                sel_year,
+                sel_month-1,
+                0
+                ).getDate();
+            
+            const firstDayIndex = date.getDay();
+            
+            const lastDayIndex = new Date(
+                date.getFullYear(),
+                date.getMonth() + 1,
+                0
+                ).getDay();
+            
+            const nextDays = 7 - lastDayIndex - 1;
+        
+            const months = [
+            "January","February","March","April","May","June","July",
+            "August","September","October","November","December",
+            ];
+        
+            document.querySelector(".date h1").innerHTML = `${months[sel_month-1]}-${sel_year}`;
+        
+            let days = "";
+        
+            for (let x = firstDayIndex; x > 0; x--) {
+            days += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
+            }
+        
+            for (let i = 1; i <= lastDay; i++) {          
+                var dat=`${sel_year}-${sel_month}-${i}`;
+
+                if(present_arr.includes(dat))
+                {
+                    days += `<div class="present_day">${i}</div>`;
+                }
+                else if(half_arr.includes(dat))
+                {
+                    days += `<div class="half_day">${i}</div>`;
+                }
+                else if(absent_arr.includes(dat))
+                {
+                    days += `<div class="absent_day">${i}</div>`;
+                }
+                else{
+                    days += `<div>${i}</div>`;
+                }
+            }
+        
+            for (let j = 1; j <= nextDays; j++) {
+            days += `<div class="next-date">${j}</div>`;
+            }
+            monthDays.innerHTML = days;
+        };               
+        renderCalendar();
+    }
+</script> 
+
+{% endblock javascripts %}

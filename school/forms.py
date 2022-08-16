@@ -35,7 +35,7 @@ class StaffCreateForm(forms.ModelForm):
 class StaffForm(forms.ModelForm):
     class Meta:
         model = sm.Staff    
-        exclude = ['UserID','SchoolID','StaffNo','StaffID']
+        exclude = ['UserID','SchoolID','StaffNo','StaffID','StaffPhoto']
 
 class ApplicationFeesForm(forms.ModelForm):
     class Meta:
@@ -56,16 +56,22 @@ class ApplicationForm(forms.ModelForm):
 class SchoolForm(forms.ModelForm):
     class Meta:
         model = sm.School
-        exclude = ['UserID','SchoolID','SchoolName','SchoolType','SchoolUsername','SchoolCode','Email']
+        exclude = ['UserID','SchoolID','SchoolName','SchoolType','SchoolUsername','SchoolCode','Email','SchoolLogo','SchoolSeal','SchoolSign']
 
 
 class StudentCreateForm(forms.ModelForm):
     class Meta:
         model=sm.Students
-        fields=['StudentName','Gender','StudentDOB','StudentMobileNo','Class','FatherName','MotherName','GaurdianName','Application']
+        fields=['StudentName','Gender','StudentDOB','StudentMobileNo','Class','FatherName','MotherName','GaurdianName']
 
 
 class StudentForm(forms.ModelForm):
     class Meta:
         model = sm.Students   
-        exclude = ['UserID','SchoolID','AdmissionNo','AdmissionID','Application','AdmissionDate']
+        exclude = ['UserID','SchoolID','AdmissionNo','AdmissionID','Application','AdmissionDate','StudentPhoto']
+
+
+class AttendanceForm(forms.ModelForm):
+    class Meta:
+        model=sm.Attendance
+        exclude=['AttendanceID','StudentID','AttendanceDate','Present','Halfday','Absent']

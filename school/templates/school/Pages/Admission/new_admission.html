@@ -181,19 +181,19 @@
                     <div>
                         <h3>Student List</h3>
 
-                            <table class="table table-hover">
+                            <table id="AdmissionData" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No.</th>
+                                        <th>AdmissionNo</th>
+                                        <th>AdmissionDate</th>
+                                        <th>StudentName</th>
+                                        {% comment %} <th>StudentMobileNo</th> {% endcomment %}
+                                        <th>Class</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    <thead>
-                                        <tr>
-                                            <th>Sr.No.</th>
-                                            <th>AdmissionNo</th>
-                                            <th>AdmissionDate</th>
-                                            <th>StudentName</th>
-                                            {% comment %} <th>StudentMobileNo</th> {% endcomment %}
-                                            <th>Class</th>
-                                            <th class="text-center">Actions</th>
-                                        </tr>
-                                    </thead>
                                     {% for student in student_list %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
@@ -274,5 +274,11 @@
         document.getElementById("id_StudentMobileNo").value=smobile;
         document.getElementById("id_Class").value=cls;
     }
+
+    $(document).ready(function() {
+        $('#AdmissionData').DataTable({
+        });
+    });
+    
 </script>
 {% endblock javascripts %}

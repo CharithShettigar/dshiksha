@@ -2,6 +2,10 @@ from django.urls import include, path
 from . import views
 from . import update_views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 urlpatterns = [
     path('', views.index, name="index"),
     path("accounts/login/", views.login_view, name="login"),
@@ -25,6 +29,11 @@ urlpatterns = [
     #student
     path('Student/StudentShow/<str:student_id>', views.student_info_show, name="school_student_info_show"),
 
+    # Attendance
+    path('Attendance/MarkAttendance', views.mark_attendance, name="student_mark_attendance"),
+    path('Attendance/ReportAttendance', views.attendance_list, name="student_attendance_info"),
+    path('Attendance/StudentAttendanceShow/<str:student_id>', views.student_attendance_show, name="student_attendance_info"),
+
 
     # Staff Paths
     path('Staff/CreateStaff', views.create_staff, name="school_create_staff"),
@@ -37,3 +46,7 @@ urlpatterns = [
     path('Update/UpdateStudentInfo/<str:student_id>',update_views.update_student,name="update_student_info"),
     
 ]
+
+if settings.DEBUG:
+    urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+

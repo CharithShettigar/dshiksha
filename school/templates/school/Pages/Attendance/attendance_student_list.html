@@ -1,0 +1,119 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Students Attendance Info | {{ school_name }} {% endblock title %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+
+{% block body %}
+<div class="content">
+    <div class="page-inner">
+    
+    <div class="row">     
+        <div class="col-md-6">
+            <div class="form-group">
+                <h3>Student Attendance Info</h3>
+                <div class="mb-3">
+                    <form action="/Attendance/ReportAttendance" method="post">
+                        {% csrf_token %}
+                        <label for="id_AssignClassID" class="form-label">Select Class</label>
+                        <select name="class_selected" id="id_AssignClassID" class="form-control">
+                            <option value=""> ----------- </option>
+                            {% for ac in assignclass_list %}
+                                <option value="{{ ac.AssignClassID }}">{{ac.Class.ClassList.ClassName}}-{{ac.Section.SectionName}}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Show</button>
+                        </div>    
+                    </form>
+                </div>
+            </div>                                                                       
+        </div>  
+    </div>
+
+    {% if student_data %}
+    <div class="row flex-grow">
+        <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+            <div class="card card-rounded mt-2 mr-3 ml-3">
+                <div class="card-header">
+                    <div class="card-title">
+                        Class:<label class="form-check-label">{{class_section_data.Class.ClassList.ClassName}}</label>
+                        Section:<label class="form-check-label">{{class_section_data.Section.SectionName}}</label>
+                        Total Students:  <label>{{total_students}}</label>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table id="StudentData" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Sr.No.</th>
+                                <th>Student Name</th>
+                                <th>Gender</th>
+                                <th>StudentMobileNo</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for student in student_data %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                <div>
+                                    {{ student.StudentName }} 
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {{ student.Gender.GenderName }}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {{ student.StudentMobileNo }} 
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div>
+                                    <a name="" id="" class="btn btn-dark p-2" href="/Attendance/StudentAttendanceShow/{{ student.AdmissionID }}" role="button">
+                                        <i class="fa fa-search"></i>
+                                        <i class="ml-2 fa">Attendance</i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-sm">
+            <h2>No student record found...</h2>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+
+{% endblock body %}
+
+{% block javascripts %}
+<script src="/static/assets/js/setting-demo2.js"></script>
+	<script >
+        $(document).ready(function() {
+            $('#StudentData').DataTable({
+            });
+        });
+    </script >
+
+{% endblock javascripts %}

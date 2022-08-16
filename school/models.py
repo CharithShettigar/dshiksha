@@ -1,8 +1,31 @@
+from datetime import datetime
+import os
 from django.db import models
 import uuid
 from dshiksha_erp import models as erp
 from main.models import User
 
+#upload file to static/uploads
+def filepath_school(request,filename):
+    old_file=filename
+    timenow=datetime.now().strftime("%Y%m%d%H%M%S")
+    # filename=f'{School.SchoolName}_{timenow}_{old_file}'
+    filename=f'{timenow}_{old_file}'
+    return os.path.join('uploads/school',filename)
+
+def filepath_staff(request,filename):
+    old_file=filename
+    timenow=datetime.now().strftime("%Y%m%d%H%M%S")
+    filename=f'{timenow}_{old_file}'
+    # filename=f'{Staff.StaffName}_{timenow}_{old_file}'
+    return os.path.join('uploads/staff',filename)
+    
+def filepath_student(request,filename):
+    old_file=filename
+    timenow=datetime.now().strftime("%Y%m%d%H%M%S")
+    filename=f'{timenow}_{old_file}'
+    # filename=f'{Students.StudentName}_{timenow}_{old_file}'
+    return os.path.join('uploads/student',filename)
 
 # Create your models here.
 class Class(models.Model):
@@ -13,7 +36,9 @@ class Class(models.Model):
 class School(models.Model):
     SchoolID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     SchoolName = models.CharField(max_length=100)
-    SchoolLogo = models.CharField(max_length=250)
+    SchoolLogo = models.ImageField(upload_to=filepath_school,null=True)
+    SchoolSeal = models.ImageField(upload_to=filepath_school,null=True)
+    SchoolSign = models.ImageField(upload_to=filepath_school,null=True)
     Pincode = models.ForeignKey(erp.PostOffice, on_delete=models.CASCADE)
     SchoolDISECode = models.CharField(max_length=100)
     SchoolType = models.CharField(max_length=100)
@@ -54,7 +79,7 @@ class Staff(models.Model):
     StaffName = models.CharField(max_length=100)
     StaffEmailID = models.EmailField(max_length=100)
     StaffMobile = models.CharField(max_length=10)
-    StaffPhoto = models.CharField(max_length=250)
+    StaffPhoto = models.ImageField(upload_to=filepath_staff,null=True)
     Gender = models.ForeignKey(erp.Gender, on_delete=models.CASCADE, null=True)
     DOB = models.DateField(null=True)
     BloodGroup = models.ForeignKey(erp.BloodGroup, on_delete=models.CASCADE, null=True)
@@ -66,18 +91,12 @@ class Staff(models.Model):
     Village = models.ForeignKey(erp.Village, on_delete = models.CASCADE, null=True)
     Pincode = models.ForeignKey(erp.PostOffice, on_delete = models.CASCADE, null=True)
     StaffWhatsAppNo = models.CharField(max_length=25)
-    # StaffWorkPost = models.CharField(max_length=100)
     Designation = models.ForeignKey(erp.Designation, on_delete = models.CASCADE, null=True)
     StaffQualification = models.ForeignKey(erp.StaffQualification, on_delete = models.CASCADE, null=True)
     Subject1 = models.ForeignKey(erp.StaffSubject, on_delete = models.CASCADE, related_name='Subject1', null=True)
     Subject2 = models.ForeignKey(erp.StaffSubject, on_delete = models.CASCADE, related_name='Subject2', null=True)
     DateOfAppointment = models.DateField(null=True)
     DateOfRetirement = models.DateField(null=True)
-    # ProvidentFund = models.BooleanField(default=False)
-    # ESI = models.BooleanField(default=False)
-    # ProfessionalTax = models.BooleanField(default=False)
-    # Gratuity = models.BooleanField(default=False)
-    # CautionDeposit = models.BooleanField(default=False)
     StaffNo = models.CharField(max_length=50)
     AcademicYear = models.ForeignKey(erp.AcademicYear, on_delete=models.CASCADE,null=True)
 
@@ -139,14 +158,16 @@ class Students(models.Model):
     PreviousSchoolName=models.CharField(max_length=100)
     SchoolID = models.ForeignKey(School, on_delete=models.CASCADE)
     Class = models.ForeignKey(Class, on_delete=models.CASCADE)
-    Application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    AssignedClass = models.ForeignKey(AssignClass, on_delete=models.CASCADE,null=True)
+    Application = models.ForeignKey(Application, on_delete=models.CASCADE,null=True)
 
     #student info
     StudentName = models.CharField(max_length=100)
     StudentDOB= models.DateField()
     Gender = models.ForeignKey(erp.Gender, on_delete=models.CASCADE, null=True)
     StudentMobileNo = models.CharField(max_length=30)
-    StudentPhoto=models.CharField(max_length=100)
+    StudentPhoto = models.ImageField(upload_to=filepath_student,null=True)
+    
     Village = models.ForeignKey(erp.Village, on_delete = models.CASCADE, null=True)
     Nationality=models.ForeignKey(erp.Nationality,on_delete=models.CASCADE,null=True)
     BloodGroup = models.ForeignKey(erp.BloodGroup,on_delete=models.CASCADE, null=True)
@@ -163,28 +184,39 @@ class Students(models.Model):
 
 
     #father info
-    FatherName = models.CharField(max_length=100)
-    FatherMobileNo = models.CharField(max_length=100)
-    FatherWhatsappNo = models.CharField(max_length=100)
-    FatherEmail = models.EmailField(max_length=100)
-    FatherQualification=models.CharField(max_length=100)
-    FatherOccupation=models.CharField(max_length=100)
+    FatherName = models.CharField(max_length=100,null=True)
+    FatherMobileNo = models.CharField(max_length=100,null=True)
+    FatherWhatsappNo = models.CharField(max_length=100,null=True)
+    FatherEmail = models.EmailField(max_length=100,null=True)
+    FatherQualification=models.CharField(max_length=100,null=True)
+    FatherOccupation=models.CharField(max_length=100,null=True)
     FatherIncome=models.FloatField(null=True)
 
     #Mother info
-    MotherName = models.CharField(max_length=100)
-    MotherMobileNo = models.CharField(max_length=100)
-    MotherWhatsappNo = models.CharField(max_length=100)
-    MotherEmail = models.EmailField(max_length=100)
-    MotherQualification=models.CharField(max_length=100)
-    MotherOccupation=models.CharField(max_length=100)
+    MotherName = models.CharField(max_length=100,null=True)
+    MotherMobileNo = models.CharField(max_length=100,null=True)
+    MotherWhatsappNo = models.CharField(max_length=100,null=True)
+    MotherEmail = models.EmailField(max_length=100,null=True)
+    MotherQualification=models.CharField(max_length=100,null=True)
+    MotherOccupation=models.CharField(max_length=100,null=True)
     MotherIncome=models.FloatField(null=True)
 
     #Guardian info
-    GaurdianName = models.CharField(max_length=100)
-    GaurdianMobileNo = models.CharField(max_length=100)
-    GaurdianWhatsappNo = models.CharField(max_length=100)
-    GaurdianEmail = models.EmailField(max_length=100)
-    GaurdianQualification=models.CharField(max_length=100)
-    GaurdianOccupation=models.CharField(max_length=100)
+    GaurdianName = models.CharField(max_length=100,null=True)
+    GaurdianMobileNo = models.CharField(max_length=100,null=True)
+    GaurdianWhatsappNo = models.CharField(max_length=100,null=True)
+    GaurdianEmail = models.EmailField(max_length=100,null=True)
+    GaurdianQualification=models.CharField(max_length=100,null=True)
+    GaurdianOccupation=models.CharField(max_length=100,null=True)
     GaurdianIncome=models.FloatField(null=True)
+
+
+# Attendance table
+
+class Attendance(models.Model):
+    AttendanceID = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    StudentID=models.ForeignKey(Students, on_delete=models.CASCADE)
+    AssignClass = models.ForeignKey(AssignClass, on_delete=models.CASCADE,null=True)
+    AttendanceDate=models.DateField()
+    AttendanceMark=models.CharField(max_length=100)
+    SchoolID = models.ForeignKey(School, on_delete=models.CASCADE)

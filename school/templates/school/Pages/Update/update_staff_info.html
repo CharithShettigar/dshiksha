@@ -27,12 +27,8 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="/Update/UpdateStaffInfo/{{ staff_data.StaffID }}" method="post">
+                        <form action="/Update/UpdateStaffInfo/{{ staff_data.StaffID }}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {% comment %} <div class="mb-3">
-                                <label for="" class="form-label"> School Code </label>
-                                {{ staff_form.SchoolCode | attr:"class=form-control" }}
-                            </div> {% endcomment %}
                             <div class="mb-3">
                                 <label for="" class="form-label"> StaffName</label>
                                 {{ staff_form.StaffName | attr:"class=form-control"}}
@@ -94,7 +90,12 @@
                             </div>
                             <div  class="mb-3">
                                 <label for="" class="form-label"> StaffPhoto</label>
-                                {{ staff_form.StaffPhoto | attr:"class=form-control"}}
+                                {% if staff_photo %}
+                                    <img src="{{staff_photo.url}}" class="avatar-img" alt="staff img">
+                                {% else %}
+                                    <div class="form-control">No staff Photo</div>
+                                {% endif %}
+                                <input type="file" name="staff_img" class="form-control"> 
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label"> StaffMobile</label>

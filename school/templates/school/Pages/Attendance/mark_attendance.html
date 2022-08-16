@@ -1,0 +1,289 @@
+{% extends 'school/base.html' %}
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+    Student Attendance
+{% endblock title %}
+
+{% block stylesheets %}
+
+<style>
+
+</style>
+
+{% endblock stylesheets %}
+
+{% block body %}
+
+<div class="content">
+    <div class="page-inner">
+        {% if messages %}
+            <div>
+                {% for message in messages %} 
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Error!</strong> {{ message.message }}
+                    </div>
+                {% endif %}
+                {% if message.tags == 'info' %}
+                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Success!</strong> {{ message.message }}
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Student Attendance</div>
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="row">
+                            <div class="col-lg-12 d-flex flex-column">
+                                <div class="row flex-grow">
+                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                                        <div class="card card-rounded mr-3 ml-3">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <form action="/Attendance/MarkAttendance" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form-type" value="select-class-date">
+                                                        
+                                                        
+                                                        <div class="row">
+                                                        <div class="col-sm ">
+                                                            
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label"> Select Class and Section </label>
+                                                                <select name="Class" id="id_Class" class="form-control">
+                                                                    <option value=""> ---------- </option>
+                                                                    {% for cs in class_section_list %}
+                                                                    <option value="{{ cs.AssignClassID }}"> 
+                                                                        {{cs.Class.ClassList.ClassName}}-{{ cs.Section.SectionName }} 
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select> 
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-sm">
+                                                            <div class="form-group">
+                                                                <label for="" class="form-label">Select Date</label>
+                                                                <input type="date" id="id_AttendanceDate" name='AttendanceDate' class="form-control">             
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary text-white"> Find Students  </button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if student_data %}
+                            
+                            <div class="col-lg-12 d-flex flex-column">
+                                <div class="row flex-grow">
+                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                                        <div class="card card-rounded mt-2 mr-3 ml-3">
+                                            <div class="card-body">
+
+                                            <form action="/Attendance/MarkAttendance" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="form-type" value="mark-attendance">
+                                                <input type="hidden" name="assign_class_id" value="{{assign_class_data}}">
+                                                Attendance Date:  <input type="date" name="attendance_date" value="{{attendance_date}}">
+                                                Class:<label class="form-check-label">{{class_section_data.Class.ClassList.ClassName}}</label>
+                                                Section:<label class="form-check-label">{{class_section_data.Section.SectionName}}</label>
+                                                Total Students:  <label>{{total_students}}</label>
+
+                                                
+                                                    {% for s in student_data %}
+
+                
+                                                                <div class="sname form-check">
+                                                                    <label class="form-check-label">{{s.StudentName}}</label>
+                                                                    <input type="hidden" name="student_id" value="{{s.AdmissionID}}">
+
+                                                                </div>
+
+                                                                
+                                                                <div class="ch_select mr-3 ml-3">
+                                                                    
+                                                                    <input class="form-check-input ml-3" type="radio" name="choice-{{s.AdmissionID}}" id="ch-{{s.AdmissionID}}-1" value="Present" checked>
+                                                                    <label class="form-check-label mr-3" for="ch-{{s.AdmissionID}}-1">Present</label>
+
+                                                                    <input class="form-check-input ml-3" type="radio" name="choice-{{s.AdmissionID}}" id="ch-{{s.AdmissionID}}-2" value="Half Day">
+                                                                    <label class="form-check-label mr-3" for="ch-{{s.AdmissionID}}-2">Half Day</label>
+
+                                                                    <input class="form-check-input ml-3" type="radio" name="choice-{{s.AdmissionID}}" id="ch-{{s.AdmissionID}}-3" value="Absent">
+                                                                    <label class="form-check-label mr-3" for="ch-{{s.AdmissionID}}-3">Absent</label>
+
+                                                                </div>
+                                                            
+
+                                                    {% endfor %}
+
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-primary text-white" id="submit_btn"> Save Attendance </button>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif report %}
+                                <div class="row flex-grow">
+                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                                        <div class="card card-rounded mt-2 mr-3 ml-3">
+                                            <div class="card-header">
+                                                <div class="card-title">List of Student with attendance</div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table id="AttendanceData" class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sr.No.</th>
+                                                            <th>StudentName</th>
+                                                            <th>Attendance Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for al in attendance_list %}
+                                                        <tr>
+                                                            <td>{{ forloop.counter }}</td>
+                                                            
+                                                            <td>
+                                                                <div>
+                                                                    {{ al.StudentID.StudentName }} 
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    {{ al.AttendanceMark }}
+                                                                </div>
+                                                            </td>
+                                                            
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 col-lg-12 stretch-card">
+                                        <div class="card card-rounded mt-2 mr-3 ml-3">
+                                            <div class="card-header">
+                                                <div class="card-title text-center">Attendance Report</div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table table-striped|sm|bordered|hover|inverse table-inverse table-responsive">
+                                                
+                                                    <tbody>
+                                                        <tr>
+                                                            <td scope="row"></td>
+                                                            <td>Date</td>
+                                                            <td>{{attendance_date}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td scope="row"></td>
+                                                            <td>Class</td>
+                                                            <td>{{class_section_data.Class.ClassList.ClassName}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td scope="row"></td>
+                                                            <td>Section</td>
+                                                            <td>{{class_section_data.Section.SectionName}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td scope="row"></td>
+                                                            <td>Total Present</td>
+                                                            <td>{{present_count}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td scope="row"></td>
+                                                            <td>Total Half Day</td>
+                                                            <td>{{halfday_count}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td scope="row"></td>
+                                                            <td>Total Absent</td>
+                                                            <td>{{absent_count}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td scope="row"></td>
+                                                            <td>Total Students</td>
+                                                            <td>{{total_students}}</td>
+                                                        </tr>
+                                                        
+                                                    </tbody>
+                                                </table>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="col-lg-12 d-flex flex-column">
+                                <div class="row flex-grow">
+                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                                        <div class="card card-rounded mt-2 mr-3 ml-3">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <h1>Please select a class with student data</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% endif %}
+
+
+                        
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block javascripts %}
+<script> 
+    var now=new Date;
+
+    $('#id_AttendanceDate').val(now.toJSON().slice(0,10));
+
+    var mixDate=now.toISOString().substring(0,10);
+    $('#id_AttendanceDate').prop('max',mixDate)
+
+    $(document).ready(function() {
+        $('#AttendanceData').DataTable({
+        });
+    });
+
+</script> 
+
+{% endblock javascripts %}
