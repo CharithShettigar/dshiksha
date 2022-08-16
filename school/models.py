@@ -162,6 +162,7 @@ class Students(models.Model):
     CasteCategory = models.ForeignKey(erp.CasteCategory, on_delete=models.CASCADE, null=True)
     Caste = models.ForeignKey(erp.Caste, on_delete=models.CASCADE, null=True)
     MotherTongue = models.ForeignKey(erp.MotherTongue, on_delete=models.CASCADE, null=True)
+    AssignedClass = models.ForeignKey(AssignClass, on_delete=models.CASCADE,null=True)
 
     # Address info
     AddressLine1 = models.CharField(max_length=100)
@@ -210,13 +211,14 @@ class AssignFeeAmount(models.Model):
 class CollectFee(models.Model):
     CollectFeeID=models.UUIDField(primary_key=True, default=uuid.uuid4)
     Admission = models.ForeignKey(Students, on_delete=models.CASCADE)
-    Class = models.ForeignKey(Class, on_delete=models.CASCADE)
-    Section = models.ForeignKey(erp.Section, on_delete=models.CASCADE)
+    AssignClass = models.ForeignKey(AssignClass, on_delete=models.CASCADE,null=True)
     School = models.ForeignKey(School, on_delete=models.CASCADE)
-    ModeOfPayment = models.ForeignKey(erp.ModeOfPayment,on_delete=models.CASCADE)
+    ModeOfPayment = models.ForeignKey(erp.ModeOfPayment,on_delete=models.CASCADE,null=True)
     RefferenceNO = models.CharField(max_length=100, null=True)
     Bank = models.ForeignKey(erp.Bank, on_delete=models.CASCADE, null=True)
     Online = models.ForeignKey(erp.Online, on_delete=models.CASCADE, null=True)
-    PaidAmount = models.FloatField(null=True)
-    Installment = models.ForeignKey(erp.Installment, on_delete=models.CASCADE)
-    PaymentStatus = models.CharField(max_length=100)
+    PaidAmount = models.FloatField()
+    Installment = models.ForeignKey(erp.Installment, on_delete=models.CASCADE,null=True)
+    PaymentStatus = models.CharField(max_length=100,null=True)
+    CollectFeeDate = models.DateField()
+    CollectFeeNo = models.CharField(max_length=100)

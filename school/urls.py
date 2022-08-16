@@ -17,7 +17,7 @@ urlpatterns = [
     # Application
     path('Application/AssignApplicationFees', views.assign_application_fees, name="school_assign_application_fees"),
     path('Application/NewApplication', views.student_application, name="school_student_application"),
-    path('Application/NewApplicationShow/<str:application_ID>', views.application_info_show, name="school_application_info_show"),
+    path('Application/NewApplicationShow/<str:application_ID>', views.application_info_show,name="school_application_info_show"),
 
     # Admission
     path('Admission/NewAdmission', views.student_admission, name="school_student_admission"),
@@ -34,6 +34,8 @@ urlpatterns = [
     # Fees
     path('Fees/AssignFeeAmount', views.assign_fee_amount, name="assign_fee_amount"),
     path('Fees/CollectFee', views.collect_fee, name="collect_fee"),
+    path('Fees/StudnetCollectFee/<str:student_id>', views.collect_fee_student, name="collect_fee_student"),
+    path('Fees/ShowCollectFee/<str:student_id>', views.fee_info_show,name="fee_info_show"),
 
     #update the information
     path('Update/UpdateSchoolInfo/<str:school_id>',update_views.update_school,name="update_school_info"),

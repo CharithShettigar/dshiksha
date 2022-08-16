@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from msilib.schema import Class
-from multiprocessing import context
+from multiprocessing import Value, context
 import uuid
 from django.utils.dateformat import DateFormat
 from django.shortcuts import render,redirect
@@ -12,6 +12,9 @@ from school import models as sm
 from main.models import UserTypes, User
 import dshiksha_erp.models as erp
 from django.core import serializers
+from django.db.models import Sum
+
+import school
 
 # Create your views here.
 
@@ -81,6 +84,7 @@ def dashboard(request):
     else:
         return redirect("/accounts/login/?redirect_to=/")
 
+#School
 def school_info(request):
     if request.user.is_authenticated:
         school_data = sm.School.objects.get(SchoolID = request.session['school_id'])
@@ -105,6 +109,7 @@ def school_info(request):
     else:
         return redirect("/accounts/login/?redirect_to=/School/SchoolInfo")
 
+#Student
 def assign_class(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -128,8 +133,15 @@ def assign_class(request):
                                 # print("Please verify your academic year")
 
                     #Create Appplication No Details
-                    if not sm.ApplicationNo.objects.filter(Class = sm.Class.objects.get(ClassID = cl).ClassID, School = sm.School.objects.get(SchoolID = request.session['school_id']).SchoolID, AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']).AcademicYearID).exists():
-                        sm.ApplicationNo(ApplicationNoID = uuid.uuid4(), Class = sm.Class.objects.get(ClassID = cl), School = sm.School.objects.get(SchoolID = request.session['school_id']), AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']), Amount = 0, ApplicationNo = 1).save()
+                    if not sm.ApplicationNo.objects.filter(Class = sm.Class.objects.get(ClassID = cl).ClassID, School = sm.School.objects.get(SchoolID = request.session['school_id']).SchoolID, 
+                    AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']).AcademicYearID).exists():
+                        sm.ApplicationNo(
+                            ApplicationNoID = uuid.uuid4(),
+                            Class = sm.Class.objects.get(ClassID = cl), 
+                            School = sm.School.objects.get(SchoolID = request.session['school_id']), 
+                            AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year']), 
+                            Amount = 0, 
+                            ApplicationNo = 1).save()
 
                 return redirect("/School/AssignClass")
         context = {
@@ -238,6 +250,7 @@ def application_info_show(request,application_ID):
     else:
         return redirect("/accounts/login/?redirect_to=/Application/NewApplication")
 
+#Admission
 def student_admission(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -317,6 +330,7 @@ def student_info_show(request,student_id):
     else:
         return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
 
+#Staff
 def create_staff(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -442,6 +456,11 @@ def assign_fee_amount(request):
         # for x in classobj_value:
         #     print("--------------",x.ClassID)
         #     print("--------------",x.ClassList.ClassName)
+        
+        total_Sum=sm.AssignFeeAmount.objects.filter(Class='32d9d1dde7544f66921258935d8a8e0a').aggregate(Sum('Amount'))
+        # total_Sum=sm.AssignFeeAmount.objects.filter(FeesType='').aggregate(sum('Amount'))
+        print("------------------",total_Sum) 
+        
         context = {
             "afa_form": afa_form,
             "subfee_list": md.SubFee.objects.all(),
@@ -454,5 +473,164 @@ def assign_fee_amount(request):
     else:
         return redirect("/accounts/login/>redirect_to=/Fees/AssignFeeAmount")
 
+def collect_fee_student(request,student_id):
+    if request.user.is_authenticated:
+        # student_data=None
+        # attendence_form=None
+        school_id = request.session['school_id']
+        collect_data=sm.CollectFee.objects.get(Admission = student_id)
+        student_datas=''
+        totalamount=0.0
+        PaidAmount=0.0
+        pendingamount=0.0
+        collectfee_form=fm.CollectFeeForm(request.POST)
+        classobj=sm.CollectFee.objects.get(Admission=student_id).AssignClass.Class
+        print("000000000--------------------",classobj)
+        total_Sum=sm.AssignFeeAmount.objects.filter(Class=classobj).aggregate(Sum('Amount'))
+        totalamount=total_Sum.get('Amount__sum')
+        print("0909090----------",totalamount)
+        if request.method == 'POST':
+            # if request.POST.get("form-type")=='collect-fee':
+            #     attendence_form=fm.CollectFeeForm(request.POST)
+            #     print("post------------",attendence_form)
+            # collectfee_form = fm.CollectFeeForm(request.POST)
+            print('hellowrold')
+            if collectfee_form.is_valid():
+
+                print("---------------",request.POST)
+                
+                collect_data.ModeOfPayment=collectfee_form.cleaned_data['ModeOfPayment']
+                collect_data.RefferenceNO=collectfee_form.cleaned_data['RefferenceNO']
+                collect_data.Bank=request.POST.get('BankID')
+                collect_data.Online=request.POST.get('OnlineID')
+                collect_data.Installment=collectfee_form.cleaned_data['Installment']
+                collect_data.PaidAmount=collectfee_form.cleaned_data['PaidAmount']
+                
+                if totalamount == collect_data.PaidAmount:
+                    collect_data.PaymentStatus="Paid"
+                elif totalamount != collect_data.PaidAmount:
+                    collect_data.PaymentStatus="Pending"
+                else:
+                    collect_data.PaymentStatus="No Updates"
+                
+                collect_data.CollectFeeNo=request.POST.get('collectfeeno'),
+                collect_data.CollectFeeDate=DateFormat(date.today()).format('Y-m-d'),
+                collect_data.save()
+                
+                print("-------------",collect_data.Bank)
+                print("-------------",collect_data.Online)
+                # return redirect(f"/Fees/CollectFee/")
+                # return redirect(f"/Student/StudentShow/{student_id}")
+            else:
+                # print("-----------",collectfee_form.cleaned_data['Student'])
+                print("---------------",collectfee_form.errors)
+        else:
+            collectfee_form = fm.CollectFeeForm(
+                initial = { 
+                    "ModeOfPayment": collect_data.ModeOfPayment, 
+                    "RefferenceNO": collect_data.RefferenceNO,
+                    "Bank": collect_data.Bank,
+                    "Online": collect_data.Online,
+                    "Installment": collect_data.Installment,
+                    "PaidAmount": collect_data.PaidAmount,
+                    "PaymentStatus": collect_data.PaymentStatus,
+                    })
+        if sm.CollectFee.objects.filter(SchoolID=school_id).exists():
+            old_collectfeeno=sm.CollectFee.objects.filter(SchoolID=school_id).order_by('-CollectFeeNo')[0].CollectFeeNo 
+            new_collectfeeno="{0:04}".format(int(old_collectfeeno) + int(1))
+        else:
+            new_collectfeeno="0001"
+
+        pendingamount=totalamount- PaidAmount
+        context = {
+            "class_section_list":sm.AssignClass.objects.filter(School=request.session['school_id']).order_by('Class'),
+            'student_data':student_datas,
+            "collect_data":collect_data,
+            "collectfeeno":new_collectfeeno,
+            "collectfee_date": DateFormat(date.today()).format('d-m-Y'),
+            "collectfee_form": collectfee_form,
+            "installment_list":md.Installment.objects.all(),
+            "modeofpayment_list":md.ModeOfPayment.objects.all(),
+            "bank_list":md.Bank.objects.all(),
+            "online_list":md.Online.objects.all(),
+            "collectfee_list": sm.CollectFee.objects.filter(AssignClass=request.POST.get('Class')),
+            "pendingamount":pendingamount,
+            "totalamount":totalamount,
+        }
+        return render(request, "school/Pages/Fees/collect_fee_main.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Fees/ShowCollectFee")
+
 def collect_fee(request):
-    pass
+    if request.user.is_authenticated:
+        # student_data=None
+        # attendence_form=None
+        student_datas=''
+        totalamount=0.0
+        PaidAmount=0.0
+        pendingamount=0.0
+        collectfee_form=fm.CollectFeeForm
+        if request.method == 'POST':
+            if request.POST.get("form-type") == 'select-class':
+                if not request.POST.get('Class')=="":
+                    
+                    print('1st output----------',sm.AssignClass.objects.get(AssignClassID=request.POST.get('Class')).Class.ClassList.ClassName)
+                    
+                    classobj=sm.AssignClass.objects.get(AssignClassID=request.POST.get('Class')).Class
+                    #creating student list for attendance
+                    print('---------------------------------',classobj)
+                
+                    sectionobj=sm.AssignClass.objects.get(AssignClassID=request.POST.get('Class')).Section
+                    print("-----------------------------------",sm.AssignClass.objects.get(AssignClassID=request.POST.get('Class')).Section.SectionName)
+                    # print("1.2th output--------------",Sectionobj)
+                    
+                    student_datas=sm.Students.objects.filter(AssignedClass=request.POST.get('Class')).order_by('StudentName')
+                    # student_data=sm.Students.objects.filter(Class=request.POST.get('Class')).order_by('StudentName')
+                    print('2nd ouput-----------',student_datas)
+                    
+                    total_Sum=sm.AssignFeeAmount.objects.filter(Class=classobj).aggregate(Sum('Amount'))
+                    totalamount=total_Sum.get('Amount__sum')
+                    print("3rd 2 --------------------------------",totalamount)
+                    # total_Sum=sm.AssignFeeAmount.objects.filter(Class=classobj).aggregate(Sum('Amount'))
+                    # total_Sum=sm.AssignFeeAmount.objects.filter(Class=sm.AssignClass.objects.get(Class=request.POST.get('Class'))).aggregate(Sum('Amount'))
+                    # total_Sum=sm.AssignFeeAmount.objects.filter(FeesType='').aggregate(sum('Amount'))
+                    print("3rd ouput------------------",total_Sum)
+                    
+                    for i in student_datas:
+                        print('6th ouput---------------------',i)
+                        print('7th ouput---------------------',sm.CollectFee.objects.get(Admission=i).PaidAmount)
+                        PaidAmount=sm.CollectFee.objects.get(Admission=i).PaidAmount
+
+                    # amount_paid=sm.CollectFee.objects.filter(Admission=student_datas).get(PaidAmount='PaidAmount')
+                    # amount_paid=sm.CollectFee.objects.filter(PaidAmount=request.POST.get('PaidAmount')).order_by('Admission__StudentName')
+                    # print("4th output-------------",sm.CollectFee.objects.filter(PaidAmount='PaidAmount')) 
+                
+                else:
+                    print('else-----------------',request.POST.get('Class'))
+                    messages.error(request, "Please select the class")   
+
+        pendingamount=totalamount- PaidAmount
+        context={
+            # "student_data":student_data,
+            "class_section_list":sm.AssignClass.objects.filter(School=request.session['school_id']).order_by('Class'),
+            'student_data':student_datas,
+            "collectfee_form": collectfee_form,
+            "collectfee_list": sm.CollectFee.objects.filter(AssignClass=request.POST.get('Class')),
+            "pendingamount":pendingamount,
+            "totalamount":totalamount,
+        }
+        return render(request, "school/Pages/Fees/collect_fee.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Fees/CollectFee")
+
+def fee_info_show(request,student_id):
+    if request.user.is_authenticated:
+        student_id_data=sm.CollectFee.objects.get(Admission = student_id)
+        print("=========================",student_id_data.PaidAmount)
+        context = {
+            "student_id_data":student_id_data,
+            # "ruppes":student_id_data.PaidAmount
+        }
+        return render(request, "school/Pages/Fees/show_collect_fee.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Fees/ShowCollectFee")

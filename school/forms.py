@@ -79,6 +79,6 @@ class AssignFeeAmountForm(forms.ModelForm):
 
 class CollectFeeForm(forms.ModelForm):
     class Meta:
-        models=sm.CollectFee
-        fields=['Admission','Class','Section','School','ModeOfPayment','RefferenceNO','Bank','Online','PaidAmount','Installment','PaymentStatus']
+        model=sm.CollectFee
+        exclude=['CollectFeeID','Admission','AssignClass','School','Bank','PaymentStatus','Online']
     

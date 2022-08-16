@@ -154,6 +154,14 @@
                                     {% endfor %}
                                 </select>                            
                             </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Assigned Class-Section</label>
+                                <select name="AssignedClass" id="id_AssignedClass" class="form-control">
+                                    {% for ac in assignedclass_list %}
+                                        <option value="{{ ac.AssignClassID }}"> {{ac.Class.ClassList.ClassName }}-{{ac.Section.SectionName}}</option>
+                                    {% endfor %}
+                                </select>                            
+                            </div>
 
                             <div  class="mb-3">
                                 <label for="" class="form-label"> FatherName</label>

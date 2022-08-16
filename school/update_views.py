@@ -6,6 +6,7 @@ from dshiksha_erp import models as md
 from school import models as sm
 from main.models import UserTypes, User
 import dshiksha_erp.models as erp
+import uuid
 
 # Update View methods
 
@@ -163,7 +164,8 @@ def update_staff(request, staff_id):
 def update_student(request, student_id):
     if request.user.is_authenticated:
         student_data = sm.Students.objects.get(AdmissionID = student_id)
-
+        assignclassobj=sm.Students.objects.get(AssignedClass=student_data.AssignedClass)
+        print('1st-------------------------',student_data.AssignedClass)
         if request.method == "POST":
             student_form = fm.StudentForm(request.POST)
             if student_form.is_valid():
@@ -177,7 +179,7 @@ def update_student(request, student_id):
                 student_data.BloodGroup=student_form.cleaned_data['BloodGroup']
                 student_data.Religion=student_form.cleaned_data['Religion']
                 student_data.CasteCategory=student_form.cleaned_data['CasteCategory']
-                student_data.StudentName=student_form.cleaned_data['StudentName']
+                student_data.PreviousSchoolName=student_form.cleaned_data['PreviousSchoolName']
                 student_data.MotherTongue=student_form.cleaned_data['MotherTongue']
                 student_data.Caste=student_form.cleaned_data['Caste']
                 student_data.AddressLine1=student_form.cleaned_data['AddressLine1']
@@ -185,6 +187,7 @@ def update_student(request, student_id):
                 student_data.Village=student_form.cleaned_data['Village']
                 student_data.Pincode=student_form.cleaned_data['Pincode']
                 student_data.Class=student_form.cleaned_data['Class']
+                student_data.AssignedClass=student_form.cleaned_data['AssignedClass']
                 student_data.FatherName=student_form.cleaned_data['FatherName']
                 student_data.FatherMobileNo=student_form.cleaned_data['FatherMobileNo']
                 student_data.FatherWhatsappNo=student_form.cleaned_data['FatherWhatsappNo']
@@ -207,6 +210,20 @@ def update_student(request, student_id):
                 student_data.GaurdianOccupation=student_form.cleaned_data['GaurdianOccupation']
                 student_data.GaurdianIncome=student_form.cleaned_data['GaurdianIncome']
                 student_data.save()
+                
+                if not sm.CollectFee.objects.filter(Admission=student_id, School = sm.School.objects.get(SchoolID = request.session['school_id']).SchoolID).exists():
+                    sm.CollectFee(
+                        CollectFeeID=uuid.uuid4(),
+                        Admission=sm.Students.objects.get(AdmissionID=student_id), 
+                        AssignClass=student_data.AssignedClass,                        
+                        School=sm.School.objects.get(SchoolID = request.session['school_id']),
+                        PaymentStatus="No Updates",
+                        PaidAmount=0
+                        ).save()
+                else:
+                    print("alredy created")
+                # print('1st-----------------------',sm.Students.objects.get(AdmissionID=student_id))
+
                 return redirect(f"/Student/StudentShow/{student_id}")
             else:
                 print("-----------",student_form.cleaned_data['StudentName'])
@@ -257,7 +274,8 @@ def update_student(request, student_id):
             "caste_list":md.Caste.objects.all(),
             "religion_list":md.Religion.objects.all(),
             "castecategory_list":md.CasteCategory.objects.all(),
-            "class_list":sm.Class.objects.all(),
+            "class_list":sm.Class.objects.filter(ClassID=student_data.Class.ClassID),
+            "assignedclass_list":sm.AssignClass.objects.filter(Class=student_data.Class.ClassID,School=request.session['school_id']),
             "mothertongue_list":md.MotherTongue.objects.all(),
             "nationality_list":md.Nationality.objects.all(),
             "village_list":md.Village.objects.all(),
