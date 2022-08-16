@@ -21,7 +21,21 @@ def index(request):
 # Route for Dashboard page
 def dashboard(request):
     if request.user.is_authenticated and request.user.is_superuser:
-        return render(request, 'dshiksha_erp/Pages/dashboard.html')
+        context = {
+        "school_count":sm.School.objects.all().count(),
+        "state_count":md.State.objects.all().count(),
+        "district_count":md.District.objects.all().count(),
+        "village_count":md.Village.objects.all().count(),
+        "taluk_count":md.Taluk.objects.all().count(),
+        "area_count":md.Area.objects.all().count(),
+        "staff_count":sm.Staff.objects.all().count(),
+        "student_count":sm.Students.objects.all().count(),
+        "student_boys_count":sm.Students.objects.filter(Gender__GenderName ='Male').count(),
+        "student_girls_count":sm.Students.objects.filter(Gender__GenderName ='Female').count(),
+        "staff_boys_count":sm.Staff.objects.filter(Gender__GenderName ='Male').count(),
+        "staff_girls_count":sm.Staff.objects.filter(Gender__GenderName ='Female').count(),
+        }
+        return render(request, 'dshiksha_erp/Pages/dashboard.html',context)
     else:
         return redirect("/")
 
@@ -129,6 +143,44 @@ def add_state(request):
     else:
         return redirect("/accounts/login/?redirect_to=/Settings/AddState")
 
+# admin 
+# def create_superuser(request):
+    # if request.user.is_authenticated:
+    #     if request.method == 'POST':
+    #         superuer_form = fm.SchoolForm(request.POST)
+    #         if school_school_form.is_valid():
+    #             if sm.School.objects.filter(SchoolName=school_school_form.cleaned_data['SchoolName'],
+    #                                          Email=school_school_form.cleaned_data['Email']).exists():
+    #                 messages.error(request, "School Already Present")
+    #             elif sm.School.objects.filter(SchoolName=school_school_form.cleaned_data['SchoolName']).exists():
+    #                 messages.error(request, "School Name already present")
+    #             elif sm.School.objects.filter(Email=school_school_form.cleaned_data['Email']).exists():
+    #                 messages.error(request, "School Email already present")
+    #             elif sm.School.objects.filter(SchoolCode=school_school_form.cleaned_data['SchoolCode']).exists():
+    #                 messages.error(request, "School Code already present")
+    #             elif sm.School.objects.filter(SchoolUsername=school_school_form.cleaned_data['SchoolUsername']).exists():
+    #                 messages.error(request, "School Username already present")
+    #             else:
+    #                 user = User.objects.create_user(email=school_school_form.cleaned_data['Email'],
+    #                                                 first_name=school_school_form.cleaned_data['SchoolName'],
+    #                                                 username=school_school_form.cleaned_data['SchoolCode'],
+    #                                                 password=school_school_form.cleaned_data['Password'],
+    #                                                 UserType=UserTypes.objects.get(UserTypeName="School").UserTypeID)
+    #                 redirect("/School/create_school")
+    #         else:
+    #             print(school_school_form.errors)
+    #     else:
+    #         school_school_form = fm.SchoolForm()
+    #     context = {
+    #         "school_form": school_school_form,
+    #         "village_list": md.Village.objects.all(),
+    #         "post_office_list": md.PostOffice.objects.all(),
+    #         "school_list": sm.School.objects.all(),
+    #         "academic_year_list": md.AcademicYear.objects.all(),
+    #     }
+    #     return render(request, "dshiksha_erp/Pages/School/create_school.html", context)
+    # else:
+    #     return redirect("/accounts/login/?redirect_to=/School/create_school")
 
 def add_academic_year(request):
     if request.user.is_authenticated:
@@ -192,6 +244,27 @@ def add_nationality(request):
     else:
         return redirect("/accounts/login/?redirect_to=/Settings/AddNationality")
 
+def create_area(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            area_form = fm.AreaForm(request.POST)
+            if area_form.is_valid():
+                if md.Area.objects.filter(AreaType = area_form.cleaned_data['AreaType']).exists():
+                    messages.error(request, "Area Already exists")
+                else:
+                    md.Area(AreaID = uuid.uuid4(), AreaType = area_form.cleaned_data['AreaType']).save()
+                    return redirect("/Settings/CreateArea")
+            else:
+                print(area_form.errors)
+        else:
+            area_form = fm.AreaForm()
+        context = {
+            "area_form": area_form,
+            "area_list": md.Area.objects.all(),
+        }
+        return render(request, "dshiksha_erp/Pages/Settings/create_area.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Settings/CreateArea")
 
 def add_mother_tongue(request):
     if request.user.is_authenticated:
@@ -294,12 +367,12 @@ def add_designation(request):
                 if designation_form.is_valid():
                     md.Designation(DesignationID=uuid.uuid4(),
                                    DesignationName=designation_form.cleaned_data['DesignationName'].capitalize()).save()
-                    return redirect("/School/AddDesignation")
+                    return redirect("/Staff/AddDesignation")
             elif request.POST.get('form-type') == 'staff-subject-form':
                 if staff_subject_form.is_valid():
                     md.StaffSubject(StaffSubjectID=uuid.uuid4(), StaffSubjectName=staff_subject_form.cleaned_data[
                         'StaffSubjectName'].capitalize()).save()
-                    return redirect("/School/AddDesignation")
+                    return redirect("/Staff/AddDesignation")
         else:
             designation_form = fm.DesignationForm()
             staff_subject_form = fm.StaffSubjectForm()
@@ -309,9 +382,9 @@ def add_designation(request):
             "staff_subject_form": staff_subject_form,
             "staff_subject_list": md.StaffSubject.objects.all(),
         }
-        return render(request, "dshiksha_erp/Pages/School/add_subject.html", context)
+        return render(request, "dshiksha_erp/Pages/Staff/add_subject.html", context)
     else:
-        return redirect("/accounts/login/?redirect_to=/School/AddDesignation")
+        return redirect("/accounts/login/?redirect_to=/Staff/AddDesignation")
 
 # Create Subject
 def add_subject(request):
@@ -336,57 +409,66 @@ def add_subject(request):
 def create_school(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            cbse_school_form = fm.SchoolForm(request.POST)
-            if cbse_school_form.is_valid():
-                if sm.School.objects.filter(SchoolName=cbse_school_form.cleaned_data['SchoolName'],
-                                             Email=cbse_school_form.cleaned_data['Email']).exists():
+            # print("-----------",request.POST)
+            # print("------------------",request.FILES['school_img'])
+            school_school_form = fm.SchoolForm(request.POST)
+            if school_school_form.is_valid():
+                if sm.School.objects.filter(SchoolName=school_school_form.cleaned_data['SchoolName'],
+                                             Email=school_school_form.cleaned_data['Email']).exists():
+                    print("-------School Already Present")
                     messages.error(request, "School Already Present")
-                elif sm.School.objects.filter(SchoolName=cbse_school_form.cleaned_data['SchoolName']).exists():
-                    messages.error(request, "School Name already present")
-                elif sm.School.objects.filter(Email=cbse_school_form.cleaned_data['Email']).exists():
+                elif sm.School.objects.filter(Email=school_school_form.cleaned_data['Email']).exists():
+                    print("-------School Email already present")
                     messages.error(request, "School Email already present")
-                elif sm.School.objects.filter(SchoolCode=cbse_school_form.cleaned_data['SchoolCode']).exists():
+                elif sm.School.objects.filter(SchoolCode=school_school_form.cleaned_data['SchoolCode']).exists():
+                    print("-------School Code already present")
                     messages.error(request, "School Code already present")
-                elif sm.School.objects.filter(SchoolUsername=cbse_school_form.cleaned_data['SchoolUsername']).exists():
+                elif sm.School.objects.filter(SchoolUsername=school_school_form.cleaned_data['SchoolUsername']).exists():
+                    print("-------School Username already present")
                     messages.error(request, "School Username already present")
                 else:
-                    user = User.objects.create_user(email=cbse_school_form.cleaned_data['Email'],
-                                                    first_name=cbse_school_form.cleaned_data['SchoolName'],
-                                                    username=cbse_school_form.cleaned_data['SchoolCode'],
-                                                    password=cbse_school_form.cleaned_data['Password'],
+                    user = User.objects.create_user(email=school_school_form.cleaned_data['Email'],
+                                                    first_name=school_school_form.cleaned_data['SchoolName'],
+                                                    username=school_school_form.cleaned_data['SchoolCode'],
+                                                    password=school_school_form.cleaned_data['Password'],
                                                     UserType=UserTypes.objects.get(UserTypeName="School").UserTypeID)
-                    school_data = sm.School(SchoolID=uuid.uuid4(),
-                                            SchoolName=cbse_school_form.cleaned_data['SchoolName'].capitalize(),
-                                            SchoolType="SCHOOL", Email=cbse_school_form.cleaned_data['Email'],
-                                            Village=cbse_school_form.cleaned_data['Village'],
-                                            Pincode=cbse_school_form.cleaned_data['Pincode'],
-                                            UserID=User.objects.get(UserID=user.UserID),
-                                            SchoolUsername=cbse_school_form.cleaned_data['SchoolUsername'],
-                                            SchoolCode=cbse_school_form.cleaned_data['SchoolCode'],
-                                            CurrentAcademicYear = cbse_school_form.cleaned_data['CurrentAcademicYear'], # Add academic Year support in web page
-                                            Landline=cbse_school_form.cleaned_data['Landline'],
+                    print("----------",user)
+                    sm.School(
+                        SchoolID=uuid.uuid4(),
+                        SchoolName=school_school_form.cleaned_data['SchoolName'].capitalize(),
+                        SchoolType="SCHOOL", 
+                        Email=school_school_form.cleaned_data['Email'],
+                        Village=school_school_form.cleaned_data['Village'],
+                        Pincode=school_school_form.cleaned_data['Pincode'],
+                        UserID=User.objects.get(UserID=user.UserID),
+                        SchoolUsername=school_school_form.cleaned_data['SchoolUsername'],
+                        SchoolCode=school_school_form.cleaned_data['SchoolCode'],
+                        SchoolLogo=request.FILES['school_img'],
+                        CurrentAcademicYear = school_school_form.cleaned_data['CurrentAcademicYear'], # Add academic Year support in web page
+                        Landline=school_school_form.cleaned_data['Landline'],
                                             
-                                            SyllabusType=cbse_school_form.cleaned_data['SyllabusType'],
-                                            
-                                            AccountantName=cbse_school_form.cleaned_data['AccountantName'],
-                                            AccountantEmail = cbse_school_form.cleaned_data['AccountantEmail'],
-                                            AccountantMobile = cbse_school_form.cleaned_data['AccountantMobile'],
-                                            AccountantWhatsAppNo = cbse_school_form.cleaned_data['AccountantWhatsAppNo'],
+                        SyllabusType=school_school_form.cleaned_data['SyllabusType'],
 
-                                            CorrespondentFirstName = cbse_school_form.cleaned_data['CorrespondentFirstName'],
-                                            CorrespondentLastName =cbse_school_form.cleaned_data['CorrespondentLastName'],
-                                            CorrespondentEmail = cbse_school_form.cleaned_data['CorrespondentEmail'],
-                                            CorrespondentMobile = cbse_school_form.cleaned_data['CorrespondentMobile'],
-                                            CorrespondentWhatsAppNo = cbse_school_form.cleaned_data['CorrespondentWhatsAppNo'])#,
-                                            #EstDate= cbse_school_form.cleaned_data['EstDate'])
-                    school_data.save()
+                        AccountantName=school_school_form.cleaned_data['AccountantName'],
+                        AccountantEmail = school_school_form.cleaned_data['AccountantEmail'],
+                        AccountantMobile = school_school_form.cleaned_data['AccountantMobile'],
+                        AccountantWhatsAppNo = school_school_form.cleaned_data['AccountantWhatsAppNo'],
+
+                        CorrespondentFirstName = school_school_form.cleaned_data['CorrespondentFirstName'],
+                        CorrespondentLastName =school_school_form.cleaned_data['CorrespondentLastName'],
+                        CorrespondentEmail = school_school_form.cleaned_data['CorrespondentEmail'],
+                        CorrespondentMobile = school_school_form.cleaned_data['CorrespondentMobile'],
+                        CorrespondentWhatsAppNo = school_school_form.cleaned_data['CorrespondentWhatsAppNo']
+                        ).save()
+                    # print('----------',school_data)
+                    # school_data.save()
                     redirect("/School/create_school")
             else:
-                print(cbse_school_form.errors)
+                print(school_school_form.errors)
         else:
-            cbse_school_form = fm.SchoolForm()
+            school_school_form = fm.SchoolForm()
         context = {
-            "school_form": cbse_school_form,
+            "school_form": school_school_form,
             "village_list": md.Village.objects.all(),
             "post_office_list": md.PostOffice.objects.all(),
             "school_list": sm.School.objects.all(),
@@ -452,7 +534,7 @@ def add_class(request):
     else:
         return redirect("/accounts/login/?redirect_to=/School/CreateClass")
 
-def cbse_assign_class_level(request):
+def school_assign_class_level(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             class_form = fm.ClassForm(request.POST)
@@ -509,7 +591,7 @@ def add_staff_qualification(request):
                     md.StaffQualification(StaffQualificationID=uuid.uuid4(),
                                           StaffQualificationName=staff_qualification_form.cleaned_data[
                                               'StaffQualificationName']).save()
-                    return redirect("/School/AddStaffQualification")
+                    return redirect("/Staff/AddStaffQualification")
                 else:
                     print("Something went wrong while adding the staff qualification data")
             else:
@@ -521,9 +603,9 @@ def add_staff_qualification(request):
             "staff_qualification_form": staff_qualification_form,
             "staff_qualification_list": md.StaffQualification.objects.all(),
         }
-        return render(request, "dshiksha_erp/Pages/School/add_staff_qualification.html", context)
+        return render(request, "dshiksha_erp/Pages/Staff/add_staff_qualification.html", context)
     else:
-        return redirect("/accounts/login/?redirect_to=/School/AddStaffQualification")
+        return redirect("/accounts/login/?redirect_to=/Staff/AddStaffQualification")
 
 def add_school_affiliation(request):
     if request.user.is_authenticated:
@@ -548,3 +630,108 @@ def add_school_affiliation(request):
         return render(request, "dshiksha_erp/Pages/School/add_school_affiliation.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/School/AddSchoolAffiliation")
+
+# Fees Section
+#Create Fees Types
+def create_fees_type(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            ft_form = fm.FeesTypeForm(request.POST)
+            installment_form = fm.InstallmentForm(request.POST)
+
+            if request.POST.get('form-type') == "fees-type-form":
+                if ft_form.is_valid():
+                    if not md.FeesType.objects.filter(FeesTypeName = ft_form.cleaned_data['FeesTypeName']).exists() and not md.FeesType.objects.filter(FeeTypeCode = ft_form.cleaned_data['FeeTypeCode']).exists():
+                        md.FeesType(FeesTypeID = uuid.uuid4(), FeesTypeName = ft_form.cleaned_data['FeesTypeName'], FeeTypeCode = ft_form.cleaned_data['FeeTypeCode']).save()
+                        return redirect("/Fees/CreateFeesType")
+                    else:
+                        print("Something went wrong")
+                        messages.error(request, "Fees Type already exists")
+                else:
+                    print(ft_form.errors)
+            elif request.POST.get("form-type") == "installment-form":
+                if installment_form.is_valid():
+                    if not md.Installment.objects.filter(InstallmentName = installment_form.cleaned_data['InstallmentName']).exists():
+                        md.Installment(InstallmentID = uuid.uuid4(), InstallmentName = installment_form.cleaned_data['InstallmentName']).save()
+                        return redirect("/Fees/CreateFeesType")
+                    else:
+                        messages.error(request, "Installment already exists")
+                else:
+                    print(installment_form.errors)
+        else:
+            ft_form = fm.FeesTypeForm()
+            installment_form = fm.InstallmentForm()
+        context = {
+            "ft_form": ft_form,
+            "ft_list": md.FeesType.objects.all(),
+            "installment_form": installment_form,
+            "installment_list": md.Installment.objects.all(),
+        }
+        return render(request, "dshiksha_erp/Pages/Fees/create_fees_type.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Fees/create_fees_type")
+        
+#Create Sub Fees Type 
+def create_sub_fee_type(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            sft_form = fm.SubFeeForm(request.POST)
+            if sft_form.is_valid():
+                md.SubFee(SubFeeID=uuid.uuid4(), SubFeeName=sft_form.cleaned_data['SubFeeName'].capitalize(), FeesType=sft_form.cleaned_data['FeesType']).save()
+                return redirect("/Fees/CreateSubFeesType")
+            else:
+                print("error while submitting the sub fee  form")
+        else:
+            sft_form = fm.SubFeeForm()
+        context = {
+            "sft_form": sft_form,
+            "sft_list": md.SubFee.objects.all(),
+            "fs_list": md.FeesType.objects.all().order_by('FeesTypeName'),
+        }
+        return render(request, 'dshiksha_erp/Pages/Fees/create_sub_fee_type.html', context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Fees/CreateSubFeesType")
+
+def create_bank(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            bank_form = fm.BankForm(request.POST)
+            online_form=fm.OnlineForm(request.POST)
+            if request.POST.get('form-type') == "bank-form":
+                if bank_form.is_valid():
+                    if md.Bank.objects.filter(OrderID=bank_form.cleaned_data['OrderID']).exists():
+                        messages.error(request, "Order ID Already exists")
+                    else:
+                        print(bank_form.cleaned_data)
+                        md.Bank(BankID=uuid.uuid4(),BankName=bank_form.cleaned_data['BankName'].upper(),
+                                    OrderID=bank_form.cleaned_data['OrderID']).save()
+                        return redirect("/Fees/CreateBank")
+                else:
+                    print("Error while submitting the bank form")
+                    print(bank_form.errors)
+
+            elif request.POST.get('form-type')=="online-form":
+                if online_form.is_valid():
+                    if md.Online.objects.filter(OrderID=online_form.cleaned_data['OrderID']).exists():
+                        messages.error(request, "Order ID Already exists")
+                    else:
+                        print(online_form.cleaned_data)
+                        md.Online(OnlineID=uuid.uuid4(), OnlineAppName=online_form.cleaned_data['OnlineAppName'].upper(),OrderID=online_form.cleaned_data['OrderID']).save()
+                        return redirect("/Fees/CreateBank")
+                else:
+                    print("Error while submitting the bank form")
+                    print(online_form.errors)
+        else:
+            bank_form = fm.BankForm(initial = {'OrderID' : md.Bank.objects.count() + 1})
+            bank_list = md.Bank.objects.all().order_by("OrderID")
+            online_form = fm.OnlineForm(initial = {'OrderID' : md.Online.objects.count() + 1})
+            online_list = md.Online.objects.all().order_by("OrderID")
+        context = {
+            "bank_form": bank_form,
+            "bank_list": bank_list,
+            "online_form": online_form,
+            "online_list": online_list,
+        }
+        return render(request, "dshiksha_erp/Pages/Fees/create_bank.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Fees/CreateBank")

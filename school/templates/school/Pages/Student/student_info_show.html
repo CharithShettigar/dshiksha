@@ -27,14 +27,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>student No</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ student.studentNo }}</td>
-                                        </tr>
-                                        <tr>
                                             <td>student Photo</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ student.StudentPhoto}}</td>
+                                            <td><div class="avatar avatar-xxl"> <img src="{{student.StudentPhoto.url}}" class="avatar-img" alt="student-img"> </div></td>
                                         </tr>
                                         <tr>
                                             <td>Gender</td>
@@ -76,6 +71,25 @@
                                             <td class="fw-bold">:</td>
                                             <td class="fw-bold">{{student.MotherTongue.MotherTongueName}}</td>
                                         </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Class Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Class</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.Class.ClassList.ClassName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Section</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.AssignedClass.Section.SectionName}}</td>
+                                        </tr>
+                                        
                                     </tbody>
                                 </table>
 
@@ -201,7 +215,7 @@
                                         <tr>
                                             <td>Mother Occupation</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ student.FatherOccupation }}</td>
+                                            <td class="fw-bold">{{ student.MotherOccupation }}</td>
                                         </tr>
                                         <tr>
                                             <td>Mother Income</td>
@@ -244,7 +258,7 @@
                                         <tr>
                                             <td>Gaurdian Occupation</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ student.FatherOccupation }}</td>
+                                            <td class="fw-bold">{{ student.GaurdianOccupation }}</td>
                                         </tr>
                                         <tr>
                                             <td>Gaurdian Income</td>

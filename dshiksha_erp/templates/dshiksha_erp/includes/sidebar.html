@@ -1,172 +1,200 @@
-		<!-- Sidebar -->
-		<div class="sidebar sidebar-style-2" data-background-color="dark">	
-			<div class="sidebar-wrapper scrollbar scrollbar-inner">
-				<div class="sidebar-content">
+<!-- Sidebar -->
+<div class="sidebar sidebar-style-2" data-background-color="dark">
+	<div class="sidebar-wrapper scrollbar scrollbar-inner">
+		<div class="sidebar-content">
 
-				{% comment %} {% if request.user.is_authenticated %}	 {% endcomment %}
-					<div class="user">
-						<div class="avatar-sm float-left mr-2">
-							
-							<span class="avatar-title rounded-circle text-warning fw-bold">RC</span>
-									
-						</div>
-						
-						<div class="info">
-							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span>
-									{{ request.user.username }}
-									<span class="user-level">
-										{{ request.user.Email }}
-									</span>
-									<span class="caret"></span>
-								</span>
-							</a>
-							<div class="clearfix"></div>
+			{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
+			<div class="user">
+				<div class="avatar-sm float-left mr-2">
 
-							<div class="collapse in" id="collapseExample">
-								<ul class="nav">
-									<li>
-										<a href="/accounts/logout">
-											<span class="link-collapse">logout</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<ul class="nav nav-primary">
-						<li class="nav-item {% if 'index' in segment %} active {% endif %}">
-							<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-								<i class="fas fa-home"></i>
-								<p>Dashboard</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="dashboard">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/Dashboard/AdminData">
-											<span class="sub-item">Dashboard</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-<!-- School -->
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#school">
-								<i class="fas fa-layer-group"></i>
-								<p>School</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="school">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/School/CreateClass">
-											<span class="sub-item">Create Class</span>
-										</a>
-									</li>
-									<li>
-										<a href="/School/AssignClassLevel">
-											<span class="sub-item">Assign Class Level</span>
-										</a>
-									</li>
-									<li>
-										<a href="/School/AddDesignation">
-											<span class="sub-item">Add Designation</span>
-										</a>
-									</li>
-									<li>
-										<a href="/School/AddStaffQualification">
-											<span class="sub-item">Add Staff Qualification</span>
-										</a>
-									</li>
-									<li>
-										<a href="/School/CreateInstitutionLevel">
-											<span class="sub-item">Add Institution Level</span>
-										</a>
-									</li>
-									<li>
-										<a href="/School/AddSchoolAffiliation">
-											<span class="sub-item">Add School Affiliation</span>
-										</a>
-									</li>
-									<li>
-										<a href="/School/create_school">
-											<span class="sub-item">Create School</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-<!-- Fees -->
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#fees">
-								<i class="fas fa-layer-group"></i>
-								<p>Fees</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="fees">
-								<ul class="nav nav-collapse">
-									<li>
-										{% comment %} <a href="/Fees/CreateFeesType">
-											<span class="sub-item">Create Fees Type</span>
-										</a> {% endcomment %}
-									</li>
-								</ul>
-							</div>
-						</li>
-<!-- Settings -->
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#base">
-								<i class="fas fa-layer-group"></i>
-								<p>Settings</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="base">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/Settings/AddState">
-											<span class="sub-item">Add State</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Settings/AddAcademicYear">
-											<span class="sub-item">Add Academic Year</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Settings/AddNationality">
-											<span class="sub-item">Add Nationality</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Settings/AddMotherTongue">
-											<span class="sub-item">Add Mother Tongue</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Settings/AddReligion">
-											<span class="sub-item">Add Religion</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Settings/AddPostOffice">
-											<span class="sub-item">Add Post Office</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<!-- </li> -->
+					<span class="avatar-title rounded-circle text-warning fw-bold">RC</span>
 
-						<li class="nav-section">
-							<span class="sidebar-mini-icon">
-								<i class="fa fa-ellipsis-h"></i>
+				</div>
+
+				<div class="info">
+					<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+						<span>
+							{{ request.user.username }}
+							<span class="user-level">
+								{{ request.user.Email }}
 							</span>
-						</li>						
-					</ul>
+							<span class="caret"></span>
+						</span>
+					</a>
+					<div class="clearfix"></div>
+
+					<div class="collapse in" id="collapseExample">
+						<ul class="nav">
+							<li>
+								<a href="/accounts/logout">
+									<span class="link-collapse">logout</span>
+								</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
+			<ul class="nav nav-primary">
+				<li class="nav-item {% if 'index' in segment %} active {% endif %}">
+					<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+						<i class="fas fa-home"></i>
+						<p>Admin</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="dashboard">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/Dashboard/AdminData">
+									<span class="sub-item">Dashboard</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<!-- School -->
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#school">
+						<i class="fas fa-layer-group"></i>
+						<p>School</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="school">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/School/CreateClass">
+									<span class="sub-item">Create Class</span>
+								</a>
+							</li>
+							<li>
+								<a href="/School/AssignClassLevel">
+									<span class="sub-item">Assign Class Level</span>
+								</a>
+							</li>
+							<li>
+								<a href="/School/CreateInstitutionLevel">
+									<span class="sub-item">Add Institution Level</span>
+								</a>
+							</li>
+							<li>
+								<a href="/School/AddSchoolAffiliation">
+									<span class="sub-item">Add School Affiliation</span>
+								</a>
+							</li>
+							<li>
+								<a href="/School/create_school">
+									<span class="sub-item">Create School</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+
+				<!-- Staff -->
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#staff">
+						<i class="fas fa-layer-group"></i>
+						<p>Staff</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="staff">
+						<ul class="nav nav-collapse">
+
+							<li>
+								<a href="/Staff/AddDesignation">
+									<span class="sub-item">Add Designation</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Staff/AddStaffQualification">
+									<span class="sub-item">Add Staff Qualification</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+
+				<!-- Fees -->
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#fees">
+						<i class="fas fa-layer-group"></i>
+						<p>Fees</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="fees">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/Fees/CreateFeesType">
+									<span class="sub-item">Create Fees Type</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Fees/CreateSubFeesType">
+									<span class="sub-item">Create Sub Fees Type</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Fees/CreateBank">
+									<span class="sub-item">Create Bank & Online App</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<!-- Settings -->
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#base">
+						<i class="flaticon-settings"></i>
+						<p>Settings</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="base">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/Settings/AddState">
+									<span class="sub-item">Add State</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Settings/CreateArea">
+									<span class="sub-item">Add Area</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Settings/AddAcademicYear">
+									<span class="sub-item">Add Academic Year</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Settings/AddNationality">
+									<span class="sub-item">Add Nationality</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Settings/AddMotherTongue">
+									<span class="sub-item">Add Mother Tongue</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Settings/AddReligion">
+									<span class="sub-item">Add Religion</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Settings/AddPostOffice">
+									<span class="sub-item">Add Post Office</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+
+				<li class="nav-section">
+					<span class="sidebar-mini-icon">
+						<i class="fa fa-ellipsis-h"></i>
+					</span>
+				</li>
+			</ul>
 		</div>
-        <!-- End Sidebar -->
-        
+	</div>
+</div>
+<!-- End Sidebar -->

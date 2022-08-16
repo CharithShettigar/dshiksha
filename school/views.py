@@ -1,4 +1,5 @@
 from datetime import date, datetime
+import json
 import uuid
 from django.utils.dateformat import DateFormat
 from django.shortcuts import render,redirect
@@ -73,7 +74,6 @@ def dashboard(request):
     else:
         return redirect("/accounts/login/?redirect_to=/")
 
-
 def school_info(request):
     if request.user.is_authenticated:
         school_data = sm.School.objects.get(SchoolID = request.session['school_id'])
@@ -97,7 +97,6 @@ def school_info(request):
         return render(request, "school/Pages/School/school_info.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/School/SchoolInfo")
-
 
 def assign_class(request):
     if request.user.is_authenticated:
@@ -136,7 +135,6 @@ def assign_class(request):
         return render(request, "school/Pages/School/assign_class.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/School/AssignClass")
-
 
 def assign_application_fees(request):
     if request.user.is_authenticated:
@@ -233,23 +231,24 @@ def application_info_show(request,application_ID):
     else:
         return redirect("/accounts/login/?redirect_to=/Application/NewApplication")
 
-
 def student_admission(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             student_form = fm.StudentCreateForm(request.POST)
             if student_form.is_valid():
-                print("--------------",student_form.cleaned_data['StudentName'])
-                print("--------------",student_form.cleaned_data['Application'])
-                print("--------------",request.POST.get('application_id_no'))
                 if sm.Students.objects.filter(AdmissionNo=request.POST.get('admission_id_no'),SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).exists() \
                      or sm.Students.objects.filter(StudentMobileNo=student_form.cleaned_data['StudentMobileNo'],SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).exists():
                      messages.error(request, "Applicant Already exists")
                 else:
+                    if request.POST.get('Application')=="":
+                        applicationno=None
+                    else:
+                        applicationno=sm.Application.objects.get(ApplicationID=request.POST.get('Application'))
+
                     sm.Students(
                         AdmissionNo=request.POST.get('admission_id_no'),
                         AdmissionDate=DateFormat(date.today()).format('Y-m-d'),
-                        Application=student_form.cleaned_data['Application'],
+                        Application=applicationno,
                         StudentName=student_form.cleaned_data['StudentName'],
                         StudentDOB=student_form.cleaned_data['StudentDOB'],
                         Gender=student_form.cleaned_data['Gender'],
@@ -257,7 +256,7 @@ def student_admission(request):
                         StudentMobileNo=student_form.cleaned_data['StudentMobileNo'],
                         FatherName=student_form.cleaned_data['FatherName'],
                         MotherName=student_form.cleaned_data['MotherName'],
-                        GuardianName=student_form.cleaned_data['GuardianName'],
+                        GaurdianName=student_form.cleaned_data['GaurdianName'],
                         SchoolID=sm.School.objects.get(SchoolID = request.session['school_id']),
                         # ModeOfPayment=md.ModeOfPayment.objects.get(ModeOfPaymentID=student_application_form.cleaned_data['ModeOfPayment'])
                     ).save()
@@ -303,7 +302,6 @@ def student_admission(request):
     else:
         return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
 
-
 def student_info_show(request,student_id):
     if request.user.is_authenticated:
         student_data=sm.Students.objects.get(AdmissionID = student_id)
@@ -313,16 +311,6 @@ def student_info_show(request,student_id):
         return render(request, "school/Pages/Student/student_info_show.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
-
-
-
-
-
-
-
-
-
-
 
 def create_staff(request):
     if request.user.is_authenticated:
@@ -383,6 +371,7 @@ def create_staff(request):
             "staff_list": sm.Staff.objects.filter(SchoolID = sm.School.objects.get(SchoolID = request.session['school_id'])).all().order_by("StaffNo"),
             "designation_list":md.Designation.objects.all(),
             "staffquaify_list":md.StaffQualification.objects.all(),
+            "gender_list":md.Gender.objects.all().order_by("GenderOrder"),
             "staff_id_no": "SCHOOL" +new_staffNo,            
         }
         return render(request, "school/Pages/Staff/create_staff.html", context)
@@ -413,6 +402,134 @@ def staff_info_show(request,staff_ID):
         context = {
             "staff":staff_data,
         }
+        print("---------sp----",staff_data.StaffPhoto)
+
         return render(request, "school/Pages/Staff/staff_info_show.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/Staff/StaffInfo")
+
+
+def mark_attendance(request):
+    if request.user.is_authenticated:
+        total_students=0
+        student_data=None
+        assign_class_data=None
+        class_section_data=None
+        attendance_date=None
+        attendance_list=None
+        report=False
+        present_count=halfday_count=absent_count=0
+        if request.method == 'POST':
+            if request.POST.get("form-type") == 'select-class-date':
+                if not request.POST.get('Class')=="":
+
+                    #creating student list, assignedClass for attendance
+                    attendance_date=request.POST.get('AttendanceDate')
+                    assign_class_data= request.POST.get('Class')
+                    school_id = request.session['school_id']
+                    if sm.Attendance.objects.filter(AttendanceDate=attendance_date,AssignClass=assign_class_data,SchoolID =school_id).exists():
+                        attendance_list=sm.Attendance.objects.filter(AttendanceDate=attendance_date,AssignClass=assign_class_data,SchoolID =school_id).order_by('StudentID__StudentName')
+                        total_students=attendance_list.count()
+                        report=True
+                        present_count=sm.Attendance.objects.filter(AttendanceDate=attendance_date,AssignClass=assign_class_data,AttendanceMark='Present',SchoolID =school_id).count()
+                        halfday_count=sm.Attendance.objects.filter(AttendanceDate=attendance_date,AssignClass=assign_class_data,AttendanceMark='Half Day',SchoolID =school_id).count()
+                        absent_count=sm.Attendance.objects.filter(AttendanceDate=attendance_date,AssignClass=assign_class_data,AttendanceMark='Absent',SchoolID =school_id).count()
+                    else:
+                        student_data=sm.Students.objects.filter(AssignedClass=request.POST.get('Class'),SchoolID =school_id).order_by('StudentName')
+                        total_students=student_data.count()
+
+                    class_section_data=sm.AssignClass.objects.get(AssignClassID=assign_class_data,School=school_id)
+
+                    
+                else:
+                    messages.error(request, "Please select the class")           
+
+            if request.POST.get("form-type")=='mark-attendance':
+                print('-------mark-attendance')
+
+                school_id = request.session['school_id']
+                student_data=sm.Students.objects.filter(AssignedClass=request.POST.get('assign_class_id'),SchoolID =school_id).order_by('StudentName')
+                attendance_date=request.POST.get('attendance_date')
+                assign_class_data=request.POST.get('assign_class_id')
+
+                if sm.Attendance.objects.filter(AttendanceDate=attendance_date,AssignClass=assign_class_data,SchoolID =school_id).exists():
+                    print('-------------- Attendance is already marked for that day for that class')
+                else:
+                    for atst in student_data:
+                        sm.Attendance(
+                            StudentID=atst,
+                            AttendanceDate=attendance_date,
+                            AssignClass=sm.AssignClass.objects.get(AssignClassID=assign_class_data,School =school_id),
+                            AttendanceMark=request.POST.get(f'choice-{atst.AdmissionID }'),
+                            SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
+                        ).save()
+                return redirect("/Attendance/MarkAttendance")
+
+        context={
+            "student_data":student_data,
+            "total_students":total_students,
+            "assign_class_data":assign_class_data,
+            "class_section_data":class_section_data,
+            "attendance_date":attendance_date,
+            "class_section_list":sm.AssignClass.objects.filter(School=request.session['school_id']).order_by('Class'),
+            "report":report,
+            "present_count":present_count,
+            "halfday_count":halfday_count,
+            "absent_count":absent_count,
+            "attendance_list":attendance_list,
+        }
+        return render(request, "school/Pages/Attendance/mark_attendance.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Attendance/MarkAttendance")
+
+def attendance_list(request):
+    if request.user.is_authenticated:
+
+        student_data=None
+        total_students=0
+        class_section_data=None
+
+        if request.method == 'POST':            
+            class_id=request.POST['class_selected']
+            if not class_id=='':
+                student_data=sm.Students.objects.filter(SchoolID=request.session['school_id'],AssignedClass = class_id).order_by('StudentName')
+                total_students=student_data.count()
+                class_section_data=sm.AssignClass.objects.get(AssignClassID=class_id,School=request.session['school_id'])
+
+
+        assignclass_list = sm.AssignClass.objects.filter(School=request.session['school_id']).order_by('Class__ClassList__ClassName')
+        context = {
+            "assignclass_list": assignclass_list,
+            "student_data":student_data,
+            "total_students":total_students,
+            "class_section_data":class_section_data,
+        }
+        return render(request, "school/Pages/Attendance/attendance_student_list.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Attendance/ReportAttendance")
+
+
+def student_attendance_show(request,student_id):
+    if request.user.is_authenticated:
+        school_id=request.session['school_id']
+        student_data=sm.Students.objects.get(AdmissionID = student_id,SchoolID=school_id)
+        total_present=sm.Attendance.objects.filter(StudentID=student_id,SchoolID=school_id,AttendanceMark='Present').count()
+        total_halfday=sm.Attendance.objects.filter(StudentID=student_id,SchoolID=school_id,AttendanceMark='Half Day').count()
+        total_absent=sm.Attendance.objects.filter(StudentID=student_id,SchoolID=school_id,AttendanceMark='Absent').count()
+        student_attendance=sm.Attendance.objects.filter(StudentID=student_id,SchoolID=school_id)
+        total_attendance=student_attendance.count()
+
+        jsondata=serializers.serialize("json",student_attendance)
+
+
+        context = {
+            "student_data":student_data,
+            "total_present":total_present,
+            "total_halfday":total_halfday,
+            "total_absent":total_absent, 
+            "total_attendance":total_attendance, 
+            "data":jsondata,
+        }
+        return render(request, "school/Pages/Attendance/student_attendance_show.html", context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Attendance/ReportAttendance")

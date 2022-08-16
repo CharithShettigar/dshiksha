@@ -1,0 +1,108 @@
+{% extends 'dshiksha_erp/index.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Create Sub Fee Type {% endblock title %}
+
+{% block body %}
+<div class="content">
+    <div class="page-inner">
+        <div class="col-sm">
+            <div class="row flex-grow">
+                <div class="col-12 grid-margin stretch-card">
+            <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                <div class="card-body">
+                    <h4 class="card-title text-white">Create Sub Fees Type </h4>
+                    <form action="/Fees/CreateSubFeesType" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form-type" value="create-sub-fee-type">
+                            <div class="form-group">
+                                <label for="" class="form-label text-white"> Fees Type </label>
+                                <select name="FeesType" id="id_feetype" class="form-control">
+                                    <option value=""> ---------- </option>
+                                        {% for fs in fs_list %}
+                                            <option value="{{ fs.FeesTypeID }}"> {{ fs.FeesTypeName }} </option>
+                                        {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="form-label text-white"> Sub Fee Type </label>
+                                {{ sft_form.SubFeeName | attr:"class=form-control" }}
+                            </div>
+                            <div class="mb-3">
+                                <button id="add-fees-type" class="btn btn-primary mr-2 ml-2"> Add </button>
+                                <button type="submit" class="btn btn-primary"> Create </button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 d-flex flex-column">
+                <div class="row flex-grow">
+                    <div class="col-12 grid-margin stretch-card">   
+                        <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h4 class="card-title card-title-dash text-white">Sub Fees Type List</h4>
+                                    </div>
+                                </div>
+                                <div class="table-responsive  mt-1">
+                                    <!-- Table details here -->
+                                    <table class="table text-white">
+                                        <thead>
+                                            <tr>
+                                                <th width="10%">Sr.No.</th>
+                                                <th>Subject </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if sft_list %}
+                                            {% for sft in sft_list %}
+                                            <tr>
+                                                <td> {{ forloop.counter }} </td>
+                                                <td> <a href="/Updates/UpdateSubFeeType/ {{ sft.SubFeeID }}">  {{ sft.FeesType.FeesTypeName }} - {{sft.SubFeeName }}  </a> </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+
+{% block js_files %}
+<script>
+    $(window).on('load', function () {
+        $.ajax({
+            url: "/ajax/load_sub_fees_data",
+            data: {},
+            success: function (data) {
+                $('#sub-fee-data').html(data);
+            }
+        })
+    })
+    $("#add-fees-type").click((e) => {
+        let fees_type_count = $("#fees-type-count").val()
+        fees_type_count = parseInt(fees_type_count) + 1;
+        let element = $('<input type="text" />')
+        element.attr('name', 'subfee-type-' + fees_type_count)
+        element.attr('class', 'form-control mb-3')
+        $('#text-fields').append(element)
+        $("#fees-type-count").val(fees_type_count);
+        e.preventDefault();
+    })
+</script>
+{% endblock js_files %}

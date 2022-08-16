@@ -9,40 +9,66 @@
 
 {% block body %}
     <div class="content">
-        <div class="col">
-            <form action="/School/AssignClassLevel" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="" class="form-label"> Class Name</label>
-                    <select name="ClassList" id="id_ClassList" class="form-control">
-                        <option value=""> ----------- </option>
-                        {% for cl in classes_list %}
-                            <option value="{{ cl.ClassID }}"> {{ cl.ClassName }}</option>
-                        {% endfor %}
-                    </select>
+        <div class="page-inner">
+            <div class="col">
+                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                    <div class="card-body">
+                        <h4 class="card-title text-white">Assign Class Level </h4>
+                        <form action="/School/AssignClassLevel" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="" class="form-label text-white"> Class Name</label>
+                                <select name="ClassList" id="id_ClassList" class="form-control">
+                                    <option value=""> ----------- </option>
+                                    {% for cl in classes_list %}
+                                        <option value="{{ cl.ClassID }}"> {{ cl.ClassName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label text-white"> Class Level</label>
+                                <select name="ClassLevel" id="id_ClassLevel" class="form-control">
+                                    <option value=""> ---------- </option>
+                                   {% for cl in class_level_list %}
+                                    <option value="{{ cl.ClassLevelID }}"> {{ cl.ClassLevelName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary"> Create </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>    
+            </div>
+            <div class="col">
+                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                    <div class="card-body">
+                        <h4 class="card-title text-white">Assigned Class Level List </h4>
+                        <div class="table-responsive  mt-1">
+                            <!-- Table details here -->
+                            <table class="table text-white">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Sr.No.</th>
+                                        <th>Subject  </th>    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if class_list %}
+                                        {% for cl in class_list %}
+                                            <tr>
+                                                <td> {{ forloop.counter }} </td>
+                                                <td> {{ cl.ClassList.ClassName }}  - {{ cl.ClassLevel.ClassLevelName }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {%endif%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="" class="form-label"> Class Level</label>
-                    <select name="ClassLevel" id="id_ClassLevel" class="form-control">
-                        <option value=""> ---------- </option>
-                        {% for cl in class_level_list %}
-                            <option value="{{ cl.ClassLevelID }}"> {{ cl.ClassLevelName }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary"> Create </button>
-                </div>
-            </form>
-            
-        </div>
-        <div class="col">
-            <h3> Assigned Class Level List</h3>
-            {% for cl in class_list %}
-                <div>
-                    {{ cl.ClassList.ClassName }} - {{ cl.ClassLevel.ClassLevelName }}
-                </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock body %}

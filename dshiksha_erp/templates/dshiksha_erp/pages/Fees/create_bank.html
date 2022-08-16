@@ -2,10 +2,24 @@
 {% load static %}
 {% load widget_tweaks %}
 
-{% block title %} Add Designation {% endblock title %} 
+{% block title %} Create Bank Name and Online App Name {% endblock title %}
 
 {% block body %}
-    <div class="content">
+<div class="content">
+    <div class="page-inner">
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div
+                class="{% if message.tags == 'error' %} alert alert-danger alert-dismissible d-flex align-items-center fade show my-1 {% endif %}">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert">
+            </div>
+            {% endfor %}
+        </div>
+        {%endif%}
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="home-tab">
@@ -16,27 +30,35 @@
                                 <div class="col-12 grid-margin stretch-card">
                                     <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Designation </h4>
-                                             <!-- form details here -->
-                                             <form action="/School/AddDesignation" method="post">
+                                            <h4 class="card-title text-white">Add Bank </h4>
+                                            <!-- form details here -->
+                                            <form action="/Fees/CreateBank" method="post">
                                                 {% csrf_token %}
-                                                <input type="hidden" name="form-type" value="designation-form">
+                                                <input type="hidden" name="form-type" value="bank-form">
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                            <label for="" class="text-white form-label"> Designation </label>
-                                                            {{designation_form.DesignationName | attr:"class=form-control" }}
+                                                            <label for="" class="text-white form-label"> Bank Name
+                                                            </label>
+                                                            {{bank_form.BankName | attr:"class=form-control" }}
                                                         </div>
-                                                    </div>                                                   
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-white"> Order ID </label>
+                                                            {{ bank_form.OrderID | attr:"class=form-control" | attr:"type=number" }}
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleInputUsername1">&nbsp;</label>
-    
-                                                            <div class="input-group col-xs-12">                                                        
+                                                            <div class="input-group col-xs-12">
                                                                 <span class="input-group-append">
-                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary text-white"> Create
+                                                                    </button>
                                                                 </span>
-                                                              </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -51,27 +73,35 @@
                                 <div class="col-12 grid-margin stretch-card">
                                     <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Subject </h4>
-                                             <!-- form details here -->
-                                             <form action="/School/AddDesignation" method="post">
+                                            <h4 class="card-title text-white">Add Online App </h4>
+                                            <!-- form details here -->
+                                            <form action="/Fees/CreateBank" method="post">
                                                 {% csrf_token %}
-                                                <input type="hidden" name="form-type" value="staff-subject-form">
+                                                <input type="hidden" name="form-type" value="online-form">
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Staff Subject </label>
-                                                            {{ staff_subject_form.StaffSubjectName | attr:"class=form-control" }}
+                                                            <label for="" class="form-label text-white"> Online App Name
+                                                            </label>
+                                                            {{ online_form.OnlineAppName | attr:"class=form-control" }}
                                                         </div>
-                                                    </div>                                                   
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="" class="form-label text-white"> Order ID </label>
+                                                            {{ online_form.OrderID | attr:"class=form-control" | attr:"type=number" }}
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleInputUsername1">&nbsp;</label>
-    
-                                                            <div class="input-group col-xs-12">                                                        
+                                                            <div class="input-group col-xs-12">
                                                                 <span class="input-group-append">
-                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary text-white"> Create
+                                                                    </button>
                                                                 </span>
-                                                              </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -84,7 +114,7 @@
                     </div>
 
                     {% comment %} Show Designations {% endcomment %}
-                    <div class="row">                        
+                    <div class="row">
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
@@ -92,7 +122,8 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Designation List</h4>
+                                                    <h4 class="card-title card-title-dash text-white">Bank List
+                                                    </h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
@@ -101,19 +132,17 @@
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
-                                                            <th>Subject  </th>    
+                                                            <th>Bank Name </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% if designation_list %}
-                                                        {% for dd in designation_list %}
+                                                        {% if bank_list %}
+                                                        {% for bl in bank_list %}
                                                         <tr>
-                                                            <td>  {{ forloop.counter }}  </td>
-                                                            <td> 
-                                                               
-                                                               <a href="/Settings/UpdateStaffSubject/{{ dd.DesignationID }}">{{ dd.DesignationName }}</a> 
-                                                            
-                                                            </td>                                                       
+                                                            <td> {{ forloop.counter }} </td>
+                                                            <td> <a
+                                                                    href="/Updates/UpdateBank/{{ bl.BankID }}">
+                                                                    {{bl.BankName }}</a> </td>
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}
@@ -126,7 +155,7 @@
                             </div>
                         </div>
 
-                        {% comment %} Show Subjects {% endcomment %}                        
+                        {% comment %} Show Subjects {% endcomment %}
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
@@ -134,7 +163,7 @@
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Subject List</h4>
+                                                    <h4 class="card-title card-title-dash text-white">Online App List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
@@ -143,19 +172,19 @@
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
-                                                            <th>Subject  </th>    
+                                                            <th>Online App Name </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% if staff_subject_list %}
-                                                        {% for ss in staff_subject_list %}
+                                                        {% if online_list %}
+                                                        {% for ol in online_list %}
                                                         <tr>
-                                                            <td>  {{ forloop.counter }}  </td>
-                                                            <td> 
-                                                               
-                                                               <a href="/Settings/UpdateStaffSubject/{{ ss.StaffSubjectID }}">{{ ss.StaffSubjectName }}</a> 
-                                                            
-                                                            </td>                                                       
+                                                            <td> {{ forloop.counter }} </td>
+                                                            <td>
+                                                                <a
+                                                                    href="/Updates/UpdateOnline/{{ ol.OnlineID }}">
+                                                                    {{ ol.OnlineAppName }}</a>
+                                                            </td>
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}
@@ -167,9 +196,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock body %}

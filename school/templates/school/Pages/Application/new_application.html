@@ -196,19 +196,19 @@
                     <div>
                         <h3>Applicant List</h3>
 
-                            <table class="table table-hover">
+                            <table id="ApplicationData" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No.</th>
+                                        <th>ApplicationNo</th>
+                                        <th>ApplicationDate</th>
+                                        <th>StudentName</th>
+                                        {% comment %} <th>StudentMobileNo</th> {% endcomment %}
+                                        <th>Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    <thead>
-                                        <tr>
-                                            <th>Sr.No.</th>
-                                            <th>ApplicationNo</th>
-                                            <th>ApplicationDate</th>
-                                            <th>StudentName</th>
-                                            {% comment %} <th>StudentMobileNo</th> {% endcomment %}
-                                            <th>Amount</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
                                     {% for applicant in applicant_list %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
@@ -276,5 +276,11 @@
         }
         document.getElementById("id_Amount").value=amt.toFixed(2);
     }
+
+    $(document).ready(function() {
+        $('#ApplicationData').DataTable({
+        });
+    });
+
 </script>
 {% endblock javascripts %}

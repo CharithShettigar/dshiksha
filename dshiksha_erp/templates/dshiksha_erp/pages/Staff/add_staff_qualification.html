@@ -7,26 +7,25 @@
 {% block body %}
     <div class="content">
         <div class="page-inner">
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="home-tab">
                     <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
                     <div class="row">
-                        <div class="col-lg-6 d-flex flex-column">
+                        <div class="col-lg-12 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
-                                            <h4 class="card-title">Add Staff Qualification </h4>
+                                            <h4 class="card-title text-white">Add Staff Qualification </h4>
                                              <!-- form details here -->
-                                             <form action="/School/AddStaffQualification" method="post">
+                                             <form action="/Staff/AddStaffQualification" method="post">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="form-type" value="staff-qualification">
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label"> Staff Qualification</label>
+                                                            <label for="" class="form-label text-white"> Staff Qualification</label>
                                                             {{ staff_qualification_form.StaffQualificationName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
@@ -52,17 +51,17 @@
                     <div class="row">
                         <div class="col-lg-12 d-flex flex-column">
                             <div class="row flex-grow">
-                                <div class="col-6 grid-margin stretch-card">
-                                    <div class="card card-rounded">
+                                <div class="col-12 grid-margin stretch-card">
+                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash">Staff Qualification List</h4>
+                                                    <h4 class="card-title card-title-dash text-white">Staff Qualification List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table">
+                                                <table class="table text-white">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
@@ -75,8 +74,8 @@
                                                         <tr>
                                                             <td>  {{ forloop.counter }}  </td>
                                                             <td>                                                              
-                                                                    <a href="/Update/UpdateStaffQualification/{{ sq.StaffQualificationID }}">{{ sq.StaffQualificationName }}</a>
-                                                             </td>                                                                                                               
+                                                                <a href="/Update/UpdateStaffQualification/{{ sq.StaffQualificationID }}">{{ sq.StaffQualificationName }}</a>
+                                                            </td>                                                                                                               
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}
@@ -93,5 +92,5 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 {% endblock body %}

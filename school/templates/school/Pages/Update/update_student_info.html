@@ -27,7 +27,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="/Update/UpdateStudentInfo/{{ student_data.AdmissionID }}" method="post">
+                        <form action="/Update/UpdateStudentInfo/{{ student_data.AdmissionID }}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="" class="form-label"> StudentName</label>
@@ -80,7 +80,7 @@
                             <div class="mb-3">
                                 <div class="mb-3">
                                     <label for="" class="form-label"> CasteCategory</label>
-                                    <select name="Caste" id="id_Caste" class="form-control">
+                                    <select name="CasteCategory" id="id_CasteCategory" class="form-control">
                                         <option value=""> ---------- </option>
                                         {% for c in castecategory_list %}
                                         <option value="{{ c.CasteCategoryID }}"> {{c.CasteCategoryName}}</option>
@@ -100,12 +100,26 @@
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="" class="form-label"> Nationality</label>
+                                    <select name="Nationality" id="id_Nationality" class="form-control">
+                                        <option value=""> ---------- </option>
+                                        {% for n in nationality_list %}
+                                        <option value="{{ n.NationalityID }}"> {{ n.NationalityName }}</option>
+                                        {% endfor %}
+                                    </select>  
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="" class="form-label">PreviousSchoolName</label>
                                 {{ student_form.PreviousSchoolName | attr:"class=form-control"}}
                             </div>
                             <div  class="mb-3">
                                 <label for="" class="form-label"> StudentPhoto</label>
-                                {{ student_form.StudentPhoto | attr:"class=form-control"}}
+                                {% if student_photo %}
+                                <div class="avatar avatar-xxl"><img src="{{student_photo.url}}" class="avatar-img" alt="student img"></div>
+                                {% endif %}
+                                <input type="file" name="student_img" class="form-control"> 
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label"> StudentMobile</label>
@@ -143,6 +157,14 @@
                                     {% endfor %}
                                 </select>                            
                             </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Assigned Class-Section</label>
+                                <select name="AssignedClass" id="id_AssignedClass" class="form-control">
+                                    {% for ac in assignedclass_list %}
+                                        <option value="{{ ac.AssignClassID }}"> {{ac.Class.ClassList.ClassName }}-{{ac.Section.SectionName}}</option>
+                                    {% endfor %}
+                                </select>                            
+                            </div>
 
                             <div  class="mb-3">
                                 <label for="" class="form-label"> FatherName</label>
@@ -151,6 +173,10 @@
                             <div  class="mb-3">
                                 <label for="" class="form-label"> FatherMobileNo</label>
                                 {{ student_form.FatherMobileNo | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
+                                <label for="" class="form-label"> FatherWhatsappNo</label>
+                                {{ student_form.FatherWhatsappNo | attr:"class=form-control"}}
                             </div>
                             <div  class="mb-3">
                                 <label for="" class="form-label"> FatherEmail</label>
@@ -180,6 +206,10 @@
                                 {{ student_form.MotherMobileNo | attr:"class=form-control"}}
                             </div>
                             <div  class="mb-3">
+                                <label for="" class="form-label"> MotherWhatsappNo</label>
+                                {{ student_form.MotherWhatsappNo | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
                                 <label for="" class="form-label"> MotherEmail</label>
                                 {{ student_form.MotherEmail | attr:"class=form-control"}}
                             </div>
@@ -206,6 +236,10 @@
                                 {{ student_form.GaurdianMobileNo | attr:"class=form-control"}}
                             </div>
                             <div  class="mb-3">
+                                <label for="" class="form-label"> GaurdianWhatsappNo</label>
+                                {{ student_form.GaurdianWhatsappNo | attr:"class=form-control"}}
+                            </div>
+                            <div  class="mb-3">
                                 <label for="" class="form-label"> GaurdianEmail</label>
                                 {{ student_form.GaurdianEmail | attr:"class=form-control"}}
                             </div>
@@ -218,8 +252,8 @@
                                 {{ student_form.GaurdianOccupation | attr:"class=form-control"}}
                             </div>
                             <div  class="mb-3">
-                                <label for="" class="form-label"> GaurdianOccupation</label>
-                                {{ student_form.GaurdianOccupation | attr:"class=form-control"}}
+                                <label for="" class="form-label"> GaurdianIncome</label>
+                                {{ student_form.GaurdianIncome | attr:"class=form-control"}}
                             </div>
                                                         
 

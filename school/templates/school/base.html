@@ -54,16 +54,16 @@
 		{% comment %} {% if request.user.is_authenticated %}
 
 			<!-- Custom template | don't include it in your project! -->
-			{% comment %} {% include 'includes/configuration-plugin.html' %}
+			{% include 'includes/configuration-plugin.html' %}
 
 		{% endif %}		 {% endcomment %}
 
 	</div>
 
 	{% include 'school/includes/scripts.html' %}
+</body>
 
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}{% endblock javascripts %}
 
-</body>
 </html>
