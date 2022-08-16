@@ -14,7 +14,27 @@
 {% endif %} {% endcomment %}
     <div class="content">
         <div class="page-inner">
-        <form action="/School/create_school" method="post">
+        {% if messages %}
+            <div>
+                {% for message in messages %} 
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+                        <i class="bi-exclamation-octagon-fill"></i>
+                        <strong class="mx-2">Error!</strong> {{ message.message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert">
+                    </div>
+                    {% endif %}
+                    {% if message.tags == 'info' %}
+                    <div class="alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                        <i class="bi-exclamation-octagon-fill"></i>
+                        <strong class="mx-2">Success!</strong> {{ message.message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form action="/School/create_school" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
                 <div class="col-sm">
@@ -198,9 +218,15 @@
                         <select name="CurrentAcademicYear" id="id_CurrentAcademicYear" class="form-control">
                             <option value=""> ---------- </option>
                             {% for ac in academic_year_list %}
-                                <option value="{{ ac.AcademicYearID }}"> {{ ac.AcademicYear }}</option>
+                            <option value="{{ ac.AcademicYearID }}"> {{ ac.AcademicYear }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="mb-3">
+                        <label for="" class="form-label"> SchoolLogo</label>
+                        <input type="file" name="school_img" class="form-control"> 
                     </div>
                 </div>
                 {% comment %} <div class="col-sm">
@@ -214,15 +240,15 @@
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
+        {% if school_list %}
         <div class="col">
             <h3> Schools</h3>
-            {% if school_list %}
                 {% for school in school_list %}
                     <div> {{ school.SchoolCode }} - {{ school.SchoolName }} - {{ school.Email }} - {{ school.Landline }}</div>
                 {% endfor %}
-            {% endif %}
         </div>
-    </div>
+        {% endif %}
+        </div>
     </div>
 {% endblock body %}
 

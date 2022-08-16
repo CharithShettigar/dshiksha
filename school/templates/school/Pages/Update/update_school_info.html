@@ -27,7 +27,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="/Update/UpdateSchoolInfo/{{ school_id }}" method="post">
+                        <form action="/Update/UpdateSchoolInfo/{{ school_id }}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% comment %} <div class="mb-3">
                                 <label for="" class="form-label"> School Code </label>
@@ -61,7 +61,24 @@
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label"> SchoolLogo</label>
-                                {{ school_form.SchoolLogo | attr:"class=form-control"}}
+                                {% if school_logo %}
+                                <div class="avatar avatar-xxl"><img src="{{school_logo.url}}" class="avatar-img" alt="school logo"></div>
+                                {% endif %}
+                                <input type="file" name="school_img" class="form-control" required> 
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">SchoolSeal</label>
+                                {% if school_seal %}
+                                <div class="avatar avatar-xxl"><img src="{{school_seal.url}}" class="avatar-img" alt="school seal"></div>
+                                {% endif %}
+                                <input type="file" name="schoolseal_img" class="form-control" required> 
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label"> SchoolSign</label>
+                                {% if school_sign %}
+                                <div class="avatar avatar-xxl"><img src="{{school_sign.url}}" class="avatar-img" alt="school sign"></div>
+                                {% endif %}
+                                <input type="file" name="schoolsign_img" class="form-control" required>
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label"> Landline</label>

@@ -409,18 +409,22 @@ def add_subject(request):
 def create_school(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
+            # print("-----------",request.POST)
+            # print("------------------",request.FILES['school_img'])
             school_school_form = fm.SchoolForm(request.POST)
             if school_school_form.is_valid():
                 if sm.School.objects.filter(SchoolName=school_school_form.cleaned_data['SchoolName'],
                                              Email=school_school_form.cleaned_data['Email']).exists():
+                    print("-------School Already Present")
                     messages.error(request, "School Already Present")
-                elif sm.School.objects.filter(SchoolName=school_school_form.cleaned_data['SchoolName']).exists():
-                    messages.error(request, "School Name already present")
                 elif sm.School.objects.filter(Email=school_school_form.cleaned_data['Email']).exists():
+                    print("-------School Email already present")
                     messages.error(request, "School Email already present")
                 elif sm.School.objects.filter(SchoolCode=school_school_form.cleaned_data['SchoolCode']).exists():
+                    print("-------School Code already present")
                     messages.error(request, "School Code already present")
                 elif sm.School.objects.filter(SchoolUsername=school_school_form.cleaned_data['SchoolUsername']).exists():
+                    print("-------School Username already present")
                     messages.error(request, "School Username already present")
                 else:
                     user = User.objects.create_user(email=school_school_form.cleaned_data['Email'],
@@ -428,31 +432,36 @@ def create_school(request):
                                                     username=school_school_form.cleaned_data['SchoolCode'],
                                                     password=school_school_form.cleaned_data['Password'],
                                                     UserType=UserTypes.objects.get(UserTypeName="School").UserTypeID)
-                    school_data = sm.School(SchoolID=uuid.uuid4(),
-                                            SchoolName=school_school_form.cleaned_data['SchoolName'].capitalize(),
-                                            SchoolType="SCHOOL", Email=school_school_form.cleaned_data['Email'],
-                                            Village=school_school_form.cleaned_data['Village'],
-                                            Pincode=school_school_form.cleaned_data['Pincode'],
-                                            UserID=User.objects.get(UserID=user.UserID),
-                                            SchoolUsername=school_school_form.cleaned_data['SchoolUsername'],
-                                            SchoolCode=school_school_form.cleaned_data['SchoolCode'],
-                                            CurrentAcademicYear = school_school_form.cleaned_data['CurrentAcademicYear'], # Add academic Year support in web page
-                                            Landline=school_school_form.cleaned_data['Landline'],
+                    print("----------",user)
+                    sm.School(
+                        SchoolID=uuid.uuid4(),
+                        SchoolName=school_school_form.cleaned_data['SchoolName'].capitalize(),
+                        SchoolType="SCHOOL", 
+                        Email=school_school_form.cleaned_data['Email'],
+                        Village=school_school_form.cleaned_data['Village'],
+                        Pincode=school_school_form.cleaned_data['Pincode'],
+                        UserID=User.objects.get(UserID=user.UserID),
+                        SchoolUsername=school_school_form.cleaned_data['SchoolUsername'],
+                        SchoolCode=school_school_form.cleaned_data['SchoolCode'],
+                        SchoolLogo=request.FILES['school_img'],
+                        CurrentAcademicYear = school_school_form.cleaned_data['CurrentAcademicYear'], # Add academic Year support in web page
+                        Landline=school_school_form.cleaned_data['Landline'],
                                             
-                                            SyllabusType=school_school_form.cleaned_data['SyllabusType'],
-                                            
-                                            AccountantName=school_school_form.cleaned_data['AccountantName'],
-                                            AccountantEmail = school_school_form.cleaned_data['AccountantEmail'],
-                                            AccountantMobile = school_school_form.cleaned_data['AccountantMobile'],
-                                            AccountantWhatsAppNo = school_school_form.cleaned_data['AccountantWhatsAppNo'],
+                        SyllabusType=school_school_form.cleaned_data['SyllabusType'],
 
-                                            CorrespondentFirstName = school_school_form.cleaned_data['CorrespondentFirstName'],
-                                            CorrespondentLastName =school_school_form.cleaned_data['CorrespondentLastName'],
-                                            CorrespondentEmail = school_school_form.cleaned_data['CorrespondentEmail'],
-                                            CorrespondentMobile = school_school_form.cleaned_data['CorrespondentMobile'],
-                                            CorrespondentWhatsAppNo = school_school_form.cleaned_data['CorrespondentWhatsAppNo'])#,
-                                            #EstDate= cbse_school_form.cleaned_data['EstDate'])
-                    school_data.save()
+                        AccountantName=school_school_form.cleaned_data['AccountantName'],
+                        AccountantEmail = school_school_form.cleaned_data['AccountantEmail'],
+                        AccountantMobile = school_school_form.cleaned_data['AccountantMobile'],
+                        AccountantWhatsAppNo = school_school_form.cleaned_data['AccountantWhatsAppNo'],
+
+                        CorrespondentFirstName = school_school_form.cleaned_data['CorrespondentFirstName'],
+                        CorrespondentLastName =school_school_form.cleaned_data['CorrespondentLastName'],
+                        CorrespondentEmail = school_school_form.cleaned_data['CorrespondentEmail'],
+                        CorrespondentMobile = school_school_form.cleaned_data['CorrespondentMobile'],
+                        CorrespondentWhatsAppNo = school_school_form.cleaned_data['CorrespondentWhatsAppNo']
+                        ).save()
+                    # print('----------',school_data)
+                    # school_data.save()
                     redirect("/School/create_school")
             else:
                 print(school_school_form.errors)

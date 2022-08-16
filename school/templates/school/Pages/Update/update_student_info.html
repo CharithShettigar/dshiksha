@@ -27,7 +27,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="/Update/UpdateStudentInfo/{{ student_data.AdmissionID }}" method="post">
+                        <form action="/Update/UpdateStudentInfo/{{ student_data.AdmissionID }}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="" class="form-label"> StudentName</label>
@@ -116,7 +116,10 @@
                             </div>
                             <div  class="mb-3">
                                 <label for="" class="form-label"> StudentPhoto</label>
-                                {{ student_form.StudentPhoto | attr:"class=form-control"}}
+                                {% if student_photo %}
+                                <div class="avatar avatar-xxl"><img src="{{student_photo.url}}" class="avatar-img" alt="student img"></div>
+                                {% endif %}
+                                <input type="file" name="student_img" class="form-control"> 
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label"> StudentMobile</label>
