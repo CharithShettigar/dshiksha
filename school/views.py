@@ -353,7 +353,8 @@ def create_staff(request):
                     
                     return redirect("/Staff/CreateStaff")
             else:
-                messages.error(request, staff_form.errors.as_text()[14:])              
+                messages.error(request, staff_form.errors.as_text()[14:])
+                print("---------mobile  ",staff_form.cleaned_data['StaffMobile'])              
                 print(staff_form.errors)
         else:
             staff_form = fm.StaffCreateForm()

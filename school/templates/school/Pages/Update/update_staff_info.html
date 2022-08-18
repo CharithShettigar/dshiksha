@@ -19,6 +19,19 @@
 
 <div class="content">
     <div class="page-inner">
+        {% if messages %}
+            <div>
+                {% for message in messages %} 
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Error!</strong> {{ message.message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert">
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -91,9 +104,7 @@
                             <div  class="mb-3">
                                 <label for="" class="form-label"> StaffPhoto</label>
                                 {% if staff_photo %}
-                                    <img src="{{staff_photo.url}}" class="avatar-img" alt="staff img">
-                                {% else %}
-                                    <div class="form-control">No staff Photo</div>
+                                <div class="avatar avatar-xxl"><img src="{{staff_photo.url}}" class="avatar-img" alt="staff img"></div>
                                 {% endif %}
                                 <input type="file" name="staff_img" class="form-control"> 
                             </div>

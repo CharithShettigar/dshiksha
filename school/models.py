@@ -121,11 +121,6 @@ class Subject(models.Model):
     AssignClass = models.ForeignKey(AssignClass, on_delete=models.CASCADE)
 
 
-class Chapter(models.Model):
-    ChapterID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-    ChapterName = models.CharField(max_length=50)
-    Subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-
 class ApplicationNo(models.Model):
     ApplicationNoID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     Class = models.ForeignKey(Class, on_delete=models.CASCADE)
