@@ -29,7 +29,11 @@
                     <tr>
                         <td>Staff Photo</td>
                         <td class="fw-bold">:</td>
+                        {% if staff.StaffPhoto %}
                         <td><div class="avatar avatar-xxl"> <img src="{{staff.StaffPhoto.url}}" class="avatar-img" alt="{{staff.StaffPhoto.url}}"> </div></td>
+                        {% else %}
+                        <td> No photo </td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <td>Gender</td>

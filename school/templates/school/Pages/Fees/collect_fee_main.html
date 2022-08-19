@@ -142,7 +142,7 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
                                                                         <div class="col-sm">
                                                                             <div class="mb-3">
                                                                                 <label for="" class="form-label"> Collect Fee Number </label>
-                                                                                <input type="hidden" name="collectfee_no" value="{{ collectfeeno }}">
+                                                                                <input type="hidden" name="collectfeeno" value="{{ collectfeeno }}">
                                                                                 <div class="form-control"> {{ collectfeeno }}</div>                    
                                                                             </div>
                                                                         </div>
@@ -202,30 +202,48 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
         }
     }
     
-    function inst(){
-        var getinstallment=$('#id_installment option:selected').text();
-        console.log(getinstallment.trim())
-        
-        if (getinstallment.trim() == "I Instalment"){
+    function instcheck(getinstallment,orderid){
+        if (orderid == 1){
             var totalsum = {{totalamount}}
             var installment1=totalsum/2;
             console.log(paidamount)
             console.log(totalsum)
             document.getElementById('id_PaidAmount').value=installment1
         }
-        else if(getinstallment.trim() == "II Instalment"){
+        else if(orderid == 2){
             var totalsum = {{totalamount}}
-            {% comment %} var installment2=installment1+(totalsum/2); {% endcomment %}
             console.log(paidamount)
             console.log(totalsum)
             document.getElementById('id_PaidAmount').value=totalsum
         }
-        else if(getinstallment.trim() == "Full Payment"){
+        else if(orderid == 0){
             var totalsum = {{totalamount}}
             var paidamount=totalsum;
             console.log(paidamount)
             console.log(totalsum)
             document.getElementById('id_PaidAmount').value=totalsum
+        }
+        else{
+            document.getElementById('id_PaidAmount').value
+        }
+    }
+
+    function inst()    
+    {
+        var res=JSON.parse('{{ data | safe }}')
+        var getinstallment=document.getElementById('id_installment').value;
+        
+        if (getinstallment == res[0].pk){
+            console.log(res[0].fields.OrderID)
+            instcheck(getinstallment,res[0].fields.OrderID);
+        }
+        else if(getinstallment == res[1].pk){      
+            console.log(res[1].fields.OrderID)
+            instcheck(getinstallment,res[1].fields.OrderID);
+        }
+        else if(getinstallment == res[2].pk){
+            console.log(res[2].fields.OrderID)
+            instcheck(getinstallment,res[2].fields.OrderID);
         }
         else{
             document.getElementById('id_PaidAmount').value

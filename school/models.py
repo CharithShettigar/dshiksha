@@ -1,7 +1,4 @@
-from gc import collect
-from pyexpat import model
 from re import T
-from tkinter import CASCADE
 from datetime import datetime
 import os
 from django.db import models
@@ -131,12 +128,6 @@ class Subject(models.Model):
     AssignClass = models.ForeignKey(AssignClass, on_delete=models.CASCADE)
 
 
-class Chapter(models.Model):
-    ChapterID = models.UUIDField(
-        primary_key=True, editable=False, default=uuid.uuid4)
-    ChapterName = models.CharField(max_length=50)
-    Subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-
 
 class ApplicationNo(models.Model):
     ApplicationNoID = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -168,7 +159,6 @@ class Students(models.Model):
     AdmissionID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     AdmissionNo = models.CharField(max_length=100)
     AdmissionDate = models.DateField()
-    PreviousSchoolName = models.CharField(max_length=100,null=True)
     SchoolID = models.ForeignKey(School, on_delete=models.CASCADE)
     Class = models.ForeignKey(Class, on_delete=models.CASCADE)
     AssignedClass = models.ForeignKey(AssignClass, on_delete=models.CASCADE,null=True)
@@ -189,6 +179,8 @@ class Students(models.Model):
     MotherTongue = models.ForeignKey(erp.MotherTongue, on_delete=models.CASCADE, null=True)
     AssignedClass = models.ForeignKey(AssignClass, on_delete=models.CASCADE,null=True)
     StudentPhoto = models.ImageField(upload_to=filepath_student,null=True)
+    PreviousSchoolName = models.CharField(max_length=100,null=True,blank=True)
+
     
     Village = models.ForeignKey(erp.Village, on_delete = models.CASCADE, null=True)
     Nationality=models.ForeignKey(erp.Nationality,on_delete=models.CASCADE,null=True)

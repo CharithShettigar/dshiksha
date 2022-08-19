@@ -1,3 +1,5 @@
+from datetime import datetime
+import os
 from django.db import models
 import uuid
 from main.models import User
@@ -170,6 +172,7 @@ class FeesType(models.Model):
 class Installment(models.Model):
     InstallmentID = models.UUIDField(primary_key=True, default=uuid.uuid4)
     InstallmentName = models.CharField(max_length=50)
+    OrderID=models.IntegerField()
 
 
 class SubFee(models.Model):
@@ -191,3 +194,20 @@ class Online(models.Model):
     OnlineID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     OnlineAppName = models.CharField(max_length=50)
     OrderID = models.IntegerField()
+
+# Feedback feature
+
+def filepath_feedback(request,filename):
+    old_file=filename
+    timenow=datetime.now().strftime("%Y%m%d%H%M%S")
+    filename=f'{timenow}_{old_file}'
+    return os.path.join('uploads/feedback',filename)
+
+
+class Feedback(models.Model):
+    FeedbackID=models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    FeedbackData=models.TextField(max_length=500,null=True)
+    FeedbackFile=models.FileField(upload_to=filepath_feedback,null=True)
+    School=models.CharField(max_length=100)
+    # FeedbackDate = models.DateTimeField(auto_now=True)
+

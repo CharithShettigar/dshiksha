@@ -29,7 +29,9 @@
                                         <tr>
                                             <td>student Photo</td>
                                             <td class="fw-bold">:</td>
+                                            {% if student.StudentPhoto %}
                                             <td><div class="avatar avatar-xxl"> <img src="{{student.StudentPhoto.url}}" class="avatar-img" alt="student-img"> </div></td>
+                                            {% endif %}
                                         </tr>
                                         <tr>
                                             <td>Gender</td>

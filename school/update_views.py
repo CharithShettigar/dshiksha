@@ -6,6 +6,7 @@ from dshiksha_erp import models as md
 from school import models as sm
 from main.models import UserTypes, User
 import dshiksha_erp.models as erp
+import os
 import uuid
 from django.utils.dateformat import DateFormat
 from datetime import date, datetime
@@ -23,9 +24,22 @@ def update_school(request, school_id):
                 school_data.SyllabusType=school_form.cleaned_data['SyllabusType']
                 school_data.InsitutionLevel=school_form.cleaned_data['InsitutionLevel']
                 school_data.CurrentAcademicYear=school_form.cleaned_data['CurrentAcademicYear']
-                school_data.SchoolLogo=request.FILES['school_img']
-                school_data.SchoolSeal=request.FILES['schoolseal_img']
-                school_data.SchoolSign=request.FILES['schoolsign_img']
+
+                if request.FILES.get('school_img',False):
+                    if school_data.SchoolLogo != "":
+                        os.remove(school_data.SchoolLogo.path)
+                    school_data.SchoolLogo=request.FILES['school_img']
+
+                if request.FILES.get('schoolseal_img',False):
+                    if school_data.SchoolSeal != "":
+                        os.remove(school_data.SchoolSeal.path)
+                    school_data.SchoolSeal=request.FILES['schoolseal_img']
+
+                if request.FILES.get('schoolsign_img',False):
+                    if school_data.SchoolSign != "":
+                        os.remove(school_data.SchoolSign.path)
+                    school_data.SchoolSign=request.FILES['schoolsign_img']
+
                 school_data.Landline=school_form.cleaned_data['Landline']
                 school_data.Mobile=school_form.cleaned_data['Mobile']
                 school_data.Website=school_form.cleaned_data['Website']
@@ -108,7 +122,12 @@ def update_staff(request, staff_id):
                 staff_data.StaffName=staff_form.cleaned_data['StaffName']
                 staff_data.StaffEmailID= staff_form.cleaned_data['StaffEmailID']
                 staff_data.StaffMobile= staff_form.cleaned_data['StaffMobile']
-                staff_data.StaffPhoto=request.FILES['staff_img']
+
+                if request.FILES.get('staff_img',False):
+                    if staff_data.StaffPhoto != "":
+                        os.remove(staff_data.StaffPhoto.path)
+                    staff_data.StaffPhoto=request.FILES['staff_img']
+                
                 staff_data.Gender= staff_form.cleaned_data['Gender']
                 staff_data.DOB= staff_form.cleaned_data['DOB']
                 staff_data.BloodGroup= staff_form.cleaned_data['BloodGroup']
@@ -130,7 +149,6 @@ def update_staff(request, staff_id):
                 staff_data.save()
                 return redirect(f"/Staff/StaffInfoShow/{staff_id}")
             else:
-                print("-----------",staff_form.cleaned_data['StaffName'])
                 print("---------------",staff_form.errors)
         else:
             staff_form = fm.StaffForm(
@@ -162,7 +180,6 @@ def update_staff(request, staff_id):
             "staff_data": staff_data,
             "staff_photo":staff_data.StaffPhoto,
         }
-        print('------------staff photo:',context['staff_photo'])
         return render(request, "school/Pages/Update/update_staff_info.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/Staff/StaffInfo")
@@ -180,7 +197,12 @@ def update_student(request, student_id):
                 student_data.StudentDOB=student_form.cleaned_data['StudentDOB']
                 student_data.Gender=student_form.cleaned_data['Gender']
                 student_data.StudentMobileNo=student_form.cleaned_data['StudentMobileNo']
-                student_data.StudentPhoto=request.FILES['student_img']
+
+                if request.FILES.get('student_img',False):
+                    if student_data.StudentPhoto != "":
+                        os.remove(student_data.StudentPhoto.path)
+                    student_data.StudentPhoto=request.FILES['student_img']
+
                 student_data.Village=student_form.cleaned_data['Village']
                 student_data.Nationality=student_form.cleaned_data['Nationality']
                 student_data.BloodGroup=student_form.cleaned_data['BloodGroup']
@@ -233,7 +255,6 @@ def update_student(request, student_id):
 
                 return redirect(f"/Student/StudentShow/{student_id}")
             else:
-                print("-----------",student_form.cleaned_data['StudentName'])
                 print("---------------",student_form.errors)
         else:
             student_form = fm.StudentForm(

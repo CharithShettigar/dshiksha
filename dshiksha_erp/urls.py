@@ -43,6 +43,9 @@ urlpatterns = [
     path('Fees/CreateFeesType', views.create_fees_type, name="create_fees_type"),
     path('Fees/CreateSubFeesType', views.create_sub_fee_type, name="create_sub_fee_type"),
     path('Fees/CreateBank', views.create_bank, name="create_bank"),
+
+    #Feedback
+    path('Feedback/ReceiveFeedback',views.received_feedback,name="feedback_receive"),
 ]
 
 if settings.DEBUG:

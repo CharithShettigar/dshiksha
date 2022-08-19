@@ -1,6 +1,4 @@
 from datetime import date, datetime
-from msilib.schema import Class
-from multiprocessing import Value, context
 import json
 from turtle import title
 import uuid
@@ -280,7 +278,7 @@ def student_admission(request):
                         MotherName=student_form.cleaned_data['MotherName'],
                         GaurdianName=student_form.cleaned_data['GaurdianName'],
                         SchoolID=sm.School.objects.get(SchoolID = request.session['school_id']),
-                        # ModeOfPayment=md.ModeOfPayment.objects.get(ModeOfPaymentID=student_application_form.cleaned_data['ModeOfPayment'])
+                        PreviousSchoolName=""
                     ).save()
                     messages.info(request,"Data saved succesfully")
                     print("Data saved succesfully")
@@ -376,7 +374,8 @@ def create_staff(request):
                     
                     return redirect("/Staff/CreateStaff")
             else:
-                messages.error(request, staff_form.errors.as_text()[14:])              
+                messages.error(request, staff_form.errors.as_text()[14:])
+                print("---------mobile  ",staff_form.cleaned_data['StaffMobile'])              
                 print(staff_form.errors)
         else:
             staff_form = fm.StaffCreateForm()
@@ -424,7 +423,6 @@ def staff_info_show(request,staff_ID):
         context = {
             "staff":staff_data,
         }
-        print("---------sp----",staff_data.StaffPhoto)
 
         return render(request, "school/Pages/Staff/staff_info_show.html", context)
     else:
@@ -492,6 +490,9 @@ def collect_fee_student(request,student_id):
         # attendence_form=None
         school_id = request.session['school_id']
         collect_data=sm.CollectFee.objects.get(Admission = student_id,School=school_id)
+
+        # print("--------coole data:",collect_data)
+
         student_datas=''
         totalamount=0.0
         PaidAmount=0.0
@@ -511,6 +512,11 @@ def collect_fee_student(request,student_id):
             if collectfee_form.is_valid():
 
                 print("---------------",request.POST)
+
+                print("---------colle fee:",request.POST.get('collectfeeno'))
+                print("---------online:",request.POST.get('Online'))
+                print("---------bank:",request.POST.get('Bank'))
+
                 
                 collect_data.ModeOfPayment=collectfee_form.cleaned_data['ModeOfPayment']
                 collect_data.RefferenceNO=collectfee_form.cleaned_data['RefferenceNO']
@@ -519,7 +525,7 @@ def collect_fee_student(request,student_id):
 
                 if request.POST.get('Online',False):
                     collect_data.Online=md.Online.objects.get(OnlineID=request.POST.get('Online'))
-                    
+
                 collect_data.Installment=collectfee_form.cleaned_data['Installment']
                 collect_data.PaidAmount=collectfee_form.cleaned_data['PaidAmount']
                 
@@ -530,12 +536,13 @@ def collect_fee_student(request,student_id):
                 else:
                     collect_data.PaymentStatus="No Updates"
                 
-                collect_data.CollectFeeNo=request.POST.get('collectfeeno'),
-                collect_data.CollectFeeDate=DateFormat(date.today()).format('Y-m-d'),
+                collect_data.CollectFeeNo=request.POST.get('collectfeeno')
+                print("---------colle fee:",request.POST.get('collectfeeno'))
+                print("---------online:",request.POST.get('Online'))
+                print("---------bank:",request.POST.get('Bank'))
+                collect_data.CollectFeeDate=DateFormat(date.today()).format('Y-m-d')
                 collect_data.save()
                 
-                print("-------------",collect_data.Bank)
-                print("-------------",collect_data.Online)
                 # return redirect(f"/Fees/CollectFee/")
                 return redirect(f"/Fees/ShowCollectFee/{student_id}")
             else:
@@ -552,11 +559,14 @@ def collect_fee_student(request,student_id):
                     "PaidAmount": collect_data.PaidAmount,
                     "PaymentStatus": collect_data.PaymentStatus,
                     })
-        if sm.CollectFee.objects.filter(School=school_id).order_by('-CollectFeeNo')[0].CollectFeeNo != "":
+
+        if sm.CollectFee.objects.filter(School=school_id).order_by('-CollectFeeNo')[0].CollectFeeNo!="":
             old_collectfeeno=sm.CollectFee.objects.filter(School=school_id).order_by('-CollectFeeNo')[0].CollectFeeNo 
             new_collectfeeno="{0:04}".format(int(old_collectfeeno) + int(1))
         else:
             new_collectfeeno="0001"
+
+        jsondata=serializers.serialize("json",md.Installment.objects.all())
 
         pendingamount=totalamount- PaidAmount
         context = {
@@ -573,6 +583,7 @@ def collect_fee_student(request,student_id):
             "collectfee_list": sm.CollectFee.objects.filter(AssignClass=request.POST.get('Class')),
             "pendingamount":pendingamount,
             "totalamount":totalamount,
+            "data":jsondata
         }
         return render(request, "school/Pages/Fees/collect_fee_main.html", context)
     else:
@@ -586,7 +597,7 @@ def collect_fee(request):
         totalamount=0.0
         PaidAmount=0.0
         pendingamount=0.0
-        collectfee_form=fm.CollectFeeForm
+        collectfee_form=fm.CollectFeeForm()
         if request.method == 'POST':
             if request.POST.get("form-type") == 'select-class':
                 if not request.POST.get('Class')=="":
@@ -605,13 +616,13 @@ def collect_fee(request):
                     # student_data=sm.Students.objects.filter(Class=request.POST.get('Class')).order_by('StudentName')
                     print('2nd ouput-----------',student_datas)
                     
-                    total_Sum=sm.AssignFeeAmount.objects.filter(Class=classobj).aggregate(Sum('Amount'))
+                    total_Sum=sm.AssignFeeAmount.objects.filter(Class=classobj,School=request.session['school_id']).aggregate(Sum('Amount'))
                     totalamount=total_Sum.get('Amount__sum')
-                    print("3rd 2 --------------------------------",totalamount)
+                    print("3rd 2 amt--------------------------------",totalamount)
                     # total_Sum=sm.AssignFeeAmount.objects.filter(Class=classobj).aggregate(Sum('Amount'))
                     # total_Sum=sm.AssignFeeAmount.objects.filter(Class=sm.AssignClass.objects.get(Class=request.POST.get('Class'))).aggregate(Sum('Amount'))
                     # total_Sum=sm.AssignFeeAmount.objects.filter(FeesType='').aggregate(sum('Amount'))
-                    print("3rd ouput------------------",total_Sum)
+                    print("3rd ouput sum------------------",total_Sum)
                     
                     for i in student_datas:
                         print('6th ouput---------------------',i)
@@ -769,7 +780,6 @@ def student_attendance_show(request,student_id):
 
         jsondata=serializers.serialize("json",student_attendance)
 
-
         context = {
             "student_data":student_data,
             "total_present":total_present,
@@ -782,3 +792,21 @@ def student_attendance_show(request,student_id):
     else:
         return redirect("/accounts/login/?redirect_to=/Attendance/ReportAttendance")
 
+def feedback_info(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':     
+            feedback=md.Feedback()
+            schooldata=sm.School.objects.get(SchoolID=request.session['school_id'])
+            schoolname=schooldata.SchoolName
+            schoolDISECode=schooldata.SchoolDISECode
+
+            feedback.FeedbackData=request.POST.get("feedback_data") 
+            if request.FILES.get('feedback_file',False):
+                feedback.FeedbackFile=request.FILES.get('feedback_file')
+            feedback.School=f"{schoolname} {schoolDISECode}"
+            feedback.save()
+            messages.info(request, "Feedback sent successfully")           
+
+        return render(request, "school/Pages/Feedback/school_feedback.html")
+    else:
+        return redirect("/accounts/login/?redirect_to=/Feedback/FeedbackInfo")

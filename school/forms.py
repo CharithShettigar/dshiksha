@@ -1,5 +1,4 @@
-from dataclasses import fields
-from pyexpat import model
+import re
 from django import forms
 from main.models import User
 from school import models as sm
@@ -28,10 +27,20 @@ class StaffCreateForm(forms.ModelForm):
         super(StaffCreateForm, self).__init__(*args, **kwaargs)
         self.fields['Password'] = forms.CharField(widget=forms.PasswordInput)
         self.fields['PasswordConfirm'] = forms.CharField(widget=forms.PasswordInput)
-
+            
     def clean(self):
         if self.cleaned_data['Password'] != self.cleaned_data['PasswordConfirm']:
             raise forms.ValidationError("Password does not match")
+
+        mobilepattern=re.compile("[0-9]{10}")
+        if not mobilepattern.match(self.cleaned_data['StaffMobile']):
+            raise forms.ValidationError("Enter proper mobile number")
+
+        namepattern=re.compile("^[a-zA-Z ]")
+        if not namepattern.match(self.cleaned_data['StaffName']):
+            raise forms.ValidationError("Enter proper name")
+
+        
 
 
 class StaffForm(forms.ModelForm):
@@ -80,7 +89,8 @@ class AssignFeeAmountForm(forms.ModelForm):
 class CollectFeeForm(forms.ModelForm):
     class Meta:
         model=sm.CollectFee
-        exclude=['CollectFeeID','Admission','AssignClass','School','CollectFeeDate','CollectFeeNO','PaymentStatus']
+        exclude=['CollectFeeID','CollectFeeDate','Admission','AssignClass','School','Bank','PaymentStatus','Online','CollectFeeNo']
+
 
 class AttendanceForm(forms.ModelForm):
     class Meta:

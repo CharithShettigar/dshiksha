@@ -126,19 +126,19 @@
                                                                                 <td>
                                                                                     <div>
                                                                                         <a name="" id="" class="btn btn-warning p-2" href="/Fees/StudnetCollectFee/{{ cf.Admission.AdmissionID }}" role="button">
-                                                                                        <i class="fas fa-edit"></i>
+                                                                                        <i class="fas fa-edit"></i></a>
                                                                                     </div>
                                                                                 </td>
                                                                             {% elif cf.PaymentStatus == "Pending"%}
                                                                                 <td>
                                                                                     <div>
                                                                                         <a name="" id="" class="btn btn-warning p-2" href="/Fees/StudnetCollectFee/{{ cf.Admission.AdmissionID }}" role="button">
-                                                                                        <i class="fas fa-search"></i>
+                                                                                        <i class="fas fa-search"></i></a>
                                                                                     </div>
                                                                                     
-                                                                                    <div>
+                                                                                    {% comment %} <div>
                                                                                         <a name="" id="" class="btn btn-dark py-1" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button">View details</a>
-                                                                                    </div>
+                                                                                    </div> {% endcomment %}
                                                                                 </td>
                                                                             {% else %}
                                                                                 <td>
