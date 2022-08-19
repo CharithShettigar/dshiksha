@@ -1,0 +1,254 @@
+{% extends 'school/base.html' %}
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+Student Collect Fee | {{collect_data.Admission.StudentName}}
+{% endblock title %}
+
+{% block stylesheets %}
+
+<style>
+
+</style>
+
+{% endblock stylesheets %}
+
+{% block body %}
+
+<div class="content">
+    <div class="page-inner">
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Collect - {{collect_data.Admission.StudentName}} - Fees</div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-lg-12 d-flex flex-column">
+                                <div class="row flex-grow">
+                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                                        <div class="card card-rounded mr-3 ml-3">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <form action="/Fees/StudnetCollectFee/{{collect_data.Admission.AdmissionID}}" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="row">
+
+                                                            <div class="col-sm ">
+                                                                <div class="form-group">
+                                                                    <label for="" class="form-label"> Installment
+                                                                    </label>
+                                                                    <select name="Installment" id="id_installment"
+                                                                        class="form-control" onchange="inst()">
+                                                                        <option value=""> ---------- </option>
+                                                                        {% for il in installment_list %}
+                                                                        <option value="{{ il.InstallmentID }}">
+                                                                            {{il.InstallmentName}}
+                                                                        </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm ">
+
+                                                                <div class="form-group">
+                                                                    <label for="" class="form-label"> Mode Of Payment
+                                                                    </label>
+                                                                    <select name="ModeOfPayment" id="id_modeofpayment"
+                                                                        class="form-control" onchange="func()">
+                                                                        <option value=""> ---------- </option>
+                                                                        {% for mp in modeofpayment_list %}
+                                                                        <option value="{{ mp.ModeOfPaymentID }}">
+                                                                            {{mp.ModeOfPayment}}
+                                                                        </option>
+
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                {% comment %} Bank {% endcomment %}
+                                                                <div id="bank_cotainer" style="display:none;" >
+                                                                    <div class="form-group row">
+                                                                        {% comment %} <div style="margin-left:10 display:none" id="bank_refer">
+                                                                            <label for="" class="form-label"> Reference
+                                                                                Number </label>
+                                                                            {{ collectfee_form.RefferenceNO | attr:"class=form-control" }}
+                                                                        </div> {% endcomment %}
+
+                                                                        <div style="margin-left:10">
+                                                                            <label for="" class="form-label"> Bank Name </label>
+                                                                            <select name="Bank" id="id_bank"
+                                                                                class="form-control">
+                                                                                <option value=""> ---------- </option>
+                                                                                {% for bl in bank_list %}
+                                                                                <option value="{{ bl.BankID }}">
+                                                                                    {{bl.BankName}}
+                                                                                </option>
+                                                                                {%endfor%}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% comment %} Online {% endcomment %}
+                                                                <div id="online_cotainer" style="display:none;">
+                                                                    <div style="margin-left:10">
+                                                                        <label for="" class="form-label"> Online App </label>
+                                                                        <select name="Online" id="id_online" class="form-control">
+                                                                            <option value=""> ---------- </option>
+                                                                            {% for ol in online_list %}
+                                                                            <option value="{{ ol.OnlineID }}">
+                                                                                {{ol.OnlineAppName}}
+                                                                                    </option>
+                                                                                {%endfor%}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% comment %} Cash {% endcomment %}
+                                                                <div class="form-group ">
+                                                                        <div class="form-group row">
+                                                                            <div style="margin-left:10 display:none;" id="refer">
+                                                                                <label for="" class="form-label"> Reference Number </label>
+                                                                                {{ collectfee_form.RefferenceNO | attr:"class=form-control" }}
+                                                                            </div>
+                                                                        <div style="margin-left:10">
+                                                                            <label for="" class="form-label"> Amount </label>
+                                                                            {% render_field collectfee_form.PaidAmount class="form-control " %}
+                                                                        </div>
+                                                                        <div class="col-sm">
+                                                                            <div class="mb-3">
+                                                                                <label for="" class="form-label"> Collect Fee Number </label>
+                                                                                <input type="hidden" name="collectfeeno" value="{{ collectfeeno }}">
+                                                                                <div class="form-control"> {{ collectfeeno }}</div>                    
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm">
+                                                                            <div class="mb-3">
+                                                                                <label for="" class="form-label">Application Date</label>
+                                                                                <input type="hidden" name="collectfee_date" value="{{ collectfee_date }}">
+                                                                                <div class="form-control"> {{ collectfee_date }}</div>                    
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary text-white"> Save </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block javascripts %}
+<script>
+    {% comment %} $('#id_AttendanceDate').val(new Date().toJSON().slice(0, 10)); {% endcomment %}
+    function func(){
+        //var getpayment=document.getElementById('id_modeofpayment').value;
+        var getpayment=$('#id_modeofpayment option:selected').text();
+
+        if (getpayment.trim() == "Bank"){
+            document. getElementById('bank_cotainer'). style. display = 'block'
+            document. getElementById('online_cotainer'). style. display = 'none'
+            document. getElementById('refer'). style. display = 'block'
+
+        }
+        else if(getpayment.trim() == "Online"){
+            document. getElementById('online_cotainer'). style. display = 'block'
+            document. getElementById('bank_cotainer'). style. display = 'none'
+            document. getElementById('refer'). style. display = 'block'
+        }
+        else if(getpayment.trim() == "Cash"){
+            document. getElementById('bank_cotainer'). style. display = 'none'
+            document. getElementById('online_cotainer'). style. display = 'none'
+            document. getElementById('refer'). style. display = 'none'
+        }
+    }
+    
+    function instcheck(getinstallment,orderid){
+        if (orderid == 1){
+            var totalsum = {{totalamount}}
+            var installment1=totalsum/2;
+            console.log(paidamount)
+            console.log(totalsum)
+            document.getElementById('id_PaidAmount').value=installment1
+        }
+        else if(orderid == 2){
+            var totalsum = {{totalamount}}
+            console.log(paidamount)
+            console.log(totalsum)
+            document.getElementById('id_PaidAmount').value=totalsum
+        }
+        else if(orderid == 0){
+            var totalsum = {{totalamount}}
+            var paidamount=totalsum;
+            console.log(paidamount)
+            console.log(totalsum)
+            document.getElementById('id_PaidAmount').value=totalsum
+        }
+        else{
+            document.getElementById('id_PaidAmount').value
+        }
+    }
+
+    function inst()    
+    {
+        var res=JSON.parse('{{ data | safe }}')
+        var getinstallment=document.getElementById('id_installment').value;
+        
+        if (getinstallment == res[0].pk){
+            console.log(res[0].fields.OrderID)
+            instcheck(getinstallment,res[0].fields.OrderID);
+        }
+        else if(getinstallment == res[1].pk){      
+            console.log(res[1].fields.OrderID)
+            instcheck(getinstallment,res[1].fields.OrderID);
+        }
+        else if(getinstallment == res[2].pk){
+            console.log(res[2].fields.OrderID)
+            instcheck(getinstallment,res[2].fields.OrderID);
+        }
+        else{
+            document.getElementById('id_PaidAmount').value
+        }
+    }
+</script>
+
+{% endblock javascripts %}

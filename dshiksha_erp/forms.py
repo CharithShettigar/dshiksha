@@ -265,7 +265,7 @@ class FeesTypeForm(forms.ModelForm):
 class InstallmentForm(forms.ModelForm):
     class Meta:
         model = md.Installment
-        fields = ['InstallmentName']
+        fields = ['InstallmentName','OrderID']
 
 
 class SubFeeForm(forms.ModelForm):

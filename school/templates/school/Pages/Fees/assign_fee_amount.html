@@ -1,0 +1,119 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Assign Fee Amount
+{% endblock title %}
+
+
+{% block body %}
+    <div class="content">
+        <div class="page-inner">
+            <div class="col">
+                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                    <div class="card-body">
+                        <h4 class="card-title text-white">Assign Fee Amount </h4>
+                        <form action="/Fees/AssignFeeAmount" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="" class="form-label text-white"> Class Name</label>
+                                <select name="Class" id="id_Class" class="form-control">
+                                    <option value=""> ----------- </option>
+                                    {% for cl in classobj_value %}
+                                        <option value="{{ cl.ClassID }}"> {{ cl.ClassList.ClassName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label text-white"> Main Fee</label>
+                                <select name="FeesType" id="id_FeesType" class="form-control" onchange="func()">
+                                    <option value=""> ---------- </option>
+                                   {% for ft in feetype_list %}
+                                    <option value="{{ ft.FeesTypeID }}"> {{ ft.FeesTypeName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label text-white"> Sub Fee</label>
+                                <select name="SubFee" id="id_SubFee" class="form-control">
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="" class="form-label text-white"> Amount</label>
+                                {{ afa_form.Amount | attr:"class=form-control" }}
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary"> Create </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>    
+            </div>
+            <div class="col">
+                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                    <div class="card-body">
+                        <h4 class="card-title text-white">Assigned Fee Amount List </h4>
+                        <div class="table-responsive  mt-1">
+                            <!-- Table details here -->
+                            <table class="table text-white">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Sr.No.</th>
+                                        <th>Class with Fee Type and Sub Fee</th>    
+                                        <th>Amount</th>    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if afa_list %}
+                                        {% for af in afa_list %}
+                                            <tr>
+                                                <td> {{ forloop.counter }} </td>
+                                                <td> {{ af.Class.ClassList.ClassName }}  - {{af.FeesType.FeesTypeName}} - {{ af.SubFee.SubFeeName }}</td>
+                                                <td> {{ af.Amount}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {%endif%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block javascripts %}
+<script>
+    function func(){
+        var res=JSON.parse('{{ data | safe }}')
+        var getfeestype=document.getElementById('id_FeesType').value;
+        var dpsubfee=document.getElementById('id_SubFee')
+        
+        var l=dpsubfee.options.length-1
+        console.log(l)
+        for(var x = l;x>=0;x--)
+        {
+            dpsubfee.remove(x)
+        }
+
+        for(var i in res)
+        {
+            var mid=res[i].fields.FeesType
+            if(getfeestype==mid)
+            {
+                var SubFeeID=res[i].pk;
+                var SubFeeName=res[i].fields.SubFeeName;
+                var option=document.createElement("option")
+                option.text=SubFeeName
+                option.value=SubFeeID
+                dpsubfee.add(option,dpsubfee[i])
+            }
+        }
+    }
+</script>
+{% endblock javascripts %}

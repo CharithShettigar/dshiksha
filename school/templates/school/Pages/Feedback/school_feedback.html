@@ -1,0 +1,79 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Feedback | {{ school_name }}
+{% endblock title %}
+
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block body %}
+
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Feedback to Admin</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="/">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="/Feedback/FeedbackInfo">Feedback</a>
+                </li>
+                
+            </ul>
+        </div>
+        {% if messages %}
+            <div>
+                {% for message in messages %} 
+                {% if message.tags == 'info' %}
+                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Success!</strong> {{ message.message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert">
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+
+                        <form action="/Feedback/FeedbackInfo" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label for="" class="form-label"> Feedback</label>
+                                <textarea class="form-control" name="feedback_data" id="" rows="4"></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="" class="form-label">For more info upload the file</label>
+                                <input type="file" name="feedback_file" class="form-control"> 
+                            </div>
+                            
+                            
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary"> Submit </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock body %}
