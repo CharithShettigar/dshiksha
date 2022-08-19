@@ -7,6 +7,8 @@ from school import models as sm
 from main.models import UserTypes, User
 import dshiksha_erp.models as erp
 import uuid
+from django.utils.dateformat import DateFormat
+from datetime import date, datetime
 
 # Update View methods
 
@@ -169,7 +171,7 @@ def update_staff(request, staff_id):
 def update_student(request, student_id):
     if request.user.is_authenticated:
         student_data = sm.Students.objects.get(AdmissionID = student_id)
-        assignclassobj=sm.Students.objects.get(AssignedClass=student_data.AssignedClass)
+        # assignclassobj=sm.Students.objects.get(AssignedClass=student_data.AssignedClass)
         print('1st-------------------------',student_data.AssignedClass)
         if request.method == "POST":
             student_form = fm.StudentForm(request.POST)

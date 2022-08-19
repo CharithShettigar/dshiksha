@@ -29,6 +29,9 @@
                                         <div class="card card-rounded mr-3 ml-3">
                                             <div class="card-body">
                                                 <div class="row">
+                                                    {% if school_logo %}
+                                                    <div class="avatar avatar-xxl"><img src="{{school_logo.url}}" class="avatar-img" alt="school logo"></div>
+                                                    {% endif %}
                                                     {{student_id_data.School.SchoolName}}
                                                     {{student_id_data.School.Village.Taluk.TalukName}}
                                                 </div>
@@ -39,24 +42,38 @@
                                                 <div class="row">
                                                     Ref No.: {{student_id_data.RefferenceNO}}
                                                 </div>
-                                                <div class="row">
+                                                <div class="row" style="text-transform:Capitalize">
                                                     Received From:
                                                     {{student_id_data.Admission.StudentName}}
                                                     {{student_id_data.Admission.AddressLine1}}
                                                     {{student_id_data.Admission.AddressLine2}} {{student_id_data.Admission.Village.VillageName}} 
                                                     {{student_id_data.Admission.Village.Taluk.TalukName}} {{student_id_data.Admission.Village.Taluk.District.DistrictName}}-{{student_id_data.Admission.Pincode.Pincode}}
                                                 </div>
-                                                <div class="row">
+                                                <div class="row" style="text-transform:Capitalize">
                                                     Fees Collected From:
-                                                    {{student_id_data.Admission.StudentName}} Of {{student_id_data.Admission.Class.ClassList.ClassName}} 
+                                                    {{student_id_data.Admission.StudentName}} of {{student_id_data.Admission.Class.ClassList.ClassName}} Standard
                                                 </div>
                                                 <div class="row">
-                                                    Rupees:{{}}
+                                                    Rupees:{{ruppes_in_words}}
+                                                    <div class="col">
+                                                        Amount Rs: {{student_id_data.PaidAmount}} 
+                                                    </div>
+                                                </div>
+                                                <div class="row">
                                                     Paid By:{{student_id_data.ModeOfPayment.ModeOfPayment}} 
                                                 </div>
                                                 <div class="row">
-                                                    Amount Rs: {{student_id_data.PaidAmount}} 
+                                                    {% if school_sign %}
+                                                    <div class="avatar avatar-xxl"><img src="{{school_sign.url}}" class="avatar-img" alt="school sign"></div>
+                                                    {% endif %}
+                                                    Cashier
+                                                    {% if school_seal %}
+                                                    <div class="avatar avatar-xxl"><img src="{{school_seal.url}}" class="avatar-img" alt="school seal"></div>
+                                                    {% endif %}
+                                                    Verified By
                                                 </div>
+                                                {% comment %} <div class="row">
+                                                </div> {% endcomment %}
                                             </div>
                                         </div>
                                     </div>
