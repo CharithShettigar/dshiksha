@@ -652,7 +652,7 @@ def create_fees_type(request):
             elif request.POST.get("form-type") == "installment-form":
                 if installment_form.is_valid():
                     if not md.Installment.objects.filter(InstallmentName = installment_form.cleaned_data['InstallmentName']).exists():
-                        md.Installment(InstallmentID = uuid.uuid4(), InstallmentName = installment_form.cleaned_data['InstallmentName']).save()
+                        md.Installment(InstallmentID = uuid.uuid4(), InstallmentName = installment_form.cleaned_data['InstallmentName'],OrderID=installment_form.cleaned_data['OrderID']).save()
                         return redirect("/Fees/CreateFeesType")
                     else:
                         messages.error(request, "Installment already exists")
@@ -735,3 +735,16 @@ def create_bank(request):
         return render(request, "dshiksha_erp/Pages/Fees/create_bank.html", context)
     else:
         return redirect("/accounts/login/?redirect_to=/Fees/CreateBank")
+
+
+def received_feedback(request):
+    if request.user.is_authenticated:
+        feedbackdata=md.Feedback.objects.all()
+        context={
+            "feedback_data":feedbackdata,
+        }
+
+
+        return render(request, "dshiksha_erp/Pages/Feedback/feedback_received.html",context)
+    else:
+        return redirect("/accounts/login/?redirect_to=/Feedback/ReceiveFeedback")

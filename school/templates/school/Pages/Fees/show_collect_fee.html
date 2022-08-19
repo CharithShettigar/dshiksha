@@ -1,0 +1,76 @@
+{% extends 'school/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    Show Fee Resipt 
+{% endblock title %}
+
+{% block stylesheets %}
+<style>
+
+</style>
+{% endblock stylesheets %}
+
+{% block body %}
+<div class="content">
+    <div class="page-inner">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Show Collect Fees</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 d-flex flex-column">
+                                <div class="row flex-grow">
+                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                                        <div class="card card-rounded mr-3 ml-3">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    {{student_id_data.School.SchoolName}}
+                                                    {{student_id_data.School.Village.Taluk.TalukName}}
+                                                </div>
+                                                <div class="row">
+                                                    Trans Number: {{student_id_data.CollectFeeNo}}
+                                                    Trans Date: {{student_id_data.CollectFeeDate}}
+                                                </div>
+                                                <div class="row">
+                                                    Ref No.: {{student_id_data.RefferenceNO}}
+                                                </div>
+                                                <div class="row">
+                                                    Received From:
+                                                    {{student_id_data.Admission.StudentName}}
+                                                    {{student_id_data.Admission.AddressLine1}}
+                                                    {{student_id_data.Admission.AddressLine2}} {{student_id_data.Admission.Village.VillageName}} 
+                                                    {{student_id_data.Admission.Village.Taluk.TalukName}} {{student_id_data.Admission.Village.Taluk.District.DistrictName}}-{{student_id_data.Admission.Pincode.Pincode}}
+                                                </div>
+                                                <div class="row">
+                                                    Fees Collected From:
+                                                    {{student_id_data.Admission.StudentName}} Of {{student_id_data.Admission.Class.ClassList.ClassName}} 
+                                                </div>
+                                                <div class="row">
+                                                    Rupees:{{200}}
+                                                    Paid By:{{student_id_data.ModeOfPayment.ModeOfPayment}} 
+                                                </div>
+                                                <div class="row">
+                                                    Amount Rs: {{student_id_data.PaidAmount}} 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block javascripts %}
+
+{% endblock javascripts %}

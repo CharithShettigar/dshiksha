@@ -68,6 +68,12 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
+                                                        <label for="" class="form-label text-white"> Order ID</label>
+                                                        {{ installment_form.OrderID | attr:"class=form-control" }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
                                                         <label for="exampleInputUsername1">&nbsp;</label>
 
                                                         <div class="input-group col-xs-12">                                                        
@@ -146,6 +152,7 @@
                                                     <tr>
                                                         <th width="10%">Sr.No.</th>
                                                         <th>Installment Name</th>
+                                                        <th>Order ID</th>
 
                                                     </tr>
                                                 </thead>
@@ -157,6 +164,11 @@
                                                         <td>                                                           
                                                             <div>
                                                                 {{ installment.InstallmentName }}
+                                                            </div>
+                                                        </td>                                                       
+                                                        <td>                                                           
+                                                            <div>
+                                                                {{ installment.OrderID }}
                                                             </div>
                                                         </td>                                                       
                                                     </tr>

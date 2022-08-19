@@ -81,6 +81,16 @@ class StudentForm(forms.ModelForm):
         model = sm.Students   
         exclude = ['UserID','SchoolID','AdmissionNo','AdmissionID','Application','AdmissionDate','StudentPhoto']
 
+class AssignFeeAmountForm(forms.ModelForm):
+    class Meta:
+        model=sm.AssignFeeAmount
+        fields=['Class','SubFee','FeesType','Amount']
+
+class CollectFeeForm(forms.ModelForm):
+    class Meta:
+        model=sm.CollectFee
+        exclude=['CollectFeeID','CollectFeeDate','Admission','AssignClass','School','Bank','PaymentStatus','Online','CollectFeeNo']
+
 
 class AttendanceForm(forms.ModelForm):
     class Meta:

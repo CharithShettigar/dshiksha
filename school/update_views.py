@@ -7,6 +7,7 @@ from school import models as sm
 from main.models import UserTypes, User
 import dshiksha_erp.models as erp
 import os
+import uuid
 
 # Update View methods
 
@@ -22,17 +23,20 @@ def update_school(request, school_id):
                 school_data.InsitutionLevel=school_form.cleaned_data['InsitutionLevel']
                 school_data.CurrentAcademicYear=school_form.cleaned_data['CurrentAcademicYear']
 
-                if school_data.SchoolLogo != "":
-                    os.remove(school_data.SchoolLogo.path)
-                school_data.SchoolLogo=request.FILES['school_img']
+                if request.FILES.get('school_img',False):
+                    if school_data.SchoolLogo != "":
+                        os.remove(school_data.SchoolLogo.path)
+                    school_data.SchoolLogo=request.FILES['school_img']
 
-                if school_data.SchoolSeal != "":
-                    os.remove(school_data.SchoolSeal.path)
-                school_data.SchoolSeal=request.FILES['schoolseal_img']
+                if request.FILES.get('schoolseal_img',False):
+                    if school_data.SchoolSeal != "":
+                        os.remove(school_data.SchoolSeal.path)
+                    school_data.SchoolSeal=request.FILES['schoolseal_img']
 
-                if school_data.SchoolSign != "":
-                    os.remove(school_data.SchoolSign.path)
-                school_data.SchoolSign=request.FILES['schoolsign_img']
+                if request.FILES.get('schoolsign_img',False):
+                    if school_data.SchoolSign != "":
+                        os.remove(school_data.SchoolSign.path)
+                    school_data.SchoolSign=request.FILES['schoolsign_img']
 
                 school_data.Landline=school_form.cleaned_data['Landline']
                 school_data.Mobile=school_form.cleaned_data['Mobile']
@@ -117,9 +121,10 @@ def update_staff(request, staff_id):
                 staff_data.StaffEmailID= staff_form.cleaned_data['StaffEmailID']
                 staff_data.StaffMobile= staff_form.cleaned_data['StaffMobile']
 
-                if staff_data.StaffPhoto != "":
-                    os.remove(staff_data.StaffPhoto.path)
-                staff_data.StaffPhoto=request.FILES['staff_img']
+                if request.FILES.get('staff_img',False):
+                    if staff_data.StaffPhoto != "":
+                        os.remove(staff_data.StaffPhoto.path)
+                    staff_data.StaffPhoto=request.FILES['staff_img']
                 
                 staff_data.Gender= staff_form.cleaned_data['Gender']
                 staff_data.DOB= staff_form.cleaned_data['DOB']
@@ -181,7 +186,8 @@ def update_staff(request, staff_id):
 def update_student(request, student_id):
     if request.user.is_authenticated:
         student_data = sm.Students.objects.get(AdmissionID = student_id)
-
+        # assignclassobj=sm.Students.objects.get(AssignedClass=student_data.AssignedClass)
+        print('1st-------------------------',student_data.AssignedClass)
         if request.method == "POST":
             student_form = fm.StudentForm(request.POST)
             if student_form.is_valid():
@@ -190,9 +196,10 @@ def update_student(request, student_id):
                 student_data.Gender=student_form.cleaned_data['Gender']
                 student_data.StudentMobileNo=student_form.cleaned_data['StudentMobileNo']
 
-                if student_data.StudentPhoto != "":
-                    os.remove(student_data.StudentPhoto.path)
-                student_data.StudentPhoto=request.FILES['student_img']
+                if request.FILES.get('student_img',False):
+                    if student_data.StudentPhoto != "":
+                        os.remove(student_data.StudentPhoto.path)
+                    student_data.StudentPhoto=request.FILES['student_img']
 
                 student_data.Village=student_form.cleaned_data['Village']
                 student_data.Nationality=student_form.cleaned_data['Nationality']
@@ -230,6 +237,20 @@ def update_student(request, student_id):
                 student_data.GaurdianOccupation=student_form.cleaned_data['GaurdianOccupation']
                 student_data.GaurdianIncome=student_form.cleaned_data['GaurdianIncome']
                 student_data.save()
+                
+                if not sm.CollectFee.objects.filter(Admission=student_id, School = sm.School.objects.get(SchoolID = request.session['school_id']).SchoolID).exists():
+                    sm.CollectFee(
+                        CollectFeeID=uuid.uuid4(),
+                        Admission=sm.Students.objects.get(AdmissionID=student_id), 
+                        AssignClass=student_data.AssignedClass,                        
+                        School=sm.School.objects.get(SchoolID = request.session['school_id']),
+                        PaymentStatus="No Updates",
+                        PaidAmount=0
+                        ).save()
+                else:
+                    print("alredy created")
+                # print('1st-----------------------',sm.Students.objects.get(AdmissionID=student_id))
+
                 return redirect(f"/Student/StudentShow/{student_id}")
             else:
                 print("---------------",student_form.errors)
