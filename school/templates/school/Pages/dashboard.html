@@ -7,93 +7,83 @@
 
 {% block body %}
 			
-	{% comment %} <div class="content">
-		<div class="panel-header bg-warning-gradient">
-			<div class="page-inner py-5">
-				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-					<div>
-						<h2 class="text-white pb-2 fw-bold">Dashboard</h2>
-						<h5 class="text-white op-7 mb-2">Dshiksha Admin Dashboard</h5>
-					</div>
+	<div class="content">
+		<div class="panel-header bg-primary-gradient">
+			<div class="page-inner py-4">
+				<div class="page-header text-white">
+					<h4 class="page-title text-white">Dashboard</h4>
+					<ul class="breadcrumbs">
+						<li class="nav-home">
+							<a href="/">
+								<i class="flaticon-home text-white fw-bold"></i>
+							</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow text-white fw-bold"></i>
+						</li>
+						<li class="nav-item">
+							<a href="/" class="text-white fw-bold">Overview</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
-	</div> {% endcomment %}
+		<div class="page-inner mt--5">
 
-	<div class="content">
-		<div class="page-inner">
-			<h4 class="page-title">Overview</h4>
+			{% comment %} <h4 class="page-title">Overview</h4> {% endcomment %}
 			<div class="row">
-				<div class="col-sm-6 col-md-3">
-					<div class="card card-stats card-primary card-round">
-						<div class="card-body">
+				<div class="col-sm-6 col-md-4">
+					<div class="card card-stats bg-info-gradient card-round">
+						<div class="card-body skew-shadow">
 							<div class="row">
 								<div class="col-5">
-									<div class="icon-big text-center">
+									<div class="icon-big text-center text-white">
 										<i class="flaticon-users"></i>
 									</div>
 								</div>
 								<div class="col-7 col-stats">
 									<div class="numbers">
-										<p class="card-category">Students</p>
-										<h4 class="card-title">{{s_student_count}}</h4>
+										<h2 class="text-white">Students</h2>
+										<h1 class="card-title text-white">{{s_student_count}}</h1>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="card card-stats card-info card-round">
-						<div class="card-body">
+				<div class="col-sm-6 col-md-4">
+					<div class="card card-stats bg-success-gradient card-round">
+						<div class="card-body skew-shadow">
 							<div class="row">
 								<div class="col-5">
-									<div class="icon-big text-center">
-										<i class="flaticon-user"></i>
+									<div class="icon-big text-center text-white">
+										<i class="icon-user"></i>
 									</div>
 								</div>
 								<div class="col-7 col-stats">
 									<div class="numbers">
-										<p class="card-category">Boys</p>
-										<h4 class="card-title">{{student_boys_count}}</h4>
+										<h2 class="text-white">Boys</h2>
+										<h1 class="card-title text-white">{{student_boys_count}}</h1>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="card card-stats card-warning card-round">
-						<div class="card-body">
+				<div class="col-sm-6 col-md-4">
+					<div class="card card-stats bg-warning-gradient card-round">
+						<div class="card-body skew-shadow">
 							<div class="row">
 								<div class="col-5">
-									<div class="icon-big text-center">
-										<i class="flaticon-user"></i>
+									<div class="icon-big text-center text-white">
+										<i class="icon-user-female"></i>
+										
 									</div>
 								</div>
 								<div class="col-7 col-stats">
 									<div class="numbers">
-										<p class="card-category">Girls</p>
-										<h4 class="card-title">{{student_girls_count}}</h4>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="card card-stats card-success card-round">
-						<div class="card-body ">
-							<div class="row">
-								<div class="col-5">
-									<div class="icon-big text-center">
-										<i class="flaticon-users"></i>
-									</div>
-								</div>
-								<div class="col-7 col-stats">
-									<div class="numbers">
-										<p class="card-category">Total Staff</p>
-										<h4 class="card-title">{{s_staff_count}}</h4>
+										<h2 class="text-white">Girls</h2>
+										<h1 class="card-title text-white">{{student_girls_count}}</h1>
 									</div>
 								</div>
 							</div>
@@ -102,6 +92,74 @@
 				</div>
 				
 			</div>
+
+			<div class="row">
+				<div class="col-sm-6 col-md-4">
+					<div class="card card-stats bg-info-gradient card-round">
+						<div class="card-body skew-shadow">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center text-white">
+										<i class="icon-people"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<h3 class="text-white">Total Staff</h3>
+										<h1 class="card-title text-white">{{s_staff_count}}</h1>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				
+				<div class="col-sm-6 col-md-4">
+					<div class="card card-stats bg-success-gradient card-round">
+						<div class="card-body skew-shadow">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center text-white">
+										<i class="icon-user"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<h2 class="text-white">Male Staff</h2>
+										<h1 class="card-title text-white">{{student_boys_count}}</h1>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4">
+					<div class="card card-stats bg-warning-gradient card-round">
+						<div class="card-body skew-shadow">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center text-white">
+										<i class="icon-user-female"></i>
+										
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<h2 class="text-white">Female Staff</h2>
+										<h1 class="card-title text-white">{{student_girls_count}}</h1>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+			</div>
+			
+			
+			
 		</div>
 	</div>
 {% endblock body %}

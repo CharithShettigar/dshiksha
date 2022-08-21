@@ -177,7 +177,7 @@ class SchoolForm(forms.ModelForm):
 
     class Meta:
         model = cbm.School
-        fields = ['SchoolName', 'Landline','SchoolCode', 'Email', 'SchoolUsername','SyllabusType','AccountantName','AccountantEmail','AccountantMobile','AccountantWhatsAppNo','CorrespondentFirstName','CorrespondentLastName','CorrespondentEmail','CorrespondentMobile','CorrespondentWhatsAppNo']#,'EstDate']#, 'SchoolDISECode','History','Website','SchoolPANNo','GSTINo']
+        fields = ['SchoolName', 'Landline','SchoolCode', 'Email', 'SchoolUsername','SyllabusType','AccountantName','AccountantEmail','AccountantMobile','AccountantWhatsAppNo','CorrespondentName','CorrespondentEmail','CorrespondentMobile','CorrespondentWhatsAppNo']#,'EstDate']#, 'SchoolDISECode','History','Website','SchoolPANNo','GSTINo']
 
     def __init__(self, *args, **kwaargs):
         super(SchoolForm, self).__init__(*args, **kwaargs)

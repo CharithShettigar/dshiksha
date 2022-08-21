@@ -9,35 +9,38 @@
 {% block body %}
 
 <div class="content">
-    <div class="page-inner">
-        <div class="page-header">
-            <h4 class="page-title">Create Staff</h4>
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="/">
-                        <i class="flaticon-home"></i>
-                    </a>
-                </li>
-                <li class="separator">
-                    <i class="flaticon-right-arrow"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="/Staff/CreateStaff">Create Staff</a>
-                </li>
-                
-            </ul>
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Create Staff</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Staff/CreateStaff" class="text-white fw-bold">Create Staff</a>
+                    </li> 
+                </ul>
+            </div>
         </div>
+    </div>
+    <div class="page-inner mt--5">
         {% if messages %}
             <div>
                 {% for message in messages %} 
                 {% if message.tags == 'error' %}
-                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                     <i class="bi-exclamation-octagon-fill"></i>
                     <strong class="mx-2">Error!</strong> {{ message.message }}
                 </div>
                 {% endif %}
                 {% if message.tags == 'info' %}
-                <div class="alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                <div class="alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                     <i class="bi-exclamation-octagon-fill"></i>
                     <strong class="mx-2">Success!</strong> {{ message.message }}
                     </div>
@@ -45,181 +48,176 @@
                 {% endfor %}
             </div>
         {% endif %}
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <form action="/Staff/CreateStaff" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">Staff Name</label>
-                                                {{ staff_form.StaffName | attr:"class=form-control" }}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/Staff/CreateStaff" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Staff Name</label>
+                                                    {{ staff_form.StaffName | attr:"class=form-control" }}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label"> Staff ID </label>
+                                                    <input type="hidden" name="staff_id_no" value="{{ staff_id_no }}">
+                                                    <div class="form-control"> {{ staff_id_no }}</div>                    
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label"> Staff ID </label>
-                                                <input type="hidden" name="staff_id_no" value="{{ staff_id_no }}">
-                                                <div class="form-control"> {{ staff_id_no }}</div>                    
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Staff Email ID</label>
+                                                    {{ staff_form.StaffEmailID | attr:"class=form-control" }}                    
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">Staff Email ID</label>
-                                                {{ staff_form.StaffEmailID | attr:"class=form-control" }}                    
-                                            </div>
-                                        </div>
 
-                                        <div class="col-sm">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label"> Staff Mobile No</label>
-                                                {{ staff_form.StaffMobile | attr:"class=form-control" }}  
-                                                {% for error in staff_form.StaffMobile.errors %}
-                                                    <p class="help text-danger">{{error}}</p>
-                                                {% endfor %}                  
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label"> Staff Mobile No</label>
+                                                    {{ staff_form.StaffMobile | attr:"class=form-control" }}  
+                                                    {% for error in staff_form.StaffMobile.errors %}
+                                                        <p class="help text-danger">{{error}}</p>
+                                                    {% endfor %}                  
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">Designation</label>
-                                                <select name="Designation" id="id_Designation" class="form-control">
-                                                    <option value=""> ---------- </option>
-                                                    {% if designation_list %}
-                                                        {% for d in designation_list %}
-                                                        <option value="{{ d.DesignationID }}"> 
-                                                            {{ d.DesignationName }} 
-                                                        </option>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                </select> 
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Designation</label>
+                                                    <select name="Designation" id="id_Designation" class="form-control">
+                                                        {% if designation_list %}
+                                                            {% for d in designation_list %}
+                                                            <option value="{{ d.DesignationID }}"> 
+                                                                {{ d.DesignationName }} 
+                                                            </option>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </select> 
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-sm">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">StaffQualification</label>
-                                                <select name="StaffQualification" id="id_StaffQualification" class="form-control">
-                                                    <option value=""> ---------- </option>
-                                                    {% if staffquaify_list %}
-                                                        {% for s in staffquaify_list %}
-                                                        <option value="{{ s.StaffQualificationID }}"> 
-                                                            {{ s.StaffQualificationName }} 
-                                                        </option>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                </select>
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">StaffQualification</label>
+                                                    <select name="StaffQualification" id="id_StaffQualification" class="form-control">
+                                                        {% if staffquaify_list %}
+                                                            {% for s in staffquaify_list %}
+                                                            <option value="{{ s.StaffQualificationID }}"> 
+                                                                {{ s.StaffQualificationName }} 
+                                                            </option>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label"> Password </label>
-                                                {{ staff_form.Password | attr:'class=form-control' }}                    
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label"> Password </label>
+                                                    {{ staff_form.Password | attr:'class=form-control' }}                    
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-sm">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label"> Confirm Password </label>
-                                                {{ staff_form.PasswordConfirm | attr:"class=form-control" }}                        
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label"> Confirm Password </label>
+                                                    {{ staff_form.PasswordConfirm | attr:"class=form-control" }}                        
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input type="checkbox" name="StaffHead" class="form-check-input" value="True">    
-                                                    <span class="form-check-sign">Is Staff Head of the School.</span>
-                                                </label>
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox" name="StaffHead" class="form-check-input" value="True">    
+                                                        <span class="form-check-sign">Is Staff Head of the School.</span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>                                                                       
-                            </div>  
-                        </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary"> Create </button>
-                        </div>
-                    </form>
-                    
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    {% if staff_list %}
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    
-                    <div>
-                        <h3>Staff List</h3>
-
-                            <table id="StaffData" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Sr.No.</th>
-                                        <th>StaffName</th>
-                                        <th>StaffEmailID</th>
-                                        <th>StaffNo</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for staff in staff_list %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>
-                                            <div>
-                                                {{ staff.StaffName }} 
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                 {{ staff.StaffEmailID }} 
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                {{ staff.StaffNo }}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <a name="" id="" class="btn btn-info p-2" href="/Staff/StaffInfoShow/{{ staff.StaffID }}" role="button">
-                                                    <i class=" fa fa-search"></i>
-                                                </a>
-                                                <a name="" id="" class="btn btn-warning p-2" href="/Update/UpdateStaffInfo/{{ staff.StaffID }}" role="button">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            </div>     
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </div>                                                                       
+                                </div>  
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary"> Create </button>
+                            </div>
+                        </form>
                         
-                    </div>
-                    
+                    </div> 
                 </div>
             </div>
         </div>
+        {% if staff_list %}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Staff List</div>
+                    </div>
+                    <div class="card-body">
+                        <table id="StaffData" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Sr.No.</th>
+                                    <th>StaffName</th>
+                                    <th>StaffEmailID</th>
+                                    <th>StaffNo</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for staff in staff_list %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        <div>
+                                            {{ staff.StaffName }} 
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {{ staff.StaffEmailID }} 
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {{ staff.StaffNo }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <a name="" id="" class="btn btn-info p-2" href="/Staff/StaffInfoShow/{{ staff.StaffID }}" role="button">
+                                                <i class=" fa fa-search"></i>
+                                            </a>
+                                            <a name="" id="" class="btn btn-warning p-2" href="/Update/UpdateStaffInfo/{{ staff.StaffID }}" role="button">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a name="" id="" class="btn btn-dark p-2" href="/DeleteStaffInfo/{{ staff.StaffID }}" role="button">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>     
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
 </div>
 
 {% endblock body %}

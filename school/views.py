@@ -302,6 +302,13 @@ def student_admission(request):
         else:
             new_admissionno="001"
 
+        appobje=sm.Application.objects.filter(SchoolID=request.session['school_id'])
+
+        no_admis_data=[]
+        for ap in appobje:
+            if not sm.Students.objects.filter(SchoolID=request.session['school_id'],Application=ap).exists():
+                no_admis_data.append(ap)
+
         # passing class and fees details to javascript
         objset=sm.Application.objects.filter(SchoolID=school_id).order_by('ApplicationNo')
         jsondata=serializers.serialize("json",objset)
@@ -312,7 +319,7 @@ def student_admission(request):
             "amount_no":0.00,
             "admission_date": DateFormat(date.today()).format('d-m-Y'),
             "gender_list":md.Gender.objects.all().order_by('GenderOrder'),
-            "application_list":objset,
+            "application_list":no_admis_data,
             "class_list":sm.ApplicationNo.objects.filter(School=school_id),
             "student_list":sm.Students.objects.filter(SchoolID=request.session['school_id']).order_by('AdmissionNo'),
             "data":jsondata,
@@ -326,6 +333,10 @@ def student_info_show(request,student_id):
         student_data=sm.Students.objects.get(AdmissionID = student_id)
         context = {
             "student":student_data,
+            "father_name":sm.Students.objects.get(AdmissionID = student_id).FatherName,
+            "mother_name":sm.Students.objects.get(AdmissionID = student_id).MotherName,
+            "gaurdian_name":sm.Students.objects.get(AdmissionID = student_id).GaurdianName,
+
         }
         return render(request, "school/Pages/Student/student_info_show.html", context)
     else:
@@ -714,6 +725,7 @@ def mark_attendance(request):
                             AttendanceMark=request.POST.get(f'choice-{atst.AdmissionID }'),
                             SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
                         ).save()
+                    messages.info(request,"Student Attendace saved successfully")
                 return redirect("/Attendance/MarkAttendance")
 
         context={
@@ -802,3 +814,32 @@ def feedback_info(request):
         return render(request, "school/Pages/Feedback/school_feedback.html")
     else:
         return redirect("/accounts/login/?redirect_to=/Feedback/FeedbackInfo")
+
+
+# Delete Information functions
+
+def delete_staff(request,staff_id):
+    if request.user.is_authenticated:
+        staff_data=sm.Staff.objects.get(StaffID = staff_id)
+        user_data=User.objects.get(UserID=staff_data.UserID.UserID)
+        staff_data.delete()
+        user_data.delete()
+        messages.info(request,"Record deleted successfully")              
+        return redirect("/Staff/CreateStaff")
+    else:
+        return redirect("/accounts/login/?redirect_to=/Staff/CreateStaff")
+
+def delete_student(request,student_id):
+    if request.user.is_authenticated:
+        student_data=sm.Students.objects.get(AdmissionID = student_id)
+        
+        if student_data.Application:
+            print("----------app:",student_data.Application.ApplicationID)
+            application_data=sm.Application.objects.get(ApplicationID=student_data.Application.ApplicationID)
+            application_data.delete()
+
+        student_data.delete()
+        messages.info(request,"Student record deleted successfully")              
+        return redirect("/Admission/NewAdmission")
+    else:
+        return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")
