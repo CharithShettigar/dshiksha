@@ -13,7 +13,30 @@
     {% endfor %}
 {% endif %} {% endcomment %}
     <div class="content">
-        <div class="page-inner">
+
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-4">
+                <div class="page-header text-white">
+                    <h4 class="page-title text-white">Create School</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/">
+                                <i class="flaticon-home text-white fw-bold"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow text-white fw-bold"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/School/create_school" class="text-white fw-bold">Create School</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-inner mt--5">
         {% if messages %}
             <div>
                 {% for message in messages %} 
@@ -34,6 +57,9 @@
                 {% endfor %}
             </div>
         {% endif %}
+        <div class="card card-rounded mt--2 mr-3 ml-3">
+        <div class="card-body">
+        <h4 class="card-title mb-3"> Create School <hr></h4>
         <form action="/School/create_school" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
@@ -165,16 +191,10 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="mb-3">
-                        <label for="" class="form-label">Correspondent First Name</label>
+                        <label for="" class="form-label">Correspondent Name</label>
                         {% comment %} <select name="ParishArea" id="id_ParishArea" class="form-control bg-white" disabled></select> {% endcomment %}
                         {{ school_form.CorrespondentFirstName | attr:"class=form-control" }}
                     </div>
-                </div>
-                <div class="col-sm">
-                    <div class="mb-3">
-                        <label for="" class="form-label"> Correspondent Last Name</label>
-                        {{ school_form.CorrespondentLastName | attr:"class=form-control" }}
-                    </div>   
                 </div>
                 <div class="col-sm">
                     <div class="mb-3">
@@ -240,15 +260,43 @@
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
-        {% if school_list %}
-        <div class="col">
-            <h3> Schools</h3>
-                {% for school in school_list %}
-                    <div> {{ school.SchoolCode }} - {{ school.SchoolName }} - {{ school.Email }} - {{ school.Landline }}</div>
-                {% endfor %}
+
+    </div>
+    </div>
+    <div class="card card-rounded mt-5 mr-3 ml-3">
+        <div class="card-body">
+            <h4 class="card-title">List of Institution Level </h4>
+            <div class="table-responsive  mt-1">
+                <!-- Table details here -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="8%">Sr. No. </th>
+                            <th width="15%">School Name </th>    
+                            <th width="15%">School Code </th>    
+                            <th width="15%">School Email </th>    
+                            <th width="15%">School Landline </th>    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if school_list %}
+                                {% for school in school_list %}
+                                <tr>
+                                    <td> {{forloop.counter}} </td>
+                                    <td> {{ school.SchoolName }} </td>
+                                    <td> {{ school.SchoolCode }} </td>
+                                    <td> {{ school.Email }} </td> 
+                                    <td> {{ school.Landline }} </td>
+                                </tr>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        {% endif %}
-        </div>
+    </div>    
+        
     </div>
 {% endblock body %}
 

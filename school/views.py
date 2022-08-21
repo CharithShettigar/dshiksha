@@ -164,8 +164,10 @@ def assign_application_fees(request):
                 # if apf_data.Amount == 0:
                 apf_data.Amount = float(apf_form.cleaned_data['Amount'])
                 apf_data.save()
+                messages.info(request,"Application fees saved successfully")
                 return redirect("/Application/AssignApplicationFees")
             else:
+                messages.error(request,"Application fees not saved")
                 print(apf_form.errors)
         else:
             apf_form = fm.ApplicationFeesForm()
@@ -303,6 +305,13 @@ def student_admission(request):
         else:
             new_admissionno="001"
 
+        appobje=sm.Application.objects.filter(SchoolID=request.session['school_id'])
+
+        no_admis_data=[]
+        for ap in appobje:
+            if not sm.Students.objects.filter(SchoolID=request.session['school_id'],Application=ap).exists():
+                no_admis_data.append(ap)
+
         # passing class and fees details to javascript
         objset=sm.Application.objects.filter(SchoolID=school_id).order_by('ApplicationNo')
         jsondata=serializers.serialize("json",objset)
@@ -313,7 +322,7 @@ def student_admission(request):
             "amount_no":0.00,
             "admission_date": DateFormat(date.today()).format('d-m-Y'),
             "gender_list":md.Gender.objects.all().order_by('GenderOrder'),
-            "application_list":objset,
+            "application_list":no_admis_data,
             "class_list":sm.ApplicationNo.objects.filter(School=school_id),
             "student_list":sm.Students.objects.filter(SchoolID=request.session['school_id']).order_by('AdmissionNo'),
             "data":jsondata,
@@ -327,6 +336,10 @@ def student_info_show(request,student_id):
         student_data=sm.Students.objects.get(AdmissionID = student_id)
         context = {
             "student":student_data,
+            "father_name":sm.Students.objects.get(AdmissionID = student_id).FatherName,
+            "mother_name":sm.Students.objects.get(AdmissionID = student_id).MotherName,
+            "gaurdian_name":sm.Students.objects.get(AdmissionID = student_id).GaurdianName,
+
         }
         return render(request, "school/Pages/Student/student_info_show.html", context)
     else:
@@ -445,9 +458,11 @@ def assign_fee_amount(request):
                     School=sm.School.objects.get(SchoolID = request.session['school_id']), 
                     AcademicYear = erp.AcademicYear.objects.get(AcademicYearID = request.session['academic_year'])
                     ).save()
+                    messages.info(request,"Fees assigned successfully")
 
                     return redirect("/Fees/AssignFeeAmount")
             else:
+                messages.error(request, "Fees is not assigned")
                 print("Something went wrong")
                 print(afa_form.errors)
         else:
@@ -493,7 +508,7 @@ def collect_fee_student(request,student_id):
 
         # print("--------coole data:",collect_data)
 
-        student_datas=''
+        student_datas=sm.Students.objects.get(AdmissionID=student_id)
         totalamount=0.0
         PaidAmount=0.0
         pendingamount=0.0
@@ -511,7 +526,7 @@ def collect_fee_student(request,student_id):
             print('hellowrold')
             if collectfee_form.is_valid():
 
-                print("---------------",request.POST)
+                print("---------------ref--",request.POST.get('RefferenceNO'))
 
                 print("---------colle fee:",request.POST.get('collectfeeno'))
                 print("---------online:",request.POST.get('Online'))
@@ -519,7 +534,7 @@ def collect_fee_student(request,student_id):
 
                 
                 collect_data.ModeOfPayment=collectfee_form.cleaned_data['ModeOfPayment']
-                collect_data.RefferenceNO=collectfee_form.cleaned_data['RefferenceNO']
+                collect_data.RefferenceNO=request.POST.get('RefferenceNO')
                 if request.POST.get('Bank',False):
                     collect_data.Bank=md.Bank.objects.get(BankID=request.POST.get('Bank'))
 
@@ -594,9 +609,12 @@ def collect_fee(request):
         # student_data=None
         # attendence_form=None
         student_datas=''
+        totalstudent=0
         totalamount=0.0
         PaidAmount=0.0
         pendingamount=0.0
+        classobj=""
+        sectionobj=""
         collectfee_form=fm.CollectFeeForm()
         if request.method == 'POST':
             if request.POST.get("form-type") == 'select-class':
@@ -615,6 +633,7 @@ def collect_fee(request):
                     student_datas=sm.Students.objects.filter(AssignedClass=request.POST.get('Class')).order_by('StudentName')
                     # student_data=sm.Students.objects.filter(Class=request.POST.get('Class')).order_by('StudentName')
                     print('2nd ouput-----------',student_datas)
+                    totalstudent=student_datas.count()
                     
                     total_Sum=sm.AssignFeeAmount.objects.filter(Class=classobj,School=request.session['school_id']).aggregate(Sum('Amount'))
                     totalamount=total_Sum.get('Amount__sum')
@@ -636,18 +655,26 @@ def collect_fee(request):
                 else:
                     print('else-----------------',request.POST.get('Class'))
                     messages.error(request, "Please select the class")   
-        if PaidAmount==totalamount:
-            pendingamount=0
-        else:
-            pendingamount=totalamount- PaidAmount
+                if PaidAmount==totalamount:
+                    pendingamount=0
+                else:
+                    pendingamount=totalamount- PaidAmount
+        
+                messages.error(request, "Please select the class")  
+                return redirect("/Fees/CollectFee") 
+        
         context={
             # "student_data":student_data,
             "class_section_list":sm.AssignClass.objects.filter(School=request.session['school_id']).order_by('Class'),
             'student_data':student_datas,
+            'total_students':totalstudent,
             "collectfee_form": collectfee_form,
             "collectfee_list": sm.CollectFee.objects.filter(AssignClass=request.POST.get('Class'),School=request.session['school_id']),
             "pendingamount":pendingamount,
             "totalamount":totalamount,
+            "classobj":classobj,
+            "sectionobj":sectionobj,
+            
         }
         return render(request, "school/Pages/Fees/collect_fee.html", context)
     else:
@@ -715,6 +742,7 @@ def mark_attendance(request):
                 assign_class_data=request.POST.get('assign_class_id')
 
                 if sm.Attendance.objects.filter(AttendanceDate=attendance_date,AssignClass=assign_class_data,SchoolID =school_id).exists():
+                    messages.error(request, "Attendance is already marked for that day for that class")           
                     print('-------------- Attendance is already marked for that day for that class')
                 else:
                     for atst in student_data:
@@ -725,6 +753,7 @@ def mark_attendance(request):
                             AttendanceMark=request.POST.get(f'choice-{atst.AdmissionID }'),
                             SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
                         ).save()
+                    messages.info(request,"Student Attendace saved successfully")
                 return redirect("/Attendance/MarkAttendance")
 
         context={
@@ -812,3 +841,32 @@ def feedback_info(request):
         return render(request, "school/Pages/Feedback/school_feedback.html")
     else:
         return redirect("/accounts/login/?redirect_to=/Feedback/FeedbackInfo")
+
+
+# Delete Information functions
+
+def delete_staff(request,staff_id):
+    if request.user.is_authenticated:
+        staff_data=sm.Staff.objects.get(StaffID = staff_id)
+        user_data=User.objects.get(UserID=staff_data.UserID.UserID)
+        staff_data.delete()
+        user_data.delete()
+        messages.info(request,"Record deleted successfully")              
+        return redirect("/Staff/CreateStaff")
+    else:
+        return redirect("/accounts/login/?redirect_to=/Staff/CreateStaff")
+
+def delete_student(request,student_id):
+    if request.user.is_authenticated:
+        student_data=sm.Students.objects.get(AdmissionID = student_id)
+        
+        if student_data.Application:
+            print("----------app:",student_data.Application.ApplicationID)
+            application_data=sm.Application.objects.get(ApplicationID=student_data.Application.ApplicationID)
+            application_data.delete()
+
+        student_data.delete()
+        messages.info(request,"Student record deleted successfully")              
+        return redirect("/Admission/NewAdmission")
+    else:
+        return redirect("/accounts/login/?redirect_to=/Admission/NewAdmission")

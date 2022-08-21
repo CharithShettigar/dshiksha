@@ -9,15 +9,38 @@
 
 {% block body %}
     <div class="content">
-        <div class="page-inner">
+
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-4">
+                <div class="page-header text-white">
+                    <h4 class="page-title text-white">Assign Class Level</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/">
+                                <i class="flaticon-home text-white fw-bold"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow text-white fw-bold"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/School/AssignClassLevel" class="text-white fw-bold"> Assign Class Level</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-inner mt--5">
             <div class="col">
-                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                <div class="card card-rounded mt--3 mr-3 ml-3">
                     <div class="card-body">
-                        <h4 class="card-title text-white">Assign Class Level </h4>
+                        <h4 class="card-title mt">Assign Class Level <hr></h4>
                         <form action="/School/AssignClassLevel" method="post">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="" class="form-label text-white"> Class Name</label>
+                                <label for="" class="form-label"> Class Name</label>
                                 <select name="ClassList" id="id_ClassList" class="form-control">
                                     <option value=""> ----------- </option>
                                     {% for cl in classes_list %}
@@ -26,7 +49,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label text-white"> Class Level</label>
+                                <label for="" class="form-label"> Class Level</label>
                                 <select name="ClassLevel" id="id_ClassLevel" class="form-control">
                                     <option value=""> ---------- </option>
                                    {% for cl in class_level_list %}
@@ -42,16 +65,16 @@
                 </div>    
             </div>
             <div class="col">
-                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                <div class="card card-rounded mt-5 mr-3 ml-3">
                     <div class="card-body">
-                        <h4 class="card-title text-white">Assigned Class Level List </h4>
+                        <h4 class="card-title">Assigned Class Level List </h4>
                         <div class="table-responsive  mt-1">
                             <!-- Table details here -->
-                            <table class="table text-white">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th width="10%">Sr.No.</th>
-                                        <th>Subject  </th>    
+                                        <th>Class with Class level </th>    
                                     </tr>
                                 </thead>
                                 <tbody>

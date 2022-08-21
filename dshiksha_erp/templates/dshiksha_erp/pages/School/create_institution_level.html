@@ -9,15 +9,38 @@
 
 {% block body %}
     <div class="content">
-        <div class="page-inner">
-            <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+        
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-4">
+                <div class="page-header text-white">
+                    <h4 class="page-title text-white">Create Institution Level</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/">
+                                <i class="flaticon-home text-white fw-bold"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow text-white fw-bold"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/School/CreateInstitutionLevel" class="text-white fw-bold">Create Institution Level</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-inner mt--5">
+            <div class="card card-rounded mt--2 mr-3 ml-3">
                 <div class="card-body">
-                    <h4 class="card-title text-white">Add Institution Level </h4>
+                    <h4 class="card-title mb-3"> Add Institution Level <hr></h4>
                     <div class="col-sm">
                         <form action="/School/CreateInstitutionLevel" method="post">
                             {% csrf_token %}
                                 <div class="mb-3">
-                                    <label for="" class="form-label text-white"> Institution Level</label>
+                                    <label for="" class="form-label"> Institution Level</label>
                                         {{ il_form.InstitutionLevel | attr:"class=form-control" }}
                                 </div>
                                 <div class="mb-3">
@@ -27,16 +50,17 @@
                     </div>
                 </div>
             </div>
-            <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+
+            <div class="card card-rounded mt-5 mr-3 ml-3">
                 <div class="card-body">
-                    <h4 class="card-title text-white">List of  Institution Level </h4>
+                    <h4 class="card-title">List of Institution Level </h4>
                     <div class="table-responsive  mt-1">
                         <!-- Table details here -->
-                        <table class="table text-white">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th width="10%">Sr.No.</th>
-                                    <th>Subject  </th>    
+                                    <th>Institution Level  </th>    
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,7 +76,8 @@
                         </table>
                     </div>
                 </div>
-            </div>    
+            </div>   
+             
         </div>
     </div>
 {% endblock body %}

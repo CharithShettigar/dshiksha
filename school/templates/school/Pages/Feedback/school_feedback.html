@@ -13,33 +13,35 @@
 {% block body %}
 
 <div class="content">
-    <div class="panel-header bg-primary-gradiant">
-    <div class="page-inner">
-        <div class="page-header text-white">
-            <h4 class="page-title">Feedback to Admin</h4>
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="/">
-                        <i class="flaticon-home"></i>
-                    </a>
-                </li>
-                <li class="separator">
-                    <i class="flaticon-right-arrow"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="/Feedback/FeedbackInfo">Feedback</a>
-                </li>
-                
-            </ul>
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Feedback to Admin</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Feedback/FeedbackInfo" class="text-white fw-bold">Feedback</a>
+                    </li>
+                    
+                </ul>
+            </div>
         </div>
+    </div>
+    <div class="page-inner mt--5">
         {% if messages %}
             <div>
                 {% for message in messages %} 
                 {% if message.tags == 'info' %}
-                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                     <i class="bi-exclamation-octagon-fill"></i>
                     <strong class="mx-2">Success!</strong> {{ message.message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert">
                     </div>
                 {% endif %}
                 {% endfor %}
@@ -48,25 +50,33 @@
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Give your Feedback</div>
+                    </div>    
                     <div class="card-body">
-
                         <form action="/Feedback/FeedbackInfo" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-
-                            <div class="mb-3">
-                                <label for="" class="form-label"> Feedback</label>
-                                <textarea class="form-control" name="feedback_data" id="" rows="4"></textarea>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label fw-bold"> Feedback</label>
+                                        <textarea class="form-control" name="feedback_data" id="" rows="4" required></textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="" class="form-label">For more info upload the file</label>
-                                <input type="file" name="feedback_file" class="form-control"> 
-                            </div>
-                            
-                            
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary"> Submit </button>
+                                
+                                <div class="col-12">
+                                    <div class="my-3">
+                                        <label for="" class="form-label fw-bold">For more info upload the file</label>
+                                        <input type="file" name="feedback_file" class="form-control"> 
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="col-12">
+                                    <div class="my-3">
+                                        <button type="submit" class="btn btn-primary"> Submit </button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -74,8 +84,18 @@
             </div>
         </div>
     </div>
-    </div>
  
 </div>
 
 {% endblock body %}
+
+{% block javascripts %}
+    <script>
+        
+    setTimeout(function () {
+        // Closing the alert
+        $('#alert').alert('close');
+    }, 2500);
+
+    </script>
+{% endblock javascripts %}

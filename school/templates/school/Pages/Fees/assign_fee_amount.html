@@ -8,18 +8,58 @@
 
 
 {% block body %}
-    <div class="content">
-        <div class="page-inner">
-            <div class="col">
-                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+<div class="content">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Assign Fees Amount</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Fees/AssignFeeAmount" class="text-white fw-bold">Assign Fees</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-inner mt--5">
+        {% if messages %}
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card card-rounded">
+                    <div class="card-header">
+                        <div class="card-title">Assign Fee Amount</div>
+                    </div>
                     <div class="card-body">
-                        <h4 class="card-title text-white">Assign Fee Amount </h4>
                         <form action="/Fees/AssignFeeAmount" method="post">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="" class="form-label text-white"> Class Name</label>
+                                <label for="" class="form-label"> Class Name</label>
                                 <select name="Class" id="id_Class" class="form-control">
-                                    <option value=""> ----------- </option>
                                     {% for cl in classobj_value %}
                                         <option value="{{ cl.ClassID }}"> {{ cl.ClassList.ClassName }}</option>
                                     {% endfor %}
@@ -27,9 +67,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="" class="form-label text-white"> Main Fee</label>
+                                <label for="" class="form-label"> Main Fee</label>
                                 <select name="FeesType" id="id_FeesType" class="form-control" onchange="func()">
-                                    <option value=""> ---------- </option>
                                    {% for ft in feetype_list %}
                                     <option value="{{ ft.FeesTypeID }}"> {{ ft.FeesTypeName }}</option>
                                     {% endfor %}
@@ -37,13 +76,16 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="" class="form-label text-white"> Sub Fee</label>
+                                <label for="" class="form-label"> Sub Fee</label>
                                 <select name="SubFee" id="id_SubFee" class="form-control">
+                                    {% for sf in subfee_list %}
+                                    <option value="{{ sf.SubFeeID }}"> {{ sf.SubFeeName }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             
                             <div class="mb-3">
-                                <label for="" class="form-label text-white"> Amount</label>
+                                <label for="" class="form-label"> Amount</label>
                                 {{ afa_form.Amount | attr:"class=form-control" }}
                             </div>
                             <div class="mb-3">
@@ -54,12 +96,14 @@
                 </div>    
             </div>
             <div class="col">
-                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                <div class="card card-rounded">
+                    <div class="card-header">
+                        <div class="card-title">Assigned Fee Amount List </div>
+                    </div>
                     <div class="card-body">
-                        <h4 class="card-title text-white">Assigned Fee Amount List </h4>
-                        <div class="table-responsive  mt-1">
+                        <div class="table-responsive">
                             <!-- Table details here -->
-                            <table id="fees-show" class="table text-white">
+                            <table id="fees-show" class="table">
                                 <thead>
                                     <tr>
                                         <th width="10%">Sr.No.</th>
@@ -119,5 +163,10 @@
         $('#fees-show').DataTable({
         });
     });
+
+    setTimeout(function () {
+        // Closing the alert
+        $('#alert').alert('close');
+    }, 2500);
 </script>
 {% endblock javascripts %}

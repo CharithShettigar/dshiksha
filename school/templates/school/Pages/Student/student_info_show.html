@@ -10,12 +10,47 @@
 
 {% block body %}
 <div class="content">
-    <div class="page-inner">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Student Information</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Admission/NewAdmission" class="text-white fw-bold">Admission</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Student/StudentShow/{{ student.AdmissionID }}" class="text-white fw-bold">Student Info</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Student Info: <b>{{student.StudentName}}</div>
+                        <div class="card-title">
+                            {% if student.StudentPhoto %}
+                            <div class="avatar avatar-xxl">
+                                <img src="{{student.StudentPhoto.url}}" alt="student img" class="avatar-img rounded">
+                            </div>
+                            {% endif %}
+                            <span class="ml-3 text-capitalize fw-bold h1">{{student.StudentName}}</span>
+
+                                                        
+                        </div>
                     </div>
                     <div class="card-body">
 
@@ -27,11 +62,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>student Photo</td>
+                                            <td>Student Name</td>
                                             <td class="fw-bold">:</td>
-                                            {% if student.StudentPhoto %}
-                                            <td><div class="avatar avatar-xxl"> <img src="{{student.StudentPhoto.url}}" class="avatar-img" alt="student-img"> </div></td>
-                                            {% endif %}
+                                            <td class="fw-bold">{{ student.StudentName}}</td>
                                         </tr>
                                         <tr>
                                             <td>Gender</td>
@@ -73,25 +106,6 @@
                                             <td class="fw-bold">:</td>
                                             <td class="fw-bold">{{student.MotherTongue.MotherTongueName}}</td>
                                         </tr>
-                                    </tbody>
-                                </table>
-
-                                <table class="table table-hover">
-                                    <thead>
-                                        <th class="fw-bold" colspan="3">Class Info</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Class</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ student.Class.ClassList.ClassName}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Section</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ student.AssignedClass.Section.SectionName}}</td>
-                                        </tr>
-                                        
                                     </tbody>
                                 </table>
 
@@ -140,9 +154,29 @@
                                 
                             </div>
                             
-                            <div class="col-sm">                                 
+                            <div class="col-sm">  
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Class Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Class</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.Class.ClassList.ClassName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Section</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ student.AssignedClass.Section.SectionName}}</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
                                 
-                                <table class="table table-hover mt-3">
+                                {% if father_name != "None" %}
+                                
+                                <table class="table table-hover">
                                     <thead>
                                         <th class="fw-bold" colspan="3">Father Info</th>
                                     </thead>
@@ -184,6 +218,9 @@
                                         </tr>  
                                     </tbody>
                                 </table>
+                                {% endif %}
+                                
+                                {% if mother_name != "None" %}
                                 <table class="table table-hover mt-3">
                                     <thead>
                                         <th class="fw-bold" colspan="3">Mother Info</th>
@@ -226,7 +263,9 @@
                                         </tr>  
                                     </tbody>
                                 </table>
+                                {% endif %}
                                 
+                                {% if gaurdian_name != "None" %}
                                 <table class="table table-hover mt-3">
                                     <thead>
                                         <th class="fw-bold" colspan="3">Gaurdian Info</th>
@@ -269,8 +308,16 @@
                                         </tr>  
                                     </tbody>
                                 </table>
-                                
-
+                                {% endif %}
+                                        
+                                        
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="mb-3">
+                                    <a name="" id="" class="btn btn-primary m-3" href="/Update/UpdateStudentInfo/{{ student.AdmissionID }}" role="button">Edit</a>
+                                </div>                        
                             </div>
                         </div>
                     </div>

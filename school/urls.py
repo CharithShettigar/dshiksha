@@ -51,8 +51,11 @@ urlpatterns = [
     path('Update/UpdateStaffInfo/<str:staff_id>',update_views.update_staff,name="update_staff_info"),
     path('Update/UpdateStudentInfo/<str:student_id>',update_views.update_student,name="update_student_info"),
 
+    #Delete the information
+    path('DeleteStaffInfo/<str:staff_id>',views.delete_staff,name="delete_staff_info"),
+    path('DeleteStudentInfo/<str:student_id>',views.delete_student,name="delete_student_info"),
 
-    #update the information
+    #Feedback from school
     path('Feedback/FeedbackInfo',views.feedback_info,name="feedback_info"),
     
 ]

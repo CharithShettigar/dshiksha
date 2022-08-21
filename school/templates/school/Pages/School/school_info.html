@@ -5,41 +5,41 @@
 {% block title %} School Info | {{ school_name }} {% endblock title %}
 
 {% block body %}
-{% comment %} <div class="content-wrapper">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="home-tab">
-                <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4">  
+<div class="content">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">School Information</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/School/SchoolInfo" class="text-white fw-bold">School Info</a>
+                    </li>
                     
-                </div>
-                <h3 class="display-4">School Info</h3>
-                <div class="row">
-                    <div class="col-sm mb-5">
-                        <img src={{school_data.SchoolLogo}} alt="school Logo">
-                    </div>
-                    <div class="col-sm">
-                    <div> {{school_data.SchoolName}} </div>
-                    </div>
-                </div>
-                
+                </ul>
             </div>
         </div>
     </div>
-</div> {% endcomment %}
-<div class="content">
-    <div class="page-inner">
+    
+
+
+    <div class="page-inner mt--5">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">School Info</div>
+                        <div class="card-title">{{school_data.SchoolName}} Information</div>
                     </div>
                     <div class="card-body">
                         <div class="col-sm mb-5">
                             <div class="avatar avatar-xxl"> <img src="{{school_data.SchoolLogo.url}}" class="avatar-img" alt="{{staff.StaffPhoto.url}}"> </div>
-                        </div>
-                        <div class="col-sm">
-                        <div> {{school_data.SchoolName}} </div>
                         </div>
                         <div class="row">
                             <div class="col-sm">
@@ -156,14 +156,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>First Name</td>
+                                            <td>Name</td>
                                             <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ school_data.CorrespondentFirstName}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">Last Name</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{ school_data.CorrespondentLastName}}</td>
+                                            <td class="fw-bold">{{ school_data.CorrespondentName}}</td>
                                         </tr>
                                         <tr>
                                             <td>Mobile</td>

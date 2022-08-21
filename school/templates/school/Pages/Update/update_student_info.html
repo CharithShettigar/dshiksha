@@ -18,55 +18,128 @@
 {% block body %}
 
 <div class="content">
-    <div class="page-inner">
-        <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Student Info-{{student_data.StudentName}}</div>
-                    </div>
-                    <div class="card-body">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Student Information</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Admission/NewAdmission" class="text-white fw-bold">Admission</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Update/UpdateStudentInfo/{{ student_data.AdmissionID }}" class="text-white fw-bold">Update Student Info</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
+        {% if messages %}
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        <form action="/Update/UpdateStudentInfo/{{ student_data.AdmissionID }}" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                    {% csrf_token %}
 
-                        <form action="/Update/UpdateStudentInfo/{{ student_data.AdmissionID }}" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="" class="form-label"> StudentName</label>
-                                {{ student_form.StudentName | attr:"class=form-control"}}
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+
+                                {% if student_photo %}
+                                <div class="avatar avatar-xxl">
+                                    <img src="{{student_photo.url}}" alt="student img" class="avatar-img rounded">
+								</div>
+                                {% endif %}
+                                {{student_data.StudentName}}
+
                             </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> Date of Birth</label>
-                                {% render_field student_form.StudentDOB type="date" class="form-control" %}                    
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> Gender</label>
-                                <select name="Gender" id="id_Gender" class="form-control">
-                                    <option value=""> ---------- </option>
-                                    {% for g in gender_list %}
-                                        <option value="{{ g.GenderID }}"> {{ g.GenderName }}</option>
-                                    {% endfor %}
-                                </select>  
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> BloodGroup</label>
-                                <select name="BloodGroup" id="id_BloodGroup" class="form-control">
-                                    <option value=""> ---------- </option>
-                                    {% for b in bloodgroup_list %}
-                                    <option value="{{ b.BloodGroupID }}"> {{ b.BloodGroupName }}</option>
-                                    {% endfor %}
-                                </select>  
-                            </div>
-                            <div class="mb-3">
-                                <div class="mb-3">
-                                    <label for="" class="form-label"> MotherTongue</label>
-                                    <select name="MotherTongue" id="id_MotherTongue" class="form-control">
-                                        <option value=""> ---------- </option>
-                                        {% for m in mothertongue_list %}
-                                            <option value="{{ m.MotherTongueID }}"> {{ m.MotherTongueName }}</option>
+
+                        </div>
+                        <div class="card-body">
+
+                            {% comment %} 1st Row {% endcomment %}
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> StudentName</label>
+                                        {{ student_form.StudentName | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Date of Birth</label>
+                                        {% render_field student_form.StudentDOB type="date" class="form-control" %}                    
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Gender</label>
+                                        <select name="Gender" id="id_Gender" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for g in gender_list %}
+                                                <option value="{{ g.GenderID }}"> {{ g.GenderName }}</option>
                                             {% endfor %}
                                         </select>  
                                     </div>
                                 </div>
-                                <div class="mb-3">
+                            </div>
+
+                            {% comment %} 2nd Row {% endcomment %}
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> BloodGroup</label>
+                                        <select name="BloodGroup" id="id_BloodGroup" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for b in bloodgroup_list %}
+                                            <option value="{{ b.BloodGroupID }}"> {{ b.BloodGroupName }}</option>
+                                            {% endfor %}
+                                        </select>  
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Student Photo</label>
+                                        <input type="file" name="student_img" accept="image/*" class="form-control"> 
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> StudentMobile</label>
+                                        {{ student_form.StudentMobileNo | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% comment %} 3rd Row {% endcomment %}                           
+                            <div class="row">   
+                                <div class="col-sm">
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Religion</label>
                                         <select name="Religion" id="id_Religion" class="form-control">
@@ -75,197 +148,391 @@
                                             <option value="{{ r.ReligionID }}">{{ r.ReligionName }}</option>
                                             {% endfor %}
                                         </select>  
+                                    </div>
+                                </div>
+
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> CasteCategory</label>
+                                        <select name="CasteCategory" id="id_CasteCategory" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for c in castecategory_list %}
+                                            <option value="{{ c.CasteCategoryID }}"> {{c.CasteCategoryName}}</option>
+                                            {% endfor %}
+                                        </select>  
+                                    </div>
+                                </div>
+
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Caste</label>
+                                        <select name="Caste" id="id_Caste" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for c in caste_list %}
+                                            <option value="{{ c.CasteID }}"> {{ c.CasteName }}</option>
+                                            {% endfor %}
+                                        </select>  
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <div class="mb-3">
-                                    <label for="" class="form-label"> CasteCategory</label>
-                                    <select name="CasteCategory" id="id_CasteCategory" class="form-control">
-                                        <option value=""> ---------- </option>
-                                        {% for c in castecategory_list %}
-                                        <option value="{{ c.CasteCategoryID }}"> {{c.CasteCategoryName}}</option>
-                                        {% endfor %}
-                                    </select>  
+
+                            {% comment %} 4th Row {% endcomment %}
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> MotherTongue</label>
+                                        <select name="MotherTongue" id="id_MotherTongue" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for m in mothertongue_list %}
+                                            <option value="{{ m.MotherTongueID }}"> {{ m.MotherTongueName }}</option>
+                                            {% endfor %}
+                                        </select>  
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="mb-3">
-                                    <label for="" class="form-label"> Caste</label>
-                                    <select name="Caste" id="id_Caste" class="form-control">
-                                        <option value=""> ---------- </option>
-                                        {% for c in caste_list %}
-                                        <option value="{{ c.CasteID }}"> {{ c.CasteName }}</option>
-                                        {% endfor %}
-                                    </select>  
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="mb-3">
-                                    <label for="" class="form-label"> Nationality</label>
-                                    <select name="Nationality" id="id_Nationality" class="form-control">
-                                        <option value=""> ---------- </option>
-                                        {% for n in nationality_list %}
-                                        <option value="{{ n.NationalityID }}"> {{ n.NationalityName }}</option>
-                                        {% endfor %}
-                                    </select>  
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">PreviousSchoolName</label>
-                                {{ student_form.PreviousSchoolName | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> StudentPhoto</label>
-                                {% if student_photo %}
-                                <div class="avatar avatar-xxl"><img src="{{student_photo.url}}" class="avatar-img" alt="student img"></div>
-                                {% endif %}
-                                <input type="file" name="student_img" class="form-control"> 
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> StudentMobile</label>
-                                {{ student_form.StudentMobileNo | attr:"class=form-control"}}
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> AddressLine1</label>
-                                {{ student_form.AddressLine1 | attr:"class=form-control"}}
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> AddressLine2</label>
-                                {{ student_form.AddressLine2 | attr:"class=form-control"}}
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> Village</label>
-                                <select name="Village" id="id_Village" class="form-control">
-                                    {% for village in village_list %}
-                                        <option value="{{ village.VillageID }}"> {{ village.VillageName }}</option>
-                                    {% endfor %}
-                                </select>                            
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> Pincode</label>
-                                <select name="Pincode" id="id_Pincode" class="form-control">
-                                    {% for p in postoffice_list %}
-                                        <option value="{{ p.PostOfficeID }}"> {{ p.Pincode }}</option>
-                                    {% endfor %}
-                                </select>                            
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> Class</label>
-                                <select name="Class" id="id_Class" class="form-control">
-                                    {% for c in class_list %}
-                                        <option value="{{ c.ClassID }}"> {{c.ClassList.ClassName }}</option>
-                                    {% endfor %}
-                                </select>                            
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label"> Assigned Class-Section</label>
-                                <select name="AssignedClass" id="id_AssignedClass" class="form-control">
-                                    {% for ac in assignedclass_list %}
-                                        <option value="{{ ac.AssignClassID }}"> {{ac.Class.ClassList.ClassName }}-{{ac.Section.SectionName}}</option>
-                                    {% endfor %}
-                                </select>                            
-                            </div>
 
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> FatherName</label>
-                                {{ student_form.FatherName | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> FatherMobileNo</label>
-                                {{ student_form.FatherMobileNo | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> FatherWhatsappNo</label>
-                                {{ student_form.FatherWhatsappNo | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> FatherEmail</label>
-                                {{ student_form.FatherEmail | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> FatherQualification</label>
-                                {{ student_form.FatherQualification | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> FatherOccupation</label>
-                                {{ student_form.FatherOccupation | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> FatherIncome</label>
-                                {{ student_form.FatherIncome | attr:"class=form-control"}}
-                            </div>
-
-
-
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> MotherName</label>
-                                {{ student_form.MotherName | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> MotherMobileNo</label>
-                                {{ student_form.MotherMobileNo | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> MotherWhatsappNo</label>
-                                {{ student_form.MotherWhatsappNo | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> MotherEmail</label>
-                                {{ student_form.MotherEmail | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> MotherQualification</label>
-                                {{ student_form.MotherQualification | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> MotherOccupation</label>
-                                {{ student_form.MotherOccupation | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> MotherIncome</label>
-                                {{ student_form.MotherIncome | attr:"class=form-control"}}
-                            </div>
-
-
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> GaurdianName</label>
-                                {{ student_form.GaurdianName | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> GaurdianMobileNo</label>
-                                {{ student_form.GaurdianMobileNo | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> GaurdianWhatsappNo</label>
-                                {{ student_form.GaurdianWhatsappNo | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> GaurdianEmail</label>
-                                {{ student_form.GaurdianEmail | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> GaurdianQualification</label>
-                                {{ student_form.GaurdianQualification | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> GaurdianOccupation</label>
-                                {{ student_form.GaurdianOccupation | attr:"class=form-control"}}
-                            </div>
-                            <div  class="mb-3">
-                                <label for="" class="form-label"> GaurdianIncome</label>
-                                {{ student_form.GaurdianIncome | attr:"class=form-control"}}
-                            </div>
-                                                        
-
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary"> Update </button>
-                            </div>
-                        </form>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Nationality</label>
+                                        <select name="Nationality" id="id_Nationality" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for n in nationality_list %}
+                                            <option value="{{ n.NationalityID }}"> {{ n.NationalityName }}</option>
+                                            {% endfor %}
+                                        </select>  
+                                    </div>
+                                </div>              
+                            </div>              
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Admission Info</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm">
+                                    
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Admission Number</label>
+                                        <div class="form-control" readonly>{{AdmissionNo}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Admission Date</label>
+                                        <div class="form-control" readonly>{{AdmissionDate}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">PreviousSchoolName</label>
+                                        {{ student_form.PreviousSchoolName | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="id_Class" class="form-label"> Class</label>
+                                        <select name="Class" id="id_Class" class="form-control">
+                                            {% for c in class_list %}
+                                            <option value="{{ c.ClassID }}"> {{c.ClassList.ClassName }}</option>
+                                            {% endfor %}
+                                        </select>                            
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="id_AssignedClass" class="form-label"> Assigned Class-Section</label>
+                                        <select name="AssignedClass" id="id_AssignedClass" class="form-control">
+                                            {% for ac in assignedclass_list %}
+                                                <option value="{{ ac.AssignClassID }}"> {{ac.Class.ClassList.ClassName }}-{{ac.Section.SectionName}}</option>
+                                            {% endfor %}
+                                        </select>                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Address Info</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="id_AddressLine1" class="form-label"> AddressLine1</label>
+                                        {{ student_form.AddressLine1 | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> AddressLine2</label>
+                                        {{ student_form.AddressLine2 | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Village</label>
+                                        <select name="Village" id="id_Village" class="form-control">
+                                            {% for village in village_list %}
+                                                <option value="{{ village.VillageID }}"> {{ village.VillageName }}</option>
+                                            {% endfor %}
+                                        </select>                            
+                                    </div>
+                                </div>
+
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Pincode</label>
+                                        <select name="Pincode" id="id_Pincode" class="form-control">
+                                            {% for p in postoffice_list %}
+                                                <option value="{{ p.PostOfficeID }}"> {{ p.Pincode }}</option>
+                                            {% endfor %}
+                                        </select>                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            {% if father_name != "None" %}
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Father Info</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> FatherName</label>
+                                        {{ student_form.FatherName | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> FatherMobileNo</label>
+                                        {{ student_form.FatherMobileNo | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> FatherWhatsappNo</label>
+                                        {{ student_form.FatherWhatsappNo | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> FatherEmail</label>
+                                        {{ student_form.FatherEmail | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> FatherQualification</label>
+                                        {{ student_form.FatherQualification | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> FatherOccupation</label>
+                                        {{ student_form.FatherOccupation | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> FatherIncome</label>
+                                        {{ student_form.FatherIncome | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+                                
+                                
+            {% if mother_name != "None" %}
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+            
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Mother Info</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> MotherName</label>
+                                        {{ student_form.MotherName | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> MotherMobileNo</label>
+                                        {{ student_form.MotherMobileNo | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> MotherWhatsappNo</label>
+                                        {{ student_form.MotherWhatsappNo | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> MotherEmail</label>
+                                        {{ student_form.MotherEmail | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> MotherQualification</label>
+                                        {{ student_form.MotherQualification | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> MotherOccupation</label>
+                                        {{ student_form.MotherOccupation | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> MotherIncome</label>
+                                        {{ student_form.MotherIncome | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if gaurdian_name != "None" %}
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+            
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Gaurdian Info</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> GaurdianName</label>
+                                        {{ student_form.GaurdianName | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> GaurdianMobileNo</label>
+                                        {{ student_form.GaurdianMobileNo | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> GaurdianWhatsappNo</label>
+                                        {{ student_form.GaurdianWhatsappNo | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> GaurdianEmail</label>
+                                        {{ student_form.GaurdianEmail | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> GaurdianQualification</label>
+                                        {{ student_form.GaurdianQualification | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> GaurdianOccupation</label>
+                                        {{ student_form.GaurdianOccupation | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div  class="mb-3">
+                                        <label for="" class="form-label"> GaurdianIncome</label>
+                                        {{ student_form.GaurdianIncome | attr:"class=form-control"}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+                     
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary"> Update </button>
+            </div>
+                
+        </form>
     </div>
 </div>
 
 {% endblock body %}
+
+
+{% block javascripts %}
+<script>
+        
+    document.getElementById("id_BloodGroup").value="{{data.BloodGroup.BloodGroupID}}";
+    document.getElementById("id_Gender").value="{{data.Gender.GenderID}}";
+    document.getElementById("id_MotherTongue").value="{{data.MotherTongue.MotherTongueID}}";
+    document.getElementById("id_Religion").value="{{data.Religion.ReligionID}}";
+    document.getElementById("id_CasteCategory").value="{{data.CasteCategory.CasteCategoryID}}";
+    document.getElementById("id_Caste").value="{{data.Caste.CasteID}}";
+    document.getElementById("id_Nationality").value="{{data.Nationality.NationalityID}}";
+    
+</script>
+{% endblock javascripts %}
