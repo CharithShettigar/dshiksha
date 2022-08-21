@@ -18,18 +18,38 @@
 {% block body %}
 
 <div class="content">
-    <div class="page-inner">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Collect Fees</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Fees/CollectFee" class="text-white fw-bold">Collect Fees</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
         {% if messages %}
             <div>
                 {% for message in messages %} 
                 {% if message.tags == 'error' %}
-                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                     <i class="bi-exclamation-octagon-fill"></i>
                     <strong class="mx-2">Error!</strong> {{ message.message }}
                     </div>
                 {% endif %}
                 {% if message.tags == 'info' %}
-                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                     <i class="bi-exclamation-octagon-fill"></i>
                     <strong class="mx-2">Success!</strong> {{ message.message }}
                     </div>
@@ -41,171 +61,187 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Collect Fees</div>
+                        <div class="card-title">Collect Fees According to Class</div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12 d-flex flex-column">
-                                <div class="row flex-grow">
-                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                                        <div class="card card-rounded mr-3 ml-3">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <form action="/Fees/CollectFee" method="post">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="form-type" value="select-class">
-                                                        
-                                                        
-                                                        <div class="row">
-                                                        <div class="col-sm ">
-                                                            
-                                                            <div class="form-group">
-                                                                <label for="" class="form-label"> Select Class and Section </label>
-                                                                <select name="Class" id="id_Class" class="form-control">
-                                                                    <option value=""> ---------- </option>
-                                                                    {% for cs in class_section_list %}
-                                                                    <option value="{{ cs.AssignClassID }}">
-                                                                        {{cs.Class.ClassList.ClassName}}-{{ cs.Section.SectionName }}
-                                                                    </option>
-                                                                    {% endfor %}
-                                                                </select> 
-                                                            </div>
-                                                        </div>    
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-primary text-white"> Find Students </button>
-                                                    </div>
-                                                    </form>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {% comment %} {% if collectfee_list %} {% endcomment %}
                             
-                            <div class="col-lg-12 d-flex flex-column">
-                                <div class="row flex-grow">
-                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                                        <div class="card card-rounded mt-2 mr-3 ml-3">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="table-responsive  mt-1">
-                                                        <!-- Table details here -->
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th width="10%">Sr.No.</th>
-                                                                    <th>Student Name</th>    
-                                                                    <th>Class</th>    
-                                                                    <th>Section</th>    
-                                                                    <th>Installment</th>    
-                                                                    <th>Paid Amount</th>    
-                                                                    <th>Pending Amount</th>    
-                                                                    <th>Total Amount</th>    
-                                                                    <th>Stauts</th>    
-                                                                    <th>Action</th>    
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {% if "collectfee_list" %}
-                                                                    {% for cf in collectfee_list %}
-                                                                        <tr>
-                                                                            <td> {{ forloop.counter }} </td>
-                                                                            <td> {{ cf.Admission.StudentName }} </td>
-                                                                            <td> {{ cf.AssignClass.Class.ClassList.ClassName }} </td>
-                                                                            <td> {{ cf.AssignClass.Section.SectionName }} </td>
-                                                                            <td> {{ cf.Installment.InstallmentName}}</td>
-                                                                            <td> {{ cf.PaidAmount}} </td>
-                                                                            <td> {{pendingamount}} </td>
-                                                                            <td> {{totalamount}} </td>
-                                                                            <td> {{cf.PaymentStatus}} </td>
-                                                                            {% if cf.PaymentStatus == "No Updates" or cf.PaymentStatus == None %}
-                                                                                <td>
-                                                                                    <div>
-                                                                                        <a name="" id="" class="btn btn-warning p-2" href="/Fees/StudnetCollectFee/{{ cf.Admission.AdmissionID }}" role="button">
-                                                                                        <i class="fas fa-edit"></i></a>
-                                                                                    </div>
-                                                                                </td>
-                                                                            {% elif cf.PaymentStatus == "Pending"%}
-                                                                                <td>
-                                                                                    <div>
-                                                                                        <a name="" id="" class="btn btn-warning p-2" href="/Fees/StudnetCollectFee/{{ cf.Admission.AdmissionID }}" role="button">
-                                                                                        <i class="fas fa-search"></i></a>
-                                                                                    </div>
-                                                                                    
-                                                                                    {% comment %} <div>
-                                                                                        <a name="" id="" class="btn btn-dark py-1" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button">View details</a>
-                                                                                    </div> {% endcomment %}
-                                                                                </td>
-                                                                            {% else %}
-                                                                                <td>
-                                                                                    <div>
-                                                                                        <a name="" id="" class="btn btn-dark py-1" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button">View details</a>
-                                                                                    </div>
-                                                                                </td>
-                                                                            {%endif%}
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                {%endif%}
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    {% comment %}                           
-                                                    <form action="/Fees/CollectFee" method="post">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="form-type" value="collect-fee">
-                                                        
-                                                        {% for s in student_data %}
-                                                        <form action="/Fees/CollectFee" method="post">
+                        <form action="/Fees/CollectFee" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form-type" value="select-class">
+                            
+                            
+                            <div class="row">
+                                <div class="col-sm-6 ">
+                                    
+                                    <div class="form-group">
+                                        <label for="" class="form-label"> Select Class and Section </label>
+                                        <select name="Class" id="id_Class" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for cs in class_section_list %}
+                                            <option value="{{ cs.AssignClassID }}">
+                                                {{cs.Class.ClassList.ClassName}}-{{ cs.Section.SectionName }}
+                                            </option>
+                                            {% endfor %}
+                                        </select> 
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary text-white"> Find Students </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                                        <input type="hidden" name="form-type" value="collect-fees-student">
+                                               
 
-                                                        {{forloop.counter}} {{s.StudentName}}
-                                                        
-                                                        {% comment %} <label for="" class="form-label text-white"> Student</label> {% endcomment %}
-                                                        {% comment %} <input type="text" class="form-control" name="{{s.AdmissionID}}" value="{{s.StudentName}}"> {% endcomment %}
-                                                        {% comment %} {{attendance_form}} {% endcomment %}
-                                                        {% comment %} <div class="row">
-                                                            <div class="col-sm ">
-                                                                <div class="form-group">
-                                                                    <input type= class="form-control" name="{{s.AdmissionID}}" value="{{s.AdmissionID}}">{{ s.StudentName }}<div>
-                                                                </div>
-                                                            </div>
+        {% if collectfee_list %} 
+                            
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card card-rounded">
+                    {% comment %} <div class="card-header">
+                        <div class="card-title">Student List</div>
+                    </div> {% endcomment %}
+                    <div class="card-header">
+                       
+                        <div class="row justify-content-center">
+                            <div class="col-sm-4 col-md-4  fw-bold">
+                                Class:<label class="form-check-label">{{classobj.ClassList.ClassName}}</label>
+                            </div>
+                            <div class="col-sm-4 col-md-4  fw-bold">
+                                Section:<label class="form-check-label">{{sectionobj.SectionName}}</label>
+                            </div>
+                            <div class="col-sm-4 col-md-2  fw-bold">
+                                Total Students:  <label>{{total_students}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <!-- Table details here -->
+                            <table class="table" id="CollectFeesData">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No.</th>
+                                        <th>Student Name</th>    
+                                        <th width="15%">Installment</th>    
+                                        <th>Paid Amount</th>    
+                                        <th>Pending Amount</th>    
+                                        <th>Total Amount</th>    
+                                        <th >Stauts</th>    
+                                        <th>Action</th>    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if "collectfee_list" %}
+                                        {% for cf in collectfee_list %}
+                                            <tr>
+                                                <td width="5%"> {{ forloop.counter }} </td>
+                                                <td> {{ cf.Admission.StudentName }} </td>
+                                                <td width="15%"> {{ cf.Installment.InstallmentName}}</td>
+                                                <td> {{ cf.PaidAmount}} </td>
+                                                <td> {{pendingamount}} </td>
+                                                <td> {{totalamount}} </td>
+
+                                                {% if cf.PaymentStatus == "No Updates" or cf.PaymentStatus == None %}
+                                                <td class="fw-bold text-danger"> {{cf.PaymentStatus}} </td>
+                                                {% elif cf.PaymentStatus == "Pending"%}
+                                                <td class="fw-bold text-warning"> {{cf.PaymentStatus}} </td>
+                                                {% else %}
+                                                <td class="fw-bold text-success"> {{cf.PaymentStatus}} </td>
+                                                {%endif%}
+
+                                                {% if cf.PaymentStatus == "No Updates" or cf.PaymentStatus == None %}
+                                                    <td>
+                                                        <div>
+                                                            <a name="" id="" class="btn btn-warning p-2" href="/Fees/StudnetCollectFee/{{ cf.Admission.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                            <i class="fas fa-edit"></i></a>
                                                         </div>
-                                                        {% endfor %}
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-primary text-white"> Save Attendance </button>
-                                                            </div>
-                                                        </form> {% endcomment %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% comment %} {% else %}
-                            <div class="col-lg-12 d-flex flex-column">
-                                <div class="row flex-grow">
-                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                                        <div class="card card-rounded mt-2 mr-3 ml-3">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <h1>Please select a class with student data</h1>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %} {% endcomment %}
+                                                    </td>
+                                                {% elif cf.PaymentStatus == "Pending"%}
+                                                    <td>
+                                                        <div>
+                                                            <a name="" id="" class="btn btn-warning p-2" href="/Fees/StudnetCollectFee/{{ cf.Admission.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                            <i class="fas fa-edit"></i></a>
+                                                            
+                                                            <a name="" id="" class="btn btn-info p-2" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="View">
+                                                                <i class="fa fa-search"></i></a>
+                                                        </div>
+                                                    </td>
+                                                {% else %}
+                                                    <td>
+                                                        <div>
+                                                            <a name="" id="" class="btn btn-dark p-2" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="View">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                {%endif%}
+                                            </tr>
+                                        {% endfor %}
+                                    {%endif%}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+                                {% comment %}                           
+                                <form action="/Fees/CollectFee" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="form-type" value="collect-fee">
+                                    
+                                    {% for s in student_data %}
+                                    <form action="/Fees/CollectFee" method="post">
+
+                                    <input type="hidden" name="form-type" value="collect-fees-student">
+
+                                    {{forloop.counter}} {{s.StudentName}}
+                                    
+                                    {% comment %} <label for="" class="form-label text-white"> Student</label> {% endcomment %}
+                                    {% comment %} <input type="text" class="form-control" name="{{s.AdmissionID}}" value="{{s.StudentName}}"> {% endcomment %}
+                                    {% comment %} {{attendance_form}} {% endcomment %}
+                                    {% comment %} <div class="row">
+                                        <div class="col-sm ">
+                                            <div class="form-group">
+                                                <input type= class="form-control" name="{{s.AdmissionID}}" value="{{s.AdmissionID}}">{{ s.StudentName }}<div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary text-white"> Save Attendance </button>
+                                        </div>
+                                    </form> {% endcomment %}
+        {% comment %} {% else %}
+        <div class="col-lg-12 d-flex flex-column">
+            <div class="row flex-grow">
+                <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+                    <div class="card card-rounded mt-2 mr-3 ml-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <h1>Please select a class with student data</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>{% endcomment %}    
+        {% else %}
+        <div class="row">
+            <div class="col-md-12  grid-margin stretch-card">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <h1>Please select a class with student data</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}          
     </div>
 </div>
 
@@ -214,6 +250,17 @@
 {% block javascripts %}
 <script> 
     {% comment %} $('#id_AttendanceDate').val(new Date().toJSON().slice(0,10)); {% endcomment %}
+
+    $(document).ready(function() {
+        $('#CollectFeesData').DataTable({
+        });
+    });
+
+    setTimeout(function () {
+        // Closing the alert
+        $('#alert').alert('close');
+    }, 2500);
+
 </script> 
 
 {% endblock javascripts %}

@@ -107,7 +107,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Gender</label>
                                         <select name="Gender" id="id_Gender" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for g in gender_list %}
                                                 <option value="{{ g.GenderID }}"> {{ g.GenderName }}</option>
                                             {% endfor %}
@@ -119,7 +118,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> BloodGroup</label>
                                         <select name="BloodGroup" id="id_BloodGroup" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for b in bloodgroup_list %}
                                             <option value="{{ b.BloodGroupID }}"> {{ b.BloodGroupName }}</option>
                                             {% endfor %}
@@ -141,7 +139,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> MotherTongue</label>
                                         <select name="MotherTongue" id="id_MotherTongue" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for m in mothertongue_list %}
                                             <option value="{{ m.MotherTongueID }}"> {{ m.MotherTongueName }}</option>
                                             {% endfor %}
@@ -159,7 +156,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Caste</label>
                                         <select name="Caste" id="id_Caste" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for c in caste_list %}
                                                 <option value="{{ c.CasteID }}"> {{ c.CasteName }}-{{c.CasteCategory.CasteCategoryName}}-{{ c.Religion.ReligionName }}</option>
                                             {% endfor %}
@@ -170,7 +166,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> MaritalStatus</label>
                                         <select name="MaritalStatus" id="id_MaritalStatus" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for m in maritalstatus_list %}
                                                 <option value="{{ m.MaritalStatusID }}"> {{ m.MaritalStatus }} </option>
                                             {% endfor %}
@@ -248,7 +243,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Village</label>
                                         <select name="Village" id="id_Village" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for village in village_list %}
                                                 <option value="{{ village.VillageID }}"> {{ village.VillageName }}</option>
                                             {% endfor %}
@@ -260,7 +254,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Pincode</label>
                                         <select name="Pincode" id="id_Pincode" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for p in postoffice_list %}
                                                 <option value="{{ p.PostOfficeID }}"> {{ p.Pincode }}</option>
                                             {% endfor %}
@@ -285,7 +278,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Designation</label>
                                         <select name="Designation" id="id_Designation" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for d in designation_list %}
                                                 <option value="{{ d.DesignationID }}"> {{ d.DesignationName }}</option>
                                             {% endfor %}
@@ -296,7 +288,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> StaffQualification</label>
                                         <select name="StaffQualification" id="id_StaffQualification" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for s in staffqualification_list %}
                                                 <option value="{{ s.StaffQualificationID }}"> {{ s.StaffQualificationName }}</option>
                                             {% endfor %}
@@ -307,7 +298,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> AcademicYear</label>
                                         <select name="AcademicYear" id="id_AcademicYear" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for a in currentacademicYear_list %}
                                                 <option value="{{ a.AcademicYearID }}"> {{ a.AcademicYear }}</option>
                                             {% endfor %}
@@ -321,7 +311,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Subject1</label>
                                         <select name="Subject1" id="id_Subject1" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for s in staffsubject_list %}
                                                 <option value="{{ s.StaffSubjectID }}"> {{ s.StaffSubjectName }}</option>
                                             {% endfor %}
@@ -332,7 +321,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Subject2</label>
                                         <select name="Subject2" id="id_Subject2" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for s in staffsubject_list %}
                                                 <option value="{{ s.StaffSubjectID }}"> {{ s.StaffSubjectName }}</option>
                                             {% endfor %}

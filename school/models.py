@@ -96,10 +96,6 @@ class Staff(models.Model):
     StaffQualification = models.ForeignKey(erp.StaffQualification, on_delete=models.CASCADE, null=True)
     Subject1 = models.ForeignKey(erp.StaffSubject, on_delete=models.CASCADE, related_name='Subject1', null=True)
     Subject2 = models.ForeignKey(erp.StaffSubject, on_delete=models.CASCADE, related_name='Subject2', null=True)
-    Designation = models.ForeignKey(erp.Designation, on_delete = models.CASCADE, null=True)
-    StaffQualification = models.ForeignKey(erp.StaffQualification, on_delete = models.CASCADE, null=True)
-    Subject1 = models.ForeignKey(erp.StaffSubject, on_delete = models.CASCADE, related_name='Subject1', null=True)
-    Subject2 = models.ForeignKey(erp.StaffSubject, on_delete = models.CASCADE, related_name='Subject2', null=True)
     DateOfAppointment = models.DateField(null=True)
     DateOfRetirement = models.DateField(null=True)
     StaffNo = models.CharField(max_length=50)
@@ -244,4 +240,8 @@ class CollectFee(models.Model):
     CollectFeeDate = models.DateField(null=True)
     CollectFeeNo = models.CharField(max_length=100)
 
-
+class Feedback(models.Model):
+    FeedbackID=models.UUIDField(primary_key=True, default=uuid.uuid4)
+    Feedback=models.CharField(max_length=500)
+    School=models.ForeignKey(School, on_delete=models.CASCADE)
+    File=models.FileField(upload_to=filepath_school,null=True)

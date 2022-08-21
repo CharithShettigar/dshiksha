@@ -7,7 +7,6 @@
     Assign Application Fees
 {% endblock title %}
 
-{% comment %} {% block cbse_app_data %} {% endcomment %}
 {% block body %}
 
 <div class="content">
@@ -37,17 +36,36 @@
 
     <div class="page-inner mt--5">
 
+        {% if messages %}
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
 
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Assign Application Fees</div>
+                    </div>
                     <div class="card-body">
                         <form action="/Application/AssignApplicationFees" method="post">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <h3 class="card-title">Assign Application Fees</h3>
+                                        
                                         <div class="mb-3">
                                             <label for="" class="form-label">Select Class</label>
                                             <select name="ApplicationNoID" id="id_ApplicationNoID" class="form-control">
@@ -145,6 +163,11 @@
         $('#ApplicationFeesData').DataTable({
         });
     });
+
+    setTimeout(function () {
+        // Closing the alert
+        $('#alert').alert('close');
+    }, 2500);
 
 </script>
 {% endblock javascripts %}

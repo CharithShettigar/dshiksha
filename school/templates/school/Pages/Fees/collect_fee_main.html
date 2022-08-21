@@ -18,18 +18,44 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
 {% block body %}
 
 <div class="content">
-    <div class="page-inner">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Student Collect Fees</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Fees/CollectFee" class="text-white fw-bold">Collect Fees</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Fees/StudnetCollectFee/{{collect_data.Admission.AdmissionID}}" class="text-white fw-bold">Student Collect Fees</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
         {% if messages %}
         <div>
             {% for message in messages %}
             {% if message.tags == 'error' %}
-            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                 <i class="bi-exclamation-octagon-fill"></i>
                 <strong class="mx-2">Error!</strong> {{ message.message }}
             </div>
             {% endif %}
             {% if message.tags == 'info' %}
-            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                 <i class="bi-exclamation-octagon-fill"></i>
                 <strong class="mx-2">Success!</strong> {{ message.message }}
             </div>
@@ -41,133 +67,216 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Collect - {{collect_data.Admission.StudentName}} - Fees</div>
+                        <div class="card-title">Collect-Fees {{collect_data.Admission.StudentName}}</div>
                     </div>
                     <div class="card-body">
+      
+                        <form action="/Fees/StudnetCollectFee/{{collect_data.Admission.AdmissionID}}" method="post">
+                            {% csrf_token %}
 
-                        <div class="row">
-                            <div class="col-lg-12 d-flex flex-column">
-                                <div class="row flex-grow">
-                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                                        <div class="card card-rounded mr-3 ml-3">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <form action="/Fees/StudnetCollectFee/{{collect_data.Admission.AdmissionID}}" method="post">
-                                                        {% csrf_token %}
-                                                        <div class="row">
+                            <div class="row">    
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Collect Fee Number </label>
+                                        <input type="hidden" name="collectfeeno" value="{{ collectfeeno }}">
+                                        <div class="form-control"> {{ collectfeeno }}</div>                          
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Application Date</label>
+                                        <input type="hidden" name="collectfee_date" value="{{ collectfee_date }}">
+                                        <div class="form-control"> {{ collectfee_date }}</div>                     
+                                    </div>
+                                </div>  
+                            </div>
+                            
+                            <div class="row">
+                                
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Installment</label>
+                                        <select name="Installment" id="id_installment"
+                                            class="form-control" onchange="inst()">
+                                            <option value=""> ---------- </option>
+                                            {% for il in installment_list %}
+                                            <option value="{{ il.InstallmentID }}">
+                                                {{il.InstallmentName}}
+                                            </option>
+                                            {% endfor %}
+                                        </select>                    
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Mode Of Payment
+                                        </label>
+                                        <select name="ModeOfPayment" id="id_modeofpayment"
+                                            class="form-control" onchange="func()">
+                                            <option value=""> ---------- </option>
+                                            {% for mp in modeofpayment_list %}
+                                            <option value="{{ mp.ModeOfPaymentID }}">
+                                                {{mp.ModeOfPayment}}
+                                            </option>
+                                            
+                                            {% endfor %}
+                                        </select>                   
+                                    </div>
+                                </div>  
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Amount </label>
+                                        {% render_field collectfee_form.PaidAmount class="form-control"%}
+                                    </div>
+                                </div>  
+                            </div>
+                            
+                            <div class="row">    
+                                <div class="col-sm" id="refer" style="display:none;">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Reference Number </label>
+                                        <input type="text" name="RefferenceNO" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm" id="bank_cotainer" style="display:none;">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Bank Name </label>
+                                        <select name="Bank" id="id_bank"
+                                            class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for bl in bank_list %}
+                                            <option value="{{ bl.BankID }}">
+                                                {{bl.BankName}}
+                                            </option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                                </div>  
+                                <div class="col-sm" id="online_cotainer" style="display:none;">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label"> Online App </label>
+                                        <select name="Online" id="id_online" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for ol in online_list %}
+                                            <option value="{{ ol.OnlineID }}">
+                                                {{ol.OnlineAppName}}
+                                                    </option>
+                                                {%endfor%}
+                                        </select>
+                                    </div>
+                                </div>  
+                            </div>
 
-                                                            <div class="col-sm ">
-                                                                <div class="form-group">
-                                                                    <label for="" class="form-label"> Installment
-                                                                    </label>
-                                                                    <select name="Installment" id="id_installment"
-                                                                        class="form-control" onchange="inst()">
-                                                                        <option value=""> ---------- </option>
-                                                                        {% for il in installment_list %}
-                                                                        <option value="{{ il.InstallmentID }}">
-                                                                            {{il.InstallmentName}}
-                                                                        </option>
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
 
-                                                            <div class="col-sm ">
+                            {% comment %} <div class="row">
 
-                                                                <div class="form-group">
-                                                                    <label for="" class="form-label"> Mode Of Payment
-                                                                    </label>
-                                                                    <select name="ModeOfPayment" id="id_modeofpayment"
-                                                                        class="form-control" onchange="func()">
-                                                                        <option value=""> ---------- </option>
-                                                                        {% for mp in modeofpayment_list %}
-                                                                        <option value="{{ mp.ModeOfPaymentID }}">
-                                                                            {{mp.ModeOfPayment}}
-                                                                        </option>
+                                <div class="col-sm">
+                                    <div class="form-group">
+                                        <label for="" class="form-label"> Installment</label>
+                                        <select name="Installment" id="id_installment"
+                                            class="form-control" onchange="inst()">
+                                            <option value=""> ---------- </option>
+                                            {% for il in installment_list %}
+                                            <option value="{{ il.InstallmentID }}">
+                                                {{il.InstallmentName}}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
 
-                                                                        {% endfor %}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                {% comment %} Bank {% endcomment %}
-                                                                <div id="bank_cotainer" style="display:none;" >
-                                                                    <div class="form-group row">
-                                                                        {% comment %} <div style="margin-left:10 display:none" id="bank_refer">
-                                                                            <label for="" class="form-label"> Reference
-                                                                                Number </label>
-                                                                            {{ collectfee_form.RefferenceNO | attr:"class=form-control" }}
-                                                                        </div> {% endcomment %}
+                                <div class="col-sm ">
 
-                                                                        <div style="margin-left:10">
-                                                                            <label for="" class="form-label"> Bank Name </label>
-                                                                            <select name="Bank" id="id_bank"
-                                                                                class="form-control">
-                                                                                <option value=""> ---------- </option>
-                                                                                {% for bl in bank_list %}
-                                                                                <option value="{{ bl.BankID }}">
-                                                                                    {{bl.BankName}}
-                                                                                </option>
-                                                                                {%endfor%}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                {% comment %} Online {% endcomment %}
-                                                                <div id="online_cotainer" style="display:none;">
-                                                                    <div style="margin-left:10">
-                                                                        <label for="" class="form-label"> Online App </label>
-                                                                        <select name="Online" id="id_online" class="form-control">
-                                                                            <option value=""> ---------- </option>
-                                                                            {% for ol in online_list %}
-                                                                            <option value="{{ ol.OnlineID }}">
-                                                                                {{ol.OnlineAppName}}
-                                                                                    </option>
-                                                                                {%endfor%}
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                {% comment %} Cash {% endcomment %}
-                                                                <div class="form-group ">
-                                                                        <div class="form-group row">
-                                                                            <div style="margin-left:10 display:none;" id="refer">
-                                                                                <label for="" class="form-label"> Reference Number </label>
-                                                                                {{ collectfee_form.RefferenceNO | attr:"class=form-control" }}
-                                                                            </div>
-                                                                        <div style="margin-left:10">
-                                                                            <label for="" class="form-label"> Amount </label>
-                                                                            {% render_field collectfee_form.PaidAmount class="form-control " %}
-                                                                        </div>
-                                                                        <div class="col-sm">
-                                                                            <div class="mb-3">
-                                                                                <label for="" class="form-label"> Collect Fee Number </label>
-                                                                                <input type="hidden" name="collectfeeno" value="{{ collectfeeno }}">
-                                                                                <div class="form-control"> {{ collectfeeno }}</div>                    
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm">
-                                                                            <div class="mb-3">
-                                                                                <label for="" class="form-label">Application Date</label>
-                                                                                <input type="hidden" name="collectfee_date" value="{{ collectfee_date }}">
-                                                                                <div class="form-control"> {{ collectfee_date }}</div>                    
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary text-white"> Save </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                    <div class="form-group">
+                                        <label for="" class="form-label"> Mode Of Payment
+                                        </label>
+                                        <select name="ModeOfPayment" id="id_modeofpayment"
+                                            class="form-control" onchange="func()">
+                                            <option value=""> ---------- </option>
+                                            {% for mp in modeofpayment_list %}
+                                            <option value="{{ mp.ModeOfPaymentID }}">
+                                                {{mp.ModeOfPayment}}
+                                            </option>
+
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    {% comment %} Bank 
+                                    <div id="bank_cotainer" style="display:none;">
+                                        <div class="form-group row">
+                                            {% comment %} <div style="margin-left:10 display:none" id="bank_refer">
+                                                <label for="" class="form-label"> Reference
+                                                    Number </label>
+                                                {{ collectfee_form.RefferenceNO | attr:"class=form-control" }}
+                                            </div> 
+
+                                            <div style="margin-left:10">
+                                                <label for="" class="form-label"> Bank Name </label>
+                                                <select name="Bank" id="id_bank"
+                                                    class="form-control">
+                                                    <option value=""> ---------- </option>
+                                                    {% for bl in bank_list %}
+                                                    <option value="{{ bl.BankID }}">
+                                                        {{bl.BankName}}
+                                                    </option>
+                                                    {%endfor%}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
+                                    {% comment %} Online
+                                    <div id="online_cotainer" style="display:none;">
+                                        <div style="margin-left:10">
+                                            <label for="" class="form-label"> Online App </label>
+                                            <select name="Online" id="id_online" class="form-control">
+                                                <option value=""> ---------- </option>
+                                                {% for ol in online_list %}
+                                                <option value="{{ ol.OnlineID }}">
+                                                    {{ol.OnlineAppName}}
+                                                        </option>
+                                                    {%endfor%}
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% comment %} Cash
+                                    <div class="form-group ">
+                                            <div class="form-group row">
+                                                <div style="margin-left:10 display:none;" id="refer">
+                                                    <label for="" class="form-label"> Reference Number </label>
+                                                    <input type="text" name="RefferenceNO" class="form-control">
+
+                                                    {{ collectfee_form.RefferenceNO | attr:"class=form-control" }}
+                                                </div>
+                                            <div style="margin-left:10">
+                                                <label for="" class="form-label"> Amount </label>
+                                                {% render_field collectfee_form.PaidAmount class="form-control " %}
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label"> Collect Fee Number </label>
+                                                    <input type="hidden" name="collectfeeno" value="{{ collectfeeno }}">
+                                                    <div class="form-control"> {{ collectfeeno }}</div>                    
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Application Date</label>
+                                                    <input type="hidden" name="collectfee_date" value="{{ collectfee_date }}">
+                                                    <div class="form-control"> {{ collectfee_date }}</div>                    
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
+                            </div> {% endcomment %}
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary text-white"> Save </button>
                             </div>
-                        </div>
+                        </form>
+                                                        
                     </div>
                 </div>
             </div>
@@ -249,6 +358,12 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
             document.getElementById('id_PaidAmount').value
         }
     }
+
+    setTimeout(function () {
+        // Closing the alert
+        $('#alert').alert('close');
+    }, 2500);
+
 </script>
 
 {% endblock javascripts %}
