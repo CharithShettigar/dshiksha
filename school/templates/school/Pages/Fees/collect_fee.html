@@ -97,7 +97,7 @@
                                                         <table class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th width="10%">Sr.No.</th>
+                                                                    <th>Sr.No.</th>
                                                                     <th>Student Name</th>    
                                                                     <th>Class</th>    
                                                                     <th>Section</th>    
@@ -106,7 +106,7 @@
                                                                     <th>Pending Amount</th>    
                                                                     <th>Total Amount</th>    
                                                                     <th>Stauts</th>    
-                                                                    <th>Action</th>    
+                                                                    <th width="15%">Action</th>    
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -133,17 +133,18 @@
                                                                                 <td>
                                                                                     <div>
                                                                                         <a name="" id="" class="btn btn-warning p-2" href="/Fees/StudnetCollectFee/{{ cf.Admission.AdmissionID }}" role="button">
-                                                                                        <i class="fas fa-search"></i></a>
+                                                                                        <i class="fas fa-edit"></i></a>
+                                                                                        
+                                                                                        <a name="" id="" class="btn btn-primary p-2" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button">
+                                                                                            <i class="flaticon-interface"></i></a>
                                                                                     </div>
-                                                                                    
-                                                                                    {% comment %} <div>
-                                                                                        <a name="" id="" class="btn btn-dark py-1" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button">View details</a>
-                                                                                    </div> {% endcomment %}
                                                                                 </td>
                                                                             {% else %}
                                                                                 <td>
                                                                                     <div>
-                                                                                        <a name="" id="" class="btn btn-dark py-1" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button">View details</a>
+                                                                                        <a name="" id="" class="btn btn-dark py-1" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button">
+                                                                                            <i class="flaticon-interface"></i>
+                                                                                        </a>
                                                                                     </div>
                                                                                 </td>
                                                                             {%endif%}

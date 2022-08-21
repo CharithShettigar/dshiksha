@@ -28,56 +28,106 @@
                                     <div class="col-md-6 col-lg-12 grid-margin stretch-card">
                                         <div class="card card-rounded mr-3 ml-3">
                                             <div class="card-body">
-                                                <div class="row">
-                                                    {% if school_logo %}
-                                                    <div class="avatar avatar-xxl"><img src="{{school_logo.url}}" class="avatar-img" alt="school logo"></div>
-                                                    {% endif %}
-                                                    {{student_id_data.School.SchoolName}}
-                                                    {{student_id_data.School.Village.Taluk.TalukName}}
-                                                </div>
-                                                <div class="row">
-                                                    Trans Number: {{student_id_data.CollectFeeNo}}
-                                                    Trans Date: {{student_id_data.CollectFeeDate}}
-                                                </div>
-                                                <div class="row">
-                                                    Ref No.: {{student_id_data.RefferenceNO}}
-                                                </div>
-                                                <div class="row" style="text-transform:Capitalize">
-                                                    Received From:
-                                                    {{student_id_data.Admission.StudentName}}
-                                                    {{student_id_data.Admission.AddressLine1}}
-                                                    {{student_id_data.Admission.AddressLine2}} {{student_id_data.Admission.Village.VillageName}} 
-                                                    {{student_id_data.Admission.Village.Taluk.TalukName}} {{student_id_data.Admission.Village.Taluk.District.DistrictName}}-{{student_id_data.Admission.Pincode.Pincode}}
-                                                </div>
-                                                <div class="row" style="text-transform:Capitalize">
-                                                    Fees Collected From:
-                                                    {{student_id_data.Admission.StudentName}} of {{student_id_data.Admission.Class.ClassList.ClassName}} Standard
-                                                </div>
-                                                <div class="row">
-                                                    Rupees:{{ruppes_in_words}}
-                                                    <div class="col">
-                                                        Amount Rs: {{student_id_data.PaidAmount}} 
+
+                                                <div class=" row text-center">
+                                                    <div class="col h2">
+                                                        {% if school_logo %}
+                                                            <div class="avatar avatar-xl"><img src="{{school_logo.url}}"   class="avatar-img" alt="school logo"></div>
+                                                        {% endif %}
+                                                        <br>{{student_id_data.School.SchoolName}}
+                                                        <br>{{student_id_data.School.Village.Taluk.TalukName}} {{student_id_data.School.Village.Taluk.District.DistrictName}} - {{student_id_data.School.Pincode.Pincode}}
                                                     </div>
                                                 </div>
-                                                <div class="row">
-<<<<<<< HEAD
-=======
-                                                    Rupees:{{200}}
->>>>>>> charith_work
-                                                    Paid By:{{student_id_data.ModeOfPayment.ModeOfPayment}} 
+                                                <hr>
+                                                
+                                                <h3 class="fw-bold text-center fa-solid h2" style="text-decoration: underline"> Fees Receipt </h3>
+
+                                                <div class="row ml-2">
+                                                    <div class="col-sm-lg-xs-4 col-md-xl-4 h5">
+                                                    Trans Number 
+                                                    <span class="ml-5 pl-4"> : </span>  
+                                                    <span class="ml-2 pl-5">{{student_id_data.CollectFeeNo}} </span> 
+                                                    </div>
+                                                    <div class="col-sm-lg-xs-4 col-md-xl-4 h5 ml-auto mr-5"> 
+                                                        <span class="mr-4 pr-4"> Ref No. </span> 
+                                                        <span class="mr-4 pr-4"> : </span> 
+                                                        <span class="mr-4 pr-5">{{student_id_data.RefferenceNO}}</span> 
+                                                    </div>
                                                 </div>
-                                                <div class="row">
-                                                    {% if school_sign %}
-                                                    <div class="avatar avatar-xxl"><img src="{{school_sign.url}}" class="avatar-img" alt="school sign"></div>
-                                                    {% endif %}
-                                                    Cashier
-                                                    {% if school_seal %}
-                                                    <div class="avatar avatar-xxl"><img src="{{school_seal.url}}" class="avatar-img" alt="school seal"></div>
-                                                    {% endif %}
-                                                    Verified By
+
+                                                <div class="row-sm-4 row-md-4 ml-2 mt-2">
+                                                    <div class="col-sm-lg-xs-4 col-md-xl-4 h5">
+                                                        Trans Date
+                                                        <span class="ml-5 pl-5"> : </span> 
+                                                        <span class="ml-5 pl-2"> {{student_id_data.CollectFeeDate}} </span> 
+                                                    </div>
                                                 </div>
-                                                {% comment %} <div class="row">
-                                                </div> {% endcomment %}
+                                                <br>
+                                                <div class="row ml-2" style="text-transform:Capitalize">
+                                                    <div class="col-lg-sm-4 col-xl-md-4 h5">
+                                                        <span class=""> Received From </span>
+                                                    </div>
+                                                    <div class="ml-5 pl-4 h5">:</div>
+                                                    <div class="ml-2 pl-5 h5">
+                                                        {{student_id_data.Admission.StudentName}} <br>
+                                                        {{student_id_data.Admission.AddressLine1}} <br>
+                                                        {{student_id_data.Admission.AddressLine2}} <br> 
+                                                        {{student_id_data.Admission.Village.VillageName}}<br>
+                                                        {{student_id_data.Admission.Village.Taluk.TalukName}} {{student_id_data.Admission.Village.Taluk.District.DistrictName}}-{{student_id_data.Admission.Pincode.Pincode}} <br> <br>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row ml-2 header-1" style="text-transform:Capitalize">
+                                                    <div class="col-sm-lg-xl-md-4 h5">
+                                                        Fees Collected From 
+                                                    <span class="ml-3 pl-4">:</span>
+                                                    <span class="ml-4 pl-4"> {{student_id_data.Admission.StudentName}} of {{student_id_data.Admission.Class.ClassList.ClassName}} Standard </span>
+                                                    </div>
+                                                </div>
+                                                
+
+                                                <div class="row ml-2">
+                                                    <div class="col-sm-lg-xl-md-4 h5">
+                                                        Rupees &ensp; &emsp;
+                                                        <span class="ml-5 pl-5"> : </span> 
+                                                        <span class="ml-4 pl-4">{{ruppes_in_words}} </span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row ml-2">
+                                                    <div class="col-sm-lg-xl-md-xs-4">
+                                                        <span class="mr-2">Amount Rs </span>
+                                                        <span class="ml-5 pl-5 mr-1">: </span>
+                                                        <span class="ml-4 pl-4 ">{{student_id_data.PaidAmount}}</span> 
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row ml-2">
+                                                    <div class="col-sm-lg-xl-md-xs-4">
+                                                    <span class="mr-4 pr-1"> Paid By </span>
+                                                    <span class="ml-5 pl-5 mr-1">:</span>
+                                                    <span class="ml-4 pl-4">{{student_id_data.ModeOfPayment.ModeOfPayment}} 
+                                                    </span> 
+                                                    </div>
+                                                    <div class="col-sm-lg-xl-md-xs-4 ml-auto">
+                                                            {% if school_sign %}
+                                                                <div class="avatar avatar-xl"><img src="{{school_sign.url}}" class="avatar-img" alt="school sign"></div>
+                                                            {% endif %}
+                                                            <br> <span class="ml-3" > Cashier </span>
+                                                    </div>
+                                                    <div class="col-sm-lg-xl-md-xs-4 ml-5 pl-5 mr-5">  
+                                                        <div class="ml-4">
+                                                            {% if school_seal %}
+                                                                <div class="avatar avatar-xl"><img src="{{school_seal.url}}" class="avatar-img" alt="school seal"></div>
+                                                            {% endif %}
+                                                            <br> <span class="ml-1">  Verified By </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row ml-2">
+                                                    
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

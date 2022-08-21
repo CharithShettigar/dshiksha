@@ -59,7 +59,7 @@
                         <h4 class="card-title text-white">Assigned Fee Amount List </h4>
                         <div class="table-responsive  mt-1">
                             <!-- Table details here -->
-                            <table class="table text-white">
+                            <table id="fees-show" class="table text-white">
                                 <thead>
                                     <tr>
                                         <th width="10%">Sr.No.</th>
@@ -115,5 +115,9 @@
             }
         }
     }
+    $(document).ready(function() {
+        $('#fees-show').DataTable({
+        });
+    });
 </script>
 {% endblock javascripts %}
