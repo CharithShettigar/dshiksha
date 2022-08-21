@@ -7,97 +7,167 @@
     Assign Application Fees
 {% endblock title %}
 
-{% comment %} {% block cbse_app_data %} {% endcomment %}
 {% block body %}
 
-
 <div class="content">
-    <div class="page-inner">
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <form action="/Application/AssignApplicationFees" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <h3 class="card-title">Assign Application Fees</h3>
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Select Class</label>
-                                        <select name="ApplicationNoID" id="id_ApplicationNoID" class="form-control">
-                                            <option value=""> ----------- </option>
-                                            {% for apf in apf_list %}
-                                                <option value="{{ apf.ApplicationNoID }}"> {{ apf.Class.ClassList.ClassName }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>                                                                       
-                            </div>  
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <div class="mb-3">
-                                        <label for="" class="form-label"> Enter Application Amount </label>
-                                        {{ apf_form.Amount | attr:"class=form-control" }}
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="mb-3">
-                                        <button type="submit" class="btn btn-primary">Assign</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Assign Application Fees</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Application/AssignApplicationFees" class="text-white fw-bold">Assign Application Fees</a>
+                    </li>
                     
-                </div>
-                
+                </ul>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    
-                    <div>
-                        <h3 class="card-title">Assigned Application Fees</h3>
+    
 
+
+    <div class="page-inner mt--5">
+
+        {% if messages %}
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Assign Application Fees</div>
+                    </div>
+                    <div class="card-body">
+                        <form action="/Application/AssignApplicationFees" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Select Class</label>
+                                            <select name="ApplicationNoID" id="id_ApplicationNoID" class="form-control">
+                                                <option value=""> ----------- </option>
+                                                {% for apf in apf_list %}
+                                                    <option value="{{ apf.ApplicationNoID }}"> {{ apf.Class.ClassList.ClassName }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>                                                                       
+                                </div>  
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <div class="mb-3">
+                                            <label for="" class="form-label"> Enter Application Amount </label>
+                                            {{ apf_form.Amount | attr:"class=form-control" }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="mb-3">
+                                            <button type="submit" class="btn btn-primary">Assign</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            Assigned Application Fees
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        
                         <div class="table-responsive  mt-1">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="ApplicationFeesData">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Sr.No.</th>
+                                        <th>Class</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     {% for apf in apf_list %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td>
                                             <div>
-                                                {{ apf.Class.ClassList.ClassName }} - Rs. {{ apf.Amount }}
+                                                {{ apf.Class.ClassList.ClassName }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                            Rs. {{ apf.Amount }}
                                             </div>
                                         </td>
                                     </tr>
-                                        {% endfor %}
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
+                    
                     </div>
-                
+                    
                 </div>
-                
             </div>
         </div>
-    </div>
     </div>
 </div>
 
     
 {% endblock body %}
-{% comment %} {% endblock cbse_app_data %} {% endcomment %}
+{% block javascripts %}
+<script>
+
+    $(document).ready(function() {
+        $('#ApplicationFeesData').DataTable({
+        });
+    });
+
+    setTimeout(function () {
+        // Closing the alert
+        $('#alert').alert('close');
+    }, 2500);
+
+</script>
+{% endblock javascripts %}

@@ -8,54 +8,65 @@
 
 {% block stylesheets %}
 
-<style>
-
-</style>
-
 {% endblock stylesheets %}
 
 {% block body %}
 
 <div class="content">
-    <div class="page-inner">
-        {% if messages %}
-            <div>
-                {% for message in messages %} 
-                {% if message.tags == 'error' %}
-                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
-                    <i class="bi-exclamation-octagon-fill"></i>
-                    <strong class="mx-2">Error!</strong> {{ message.message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert">
-                    </div>
-                {% endif %}
-                {% if message.tags == 'info' %}
-                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
-                    <i class="bi-exclamation-octagon-fill"></i>
-                    <strong class="mx-2">Success!</strong> {{ message.message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert">
-                    </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-        {% endif %}
-    <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card bg-dark">
-                <div class="card-header">
-                    <div class="card-title text-white">Student Admission</div>
-                </div>
-                <div class="card-body">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Student Admission</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Admission/NewAdmission" class="text-white fw-bold">Admission</a>
+                    </li>
                     
-                    <form action="/Admission/NewAdmission" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
+        {% if messages %}
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Student Admission</div>
+                    </div>
+                    <div class="card-body">   
+                        <form action="/Admission/NewAdmission" method="post">
+                            {% csrf_token %}
+                            
                                 <div class="form-group">
 
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="id_Class" class="form-label text-white">Select Student Application Data:</label>
+                                                <label for="id_Class" class="form-label">Select Student Application Data:</label>
                                                 <select name="Application" id="id_Application" class="form-control" onchange="func()">
                                                     <option value=""> ---------- </option>
                                                     {% for a in application_list %}
@@ -68,40 +79,37 @@
                                         </div>
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="" class="form-label text-white"> Admission Number </label>
+                                                <label for="" class="form-label"> Admission Number </label>
                                                 <input type="hidden" name="admission_id_no" value="{{ admission_id_no }}">
                                                 <div class="form-control"> {{ admission_id_no }}</div>                    
                                             </div>
                                         </div>
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="" class="form-label text-white">Admission Date</label>
+                                                <label for="" class="form-label">Admission Date</label>
                                                 <input type="hidden" name="admission_date" value="{{ admission_date }}">
                                                 <div class="form-control"> {{ admission_date }}</div>                    
                                             </div>
-                                        </div>
-
-                                            
+                                        </div>  
                                     </div>
                                     
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="id_StudentMobileNo" class="form-label text-white"> Student Name</label>
+                                                <label for="id_StudentMobileNo" class="form-label"> Student Name</label>
                                                 {{ student_form.StudentName | attr:'class=form-control' }}                    
                                             </div>
                                         </div>
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="" class="form-label text-white">Date of Birth</label>
-                                                {% comment %} {{ student_form.StudentDOB | attr:"class=form-control" }} {% endcomment %}
+                                                <label for="" class="form-label">Date of Birth</label>
                                                 {% render_field student_form.StudentDOB type="date" class="form-control" %}                    
                                             </div>
                                         </div>
 
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="" class="form-label text-white">Gender</label>
+                                                <label for="" class="form-label">Gender</label>
                                                 <select name="Gender" id="id_Gender" class="form-control">
                                                     <option value=""> ---------- </option>
                                                     {% if gender_list %}
@@ -119,13 +127,13 @@
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="id_StudentMobileNo" class="form-label text-white"> Student Mobile Number</label>
+                                                <label for="id_StudentMobileNo" class="form-label"> Student Mobile Number</label>
                                                 {{ student_form.StudentMobileNo | attr:'class=form-control' }}                    
                                             </div>
                                         </div>
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="id_Class" class="form-label text-white">Class of Joining</label>
+                                                <label for="id_Class" class="form-label">Class of Joining</label>
                                                 <select name="Class" id="id_Class" class="form-control">
                                                     <option value=""> ---------- </option>
                                                     {% for class in class_list %}
@@ -141,54 +149,51 @@
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="" class="form-label text-white">Father Name</label>
+                                                <label for="" class="form-label">Father Name</label>
                                                 {{ student_form.FatherName | attr:'class=form-control' }}                    
                                             </div>
                                         </div>
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="" class="form-label text-white">Mother Name</label>
+                                                <label for="" class="form-label">Mother Name</label>
                                                 {{ student_form.MotherName | attr:'class=form-control' }}                    
                                             </div>
                                         </div>
                                         <div class="col-sm">
                                             <div class="mb-3">
-                                                <label for="" class="form-label text-white">Gaurdian Name</label>
+                                                <label for="" class="form-label">Gaurdian Name</label>
                                                 {{ student_form.GaurdianName | attr:'class=form-control' }}                    
                                             </div>
                                         </div>
-                                    </div>
-                                                                                                         
+                                    </div>                                                                    
                                 </div>                                                                       
-                            </div>  
-                        </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary"> Save Student </button>
-                        </div>
-                    </form>
-                    
+                                
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary"> Save Student </button>
+                            </div>
+                        </form>
+                    </div>      
                 </div>
-                
             </div>
         </div>
-    </div>
-    {% if student_list %}
-    <div class="row">
-        <div class="col-md-12  grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
+        {% if student_list %}
+        <div class="row">
+            <div class="col-md-12  grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Student List</div>
+                    </div>
                     
-                    <div>
-                        <h3>Student List</h3>
+                    <div class="card-body">
+                        <div class="table-responsive  mt-1">
 
-                            <table id="AdmissionData" class="table table-hover">
+                            <table id="AdmissionData" class="table  table-hover">
                                 <thead>
                                     <tr>
                                         <th>Sr.No.</th>
                                         <th>AdmissionNo</th>
                                         <th>AdmissionDate</th>
                                         <th>StudentName</th>
-                                        {% comment %} <th>StudentMobileNo</th> {% endcomment %}
                                         <th>Class</th>
                                         <th class="text-center">Actions</th>
                                     </tr>
@@ -199,7 +204,7 @@
                                         <td>{{ forloop.counter }}</td>
                                         <td>
                                             <div>
-                                                 {{ student.AdmissionNo }} 
+                                                {{ student.AdmissionNo }} 
                                             </div>
                                         </td>
                                         <td>
@@ -212,11 +217,6 @@
                                                 {{ student.StudentName }} 
                                             </div>
                                         </td>
-                                        {% comment %} <td>
-                                            <div>
-                                                {{ student.StudentMobileNo }}
-                                            </div>
-                                        </td> {% endcomment %}
                                         <td>
                                             <div>
                                                 {{ student.Class.ClassList.ClassName }}
@@ -224,11 +224,14 @@
                                         </td>
                                         <td>
                                             <div>
-                                                <a name="" id="" class="btn btn-dark p-2" href="/Student/StudentShow/{{ student.AdmissionID }}" role="button">
+                                                <a name="" id="" class="btn btn-info p-2" href="/Student/StudentShow/{{ student.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="View">
                                                     <i class="fa fa-search"></i>
                                                 </a>
-                                                <a name="" id="" class="btn btn-warning p-2" href="/Update/UpdateStudentInfo/{{ student.AdmissionID }}" role="button">
+                                                <a name="" id="" class="btn btn-warning p-2" href="/Update/UpdateStudentInfo/{{ student.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="Edit">
                                                     <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a name="" id="" class="btn btn-dark p-2" href="/DeleteStudentInfo/{{ student.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </a>
                                             </div>
                                         </td>
@@ -236,16 +239,14 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                        </div>
-                        
-                    </div>
                     
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        {% endif %} 
     </div>
-    {% endif %} 
-</div>
 </div>
 
 {% endblock body %}
@@ -279,6 +280,12 @@
         $('#AdmissionData').DataTable({
         });
     });
+
+    setTimeout(function () {
+        // Closing the alert
+        $('#alert').alert('close');
+    }, 2500);
+
     
 </script>
 {% endblock javascripts %}
