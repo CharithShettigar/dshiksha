@@ -24,7 +24,6 @@
                         <li class="nav-item">
                             <a href="/School/CreateClass" class="text-white fw-bold">Add Class</a>
                         </li>
-                        
                     </ul>
                 </div>
             </div>
@@ -174,8 +173,7 @@
                                                         <tr>
                                                             <td>  {{ forloop.counter }}  </td>
                                                             <td> 
-                                                                   <a href="/Settings/UpdateClassLevel/{{ cl.ClassLevelID }}"> {{ cl.ClassLevelName }} - {{ cl.ClassLevelCode   }}
-                                                                    </a>
+                                                                {{ cl.ClassLevelName }} - {{ cl.ClassLevelCode   }}   
                                                             </td>                                                       
                                                         </tr>
                                                         {% endfor %}
@@ -210,16 +208,12 @@
                                                     </thead>
                                                     <tbody>
                                                         {% if class_list %}
-                                                        {% for class in class_list %}
-                                                        <tr>
-                                                            <td>  {{ forloop.counter }}  </td>
-                                                            <td> 
-                                                               
-                                                                    <a href="/Settings/UpdateClass/{{ class.ClassID }}">{{ class.ClassName }}</a>
-                                                             
-                                                            </td>                                                       
-                                                        </tr>
-                                                        {% endfor %}
+                                                            {% for class in class_list %}
+                                                                <tr>
+                                                                    <td> {{ forloop.counter }}  </td>
+                                                                    <td> {{ class.ClassName }} </td>                                                       
+                                                                </tr>
+                                                            {% endfor %}
                                                         {% endif %}
                                                     </tbody>
                                                 </table>
@@ -252,14 +246,10 @@
                                                     <tbody>
                                                         {% if section_list %}
                                                         {% for section in section_list %}
-                                                        <tr>
-                                                            <td>  {{ forloop.counter }}  </td>
-                                                            <td> 
-                                                               
-                                                                    <a href="/Settings/UpdateSection/{{ section.SectionID }}">{{ section.SectionName }}</a>
-                                                            
-                                                            </td>                                                       
-                                                        </tr>
+                                                            <tr>
+                                                                <td> {{ forloop.counter }}  </td>
+                                                                <td> {{ section.SectionName }} </td>                                                       
+                                                            </tr>
                                                         {% endfor %}
                                                         {% endif %}
                                                         </tbody>

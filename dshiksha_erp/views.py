@@ -27,7 +27,7 @@ def dashboard(request):
         "district_count":md.District.objects.all().count(),
         "village_count":md.Village.objects.all().count(),
         "taluk_count":md.Taluk.objects.all().count(),
-        "area_count":md.Area.objects.all().count(),
+        "fee_count":md.FeesType.objects.all().count(),
         "staff_count":sm.Staff.objects.all().count(),
         "student_count":sm.Students.objects.all().count(),
         "student_boys_count":sm.Students.objects.filter(Gender__GenderName ='Male').count(),
@@ -142,45 +142,6 @@ def add_state(request):
         return render(request, 'dshiksha_erp/Pages/Settings/add_state.html', context)
     else:
         return redirect("/accounts/login/?redirect_to=/Settings/AddState")
-
-# admin 
-# def create_superuser(request):
-    # if request.user.is_authenticated:
-    #     if request.method == 'POST':
-    #         superuer_form = fm.SchoolForm(request.POST)
-    #         if school_school_form.is_valid():
-    #             if sm.School.objects.filter(SchoolName=school_school_form.cleaned_data['SchoolName'],
-    #                                          Email=school_school_form.cleaned_data['Email']).exists():
-    #                 messages.error(request, "School Already Present")
-    #             elif sm.School.objects.filter(SchoolName=school_school_form.cleaned_data['SchoolName']).exists():
-    #                 messages.error(request, "School Name already present")
-    #             elif sm.School.objects.filter(Email=school_school_form.cleaned_data['Email']).exists():
-    #                 messages.error(request, "School Email already present")
-    #             elif sm.School.objects.filter(SchoolCode=school_school_form.cleaned_data['SchoolCode']).exists():
-    #                 messages.error(request, "School Code already present")
-    #             elif sm.School.objects.filter(SchoolUsername=school_school_form.cleaned_data['SchoolUsername']).exists():
-    #                 messages.error(request, "School Username already present")
-    #             else:
-    #                 user = User.objects.create_user(email=school_school_form.cleaned_data['Email'],
-    #                                                 first_name=school_school_form.cleaned_data['SchoolName'],
-    #                                                 username=school_school_form.cleaned_data['SchoolCode'],
-    #                                                 password=school_school_form.cleaned_data['Password'],
-    #                                                 UserType=UserTypes.objects.get(UserTypeName="School").UserTypeID)
-    #                 redirect("/School/create_school")
-    #         else:
-    #             print(school_school_form.errors)
-    #     else:
-    #         school_school_form = fm.SchoolForm()
-    #     context = {
-    #         "school_form": school_school_form,
-    #         "village_list": md.Village.objects.all(),
-    #         "post_office_list": md.PostOffice.objects.all(),
-    #         "school_list": sm.School.objects.all(),
-    #         "academic_year_list": md.AcademicYear.objects.all(),
-    #     }
-    #     return render(request, "dshiksha_erp/Pages/School/create_school.html", context)
-    # else:
-    #     return redirect("/accounts/login/?redirect_to=/School/create_school")
 
 def add_academic_year(request):
     if request.user.is_authenticated:
@@ -665,7 +626,7 @@ def create_fees_type(request):
             "ft_form": ft_form,
             "ft_list": md.FeesType.objects.all(),
             "installment_form": installment_form,
-            "installment_list": md.Installment.objects.all(),
+            "installment_list": md.Installment.objects.all().order_by('OrderID'),
         }
         return render(request, "dshiksha_erp/Pages/Fees/create_fees_type.html", context)
     else:

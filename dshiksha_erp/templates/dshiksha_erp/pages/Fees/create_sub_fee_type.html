@@ -6,18 +6,40 @@
 
 {% block body %}
 <div class="content">
-    <div class="page-inner">
+
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Create Sub Fees Type</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Fees/CreateSubFeesType" class="text-white fw-bold">Create Sub Fees Types </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-inner mt--3">
         <div class="col-sm">
             <div class="row flex-grow">
                 <div class="col-12 grid-margin stretch-card">
-            <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+            <div class="card card-rounded mt--5 mt-5 mr-3 ml-3">
                 <div class="card-body">
-                    <h4 class="card-title text-white">Create Sub Fees Type </h4>
+                    <h4 class="card-title">Create Sub Fees Type <hr> </h4>
                     <form action="/Fees/CreateSubFeesType" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="form-type" value="create-sub-fee-type">
                             <div class="form-group">
-                                <label for="" class="form-label text-white"> Fees Type </label>
+                                <label for="" class="form-label"> Fees Type </label>
                                 <select name="FeesType" id="id_feetype" class="form-control">
                                     <option value=""> ---------- </option>
                                         {% for fs in fs_list %}
@@ -26,7 +48,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="" class="form-label text-white"> Sub Fee Type </label>
+                                <label for="" class="form-label"> Sub Fee Type </label>
                                 {{ sft_form.SubFeeName | attr:"class=form-control" }}
                             </div>
                             <div class="mb-3">
@@ -42,16 +64,16 @@
             <div class="col-lg-12 d-flex flex-column">
                 <div class="row flex-grow">
                     <div class="col-12 grid-margin stretch-card">   
-                        <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                        <div class="card card-rounded mt-5 mr-3 ml-3">
                             <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-start">
                                     <div>
-                                        <h4 class="card-title card-title-dash text-white">Sub Fees Type List</h4>
+                                        <h4 class="card-title card-title-dash">Sub Fees Type List</h4>
                                     </div>
                                 </div>
                                 <div class="table-responsive  mt-1">
                                     <!-- Table details here -->
-                                    <table class="table text-white">
+                                    <table class="table">
                                         <thead>
                                             <tr>
                                                 <th width="10%">Sr.No.</th>
@@ -63,7 +85,7 @@
                                             {% for sft in sft_list %}
                                             <tr>
                                                 <td> {{ forloop.counter }} </td>
-                                                <td> <a href="/Updates/UpdateSubFeeType/ {{ sft.SubFeeID }}">  {{ sft.FeesType.FeesTypeName }} - {{sft.SubFeeName }}  </a> </td>
+                                                <td> {{ sft.FeesType.FeesTypeName }} - {{sft.SubFeeName }} </td>
                                             </tr>
                                             {% endfor %}
                                             {% endif %}
