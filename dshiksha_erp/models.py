@@ -209,5 +209,5 @@ class Feedback(models.Model):
     FeedbackData=models.TextField(max_length=500,null=True)
     FeedbackFile=models.FileField(upload_to=filepath_feedback,null=True)
     School=models.CharField(max_length=100)
-    # FeedbackDate = models.DateTimeField(auto_now=True)
+    FeedbackDate = models.DateTimeField(auto_now=True)
 

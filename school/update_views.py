@@ -6,8 +6,11 @@ from dshiksha_erp import models as md
 from school import models as sm
 from main.models import UserTypes, User
 import dshiksha_erp.models as erp
+from django.core import serializers
 import os
 import uuid
+from django.utils.dateformat import DateFormat
+from datetime import date, datetime
 
 # Update View methods
 
@@ -52,14 +55,15 @@ def update_school(request, school_id):
                 school_data.AccountantEmail=school_form.cleaned_data['AccountantEmail']
                 school_data.AccountantMobile=school_form.cleaned_data['AccountantMobile']
                 school_data.AccountantWhatsAppNo=school_form.cleaned_data['AccountantWhatsAppNo']
-                school_data.CorrespondentFirstName=school_form.cleaned_data['CorrespondentFirstName']
-                school_data.CorrespondentLastName=school_form.cleaned_data['CorrespondentLastName']
+                school_data.CorrespondentName=school_form.cleaned_data['CorrespondentName']
                 school_data.CorrespondentEmail=school_form.cleaned_data['CorrespondentEmail']
                 school_data.CorrespondentMobile=school_form.cleaned_data['CorrespondentMobile']
                 school_data.CorrespondentWhatsAppNo=school_form.cleaned_data['CorrespondentWhatsAppNo']
                 school_data.save()
-                return redirect("/School/SchoolInfo")
+                messages.info(request,"Staff information updated successfully")
+                return redirect(f"/Update/UpdateSchoolInfo/{school_id}")
             else:
+                messages.error(request,f"Wrong information entererd!!! {school_form.errors}")
                 print("---------------",school_form.errors)
         else:
             school_form = fm.SchoolForm(
@@ -85,8 +89,7 @@ def update_school(request, school_id):
                     "AccountantMobile": school_data.AccountantMobile,
                     "AccountantWhatsAppNo": school_data.AccountantWhatsAppNo,
 
-                    "CorrespondentFirstName": school_data.CorrespondentFirstName,
-                    "CorrespondentLastName": school_data.CorrespondentLastName,
+                    "CorrespondentName": school_data.CorrespondentName,
                     "CorrespondentEmail": school_data.CorrespondentEmail,
                     "CorrespondentMobile": school_data.CorrespondentMobile,
                     "CorrespondentWhatsAppNo": school_data.CorrespondentWhatsAppNo,
@@ -97,13 +100,14 @@ def update_school(request, school_id):
             "school_form": school_form,
             "village_list":md.Village.objects.all(),
             "currentacademicYear_list":md.AcademicYear.objects.all(),
-            "post_list":md.PostOffice.objects.all(),
+            "postoffice_list":md.PostOffice.objects.all(),
             "area_list":md.Area.objects.all(),
             "institution_list":md.InstitutionLevel.objects.all(),
             "school_id": request.session['school_id'],
             "school_logo":school_data.SchoolLogo,
             "school_seal":school_data.SchoolSeal,
             "school_sign":school_data.SchoolSign,
+            "Email":school_data.Email
         }
         return render(request, "school/Pages/Update/update_school_info.html", context)
     else:
@@ -145,8 +149,10 @@ def update_staff(request, staff_id):
                 staff_data.DateOfRetirement= staff_form.cleaned_data['DateOfRetirement']
                 staff_data.AcademicYear= staff_form.cleaned_data['AcademicYear']
                 staff_data.save()
-                return redirect(f"/Staff/StaffInfoShow/{staff_id}")
+                messages.info(request,"Staff information updated successfully")
+                return redirect(f"/Update/UpdateStaffInfo/{staff_id}")
             else:
+                messages.error(request,f"Wrong information entererd!!! {staff_form.errors}")
                 print("---------------",staff_form.errors)
         else:
             staff_form = fm.StaffForm(
@@ -185,9 +191,8 @@ def update_staff(request, staff_id):
 
 def update_student(request, student_id):
     if request.user.is_authenticated:
-        student_data = sm.Students.objects.get(AdmissionID = student_id)
-        # assignclassobj=sm.Students.objects.get(AssignedClass=student_data.AssignedClass)
-        print('1st-------------------------',student_data.AssignedClass)
+        school_id=request.session['school_id']
+        student_data = sm.Students.objects.get(SchoolID=school_id,AdmissionID = student_id)
         if request.method == "POST":
             student_form = fm.StudentForm(request.POST)
             if student_form.is_valid():
@@ -215,21 +220,36 @@ def update_student(request, student_id):
                 student_data.Pincode=student_form.cleaned_data['Pincode']
                 student_data.Class=student_form.cleaned_data['Class']
                 student_data.AssignedClass=student_form.cleaned_data['AssignedClass']
-                student_data.FatherName=student_form.cleaned_data['FatherName']
+
+                if student_data.FatherName == None or student_data.FatherName == "None":
+                    student_data.FatherName="None"
+                else:
+                    student_data.FatherName=student_form.cleaned_data['FatherName']
+
                 student_data.FatherMobileNo=student_form.cleaned_data['FatherMobileNo']
                 student_data.FatherWhatsappNo=student_form.cleaned_data['FatherWhatsappNo']
                 student_data.FatherEmail=student_form.cleaned_data['FatherEmail']
                 student_data.FatherQualification=student_form.cleaned_data['FatherQualification']
                 student_data.FatherOccupation=student_form.cleaned_data['FatherOccupation']
                 student_data.FatherIncome=student_form.cleaned_data['FatherIncome']
-                student_data.MotherName=student_form.cleaned_data['MotherName']
+
+                if student_data.MotherName == None or student_data.MotherName == "None":
+                    student_data.MotherName="None"
+                else:
+                    student_data.MotherName=student_form.cleaned_data['MotherName']
+
                 student_data.MotherMobileNo=student_form.cleaned_data['MotherMobileNo']
                 student_data.MotherWhatsappNo=student_form.cleaned_data['MotherWhatsappNo']
                 student_data.MotherEmail=student_form.cleaned_data['MotherEmail']
                 student_data.MotherQualification=student_form.cleaned_data['MotherQualification']
                 student_data.MotherOccupation=student_form.cleaned_data['MotherOccupation']
                 student_data.MotherIncome=student_form.cleaned_data['MotherIncome']
-                student_data.GaurdianName=student_form.cleaned_data['GaurdianName']
+
+                if student_data.GaurdianName == None or student_data.GaurdianName == "None":
+                    student_data.GaurdianName="None"
+                else:
+                    student_data.GaurdianName=student_form.cleaned_data['GaurdianName']
+
                 student_data.GaurdianMobileNo=student_form.cleaned_data['GaurdianMobileNo']
                 student_data.GaurdianWhatsappNo=student_form.cleaned_data['GaurdianWhatsappNo']
                 student_data.GaurdianEmail=student_form.cleaned_data['GaurdianEmail']
@@ -247,9 +267,9 @@ def update_student(request, student_id):
                         PaymentStatus="No Updates",
                         PaidAmount=0
                         ).save()
-                else:
-                    print("alredy created")
-                # print('1st-----------------------',sm.Students.objects.get(AdmissionID=student_id))
+                # else:
+                #     print("alredy created")
+                # # print('1st-----------------------',sm.Students.objects.get(AdmissionID=student_id))
 
                 return redirect(f"/Student/StudentShow/{student_id}")
             else:
@@ -292,10 +312,13 @@ def update_student(request, student_id):
                     "GaurdianIncome": student_data.GaurdianIncome,
                     })
 
+        # objset=student_data
+        # jsondata=serializers.serialize("json",objset)
+
         context = {
             "student_form": student_form,
             "student_data": student_data,
-            "gender_list":md.Gender.objects.all(),
+            "gender_list":md.Gender.objects.all().order_by("GenderOrder"),
             "bloodgroup_list":md.BloodGroup.objects.all(),
             "caste_list":md.Caste.objects.all(),
             "religion_list":md.Religion.objects.all(),
@@ -307,6 +330,12 @@ def update_student(request, student_id):
             "village_list":md.Village.objects.all(),
             "postoffice_list":md.PostOffice.objects.all(),
             "student_photo":student_data.StudentPhoto,
+            "father_name":sm.Students.objects.get(AdmissionID = student_id).FatherName,
+            "mother_name":sm.Students.objects.get(AdmissionID = student_id).MotherName,
+            "gaurdian_name":sm.Students.objects.get(AdmissionID = student_id).GaurdianName,
+            "AdmissionNo":sm.Students.objects.get(AdmissionID = student_id).AdmissionNo,
+            "AdmissionDate":sm.Students.objects.get(AdmissionID = student_id).AdmissionDate,
+            "data":student_data,
         }
         return render(request, "school/Pages/Update/update_student_info.html", context)
     else:

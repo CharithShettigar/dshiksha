@@ -1,4 +1,4 @@
-{% extends 'school/base.html' %}
+{% extends 'dshiksha_erp/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -53,13 +53,17 @@
                                                     </p>
                                                     {% if fd.FeedbackFile %}
                                                     <p>
-                                                        {% comment %} <a href="{{fd.FeedbackFile.url}}">View File {% endcomment %}
-                                                            <a name="" id="" class="btn btn-primary" href="{{fd.FeedbackFile.url}}" role="button" target="_blank">View File</a>
+                                                        <a class="btn btn-primary" href="{{fd.FeedbackFile.url}}" role="button" target="_blank">View File</a>
                                                     </p>
                                                     {% endif %}
                                                         <small>
                                                             -{{fd.School}}
                                                         </small>
+                                                        <p>
+                                                            <small>
+                                                                -Posted at {{fd.FeedbackDate}}
+                                                            </small>
+                                                        </p>
                                                 </blockquote></td>     
                                                 
                                     </tr>

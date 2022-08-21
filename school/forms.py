@@ -89,7 +89,7 @@ class AssignFeeAmountForm(forms.ModelForm):
 class CollectFeeForm(forms.ModelForm):
     class Meta:
         model=sm.CollectFee
-        exclude=['CollectFeeID','CollectFeeDate','Admission','AssignClass','School','Bank','PaymentStatus','Online','CollectFeeNo']
+        exclude=['CollectFeeID','CollectFeeDate','Admission','AssignClass','School','Bank','PaymentStatus','Online','CollectFeeNo','RefferenceNO']
 
 
 class AttendanceForm(forms.ModelForm):

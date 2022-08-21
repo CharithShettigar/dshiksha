@@ -10,208 +10,251 @@
 
 {% block body %}
 <div class="content">
-    <div class="page-inner">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Staff Info</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Staff/StaffInfo" class="text-white fw-bold">Staff Info</a>
+                    </li> 
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
     
-    <div class="row">        
-        <div class="col-md-6">
-            <div class="form-group">
-                <h3>Staff Info</h3>
-                <div class="mb-3">
-                    <form action="/Staff/StaffInfo" method="post">
-                        {% csrf_token %}
-                        <label for="" class="form-label">Select Staff Member</label>
-                        <select name="staff_selected" id="id_ApplicationNoID" class="form-control">
-                            <option value=""> ----------- </option>
-                            {% for staff in staff_list %}
-                                <option value="{{ staff.StaffID }}"> {{ staff.StaffName }}</option>
-                            {% endfor %}
-                        </select>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-primary">Show</button>
-                        </div>    
-                    </form>
+        <div class="row">        
+            <div class="col-md-12">
+                <div class="form-group">                
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Staff Info</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <form action="/Staff/StaffInfo" method="post">
+                                    {% csrf_token %}
+                                    <label for="" class="form-label">Select Staff Member</label>
+                                    <select name="staff_selected" id="id_ApplicationNoID" class="form-control">
+                                        <option value=""> ----------- </option>
+                                        {% for staff in staff_list %}
+                                            <option value="{{ staff.StaffID }}"> {{ staff.StaffName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="mt-3">
+                                        <button type="submit" class="btn btn-primary">Show</button>
+                                    </div>    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>                                                                       
+            </div>  
+        </div>
+
+        {% if staff %}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+
+                            {% if staff.StaffPhoto %}
+                            <div class="avatar avatar-xxl">
+                                <img src="{{staff.StaffPhoto.url}}" alt="staff img" class="avatar-img rounded">
+                            </div>
+                            {% endif %}         
+                            <span class="ml-3 text-capitalize fw-bold h1"> {{staff.StaffName}}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm">
+                                <table class="table table-hover"> 
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Personal Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Staff No</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.StaffNo }}</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>Gender</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.Gender.GenderName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date of Birth</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.DOB}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blood Group</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{staff.BloodGroup.BloodGroupName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Marital Status</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{staff.MaritalStatus.MaritalStatus}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Caste</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{staff.Caste.CasteName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mother Tongue</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{staff.MotherTongue.MotherTongueName}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Work Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Designation</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.Designation.DesignationName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Qualification</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.StaffQualification.StaffQualificationName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Subject 1</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.Subject1.StaffSubjectName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Subject 2</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.Subject2.StaffSubjectName}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="col-sm"> 
+                                
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Address Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Address Line1</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.AddressLine1}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address Line2</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.AddressLine2}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Village</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.Village.VillageName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taluk</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{staff.Village.Taluk.TalukName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>District</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{staff.Village.Taluk.District.DistrictName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>State</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{staff.Village.Taluk.District.State.StateName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pincode</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.Pincode.Pincode}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Contact Info</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Mobile</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.StaffMobile}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.StaffEmailID}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>StaffWhatsAppNo</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.StaffWhatsAppNo}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <table class="table table-hover mt-3">
+                                    <thead>
+                                        <th class="fw-bold" colspan="3">Appointment Info</th>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td>Date Of Appointment</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.DateOfAppointment}} </td> 
+                                        </tr>
+                                        <tr>
+                                            <td>Date Of Retirement</td>
+                                            <td class="fw-bold">:</td>
+                                            <td class="fw-bold">{{ staff.DateOfRetirement }}</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="mb-3">
+                                    <a name="" id="" class="btn btn-primary m-3" href="/Update/UpdateStaffInfo/{{ staff.StaffID }}" role="button">Edit</a>
+                                </div>                        
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>                                                                       
-        </div>  
-    </div>
-
-    {% if staff %}
-    <div class="row">
-        <div class="col-sm">
-            <table class="table table-hover"> 
-                <thead>
-                    <th class="fw-bold" colspan="3">Personal Info</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Staff No</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.StaffNo }}</td>
-                    </tr>
-                    <tr>
-                        <td>Staff Photo</td>
-                        <td class="fw-bold">:</td>
-                        <td><div class="avatar avatar-xxl"> <img src="{{staff.StaffPhoto.url}}" class="avatar-img" alt="{{staff.StaffPhoto.url}}"> </div></td>
-                    </tr>
-                    <tr>
-                        <td>Gender</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.Gender.GenderName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Date of Birth</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.DOB}}</td>
-                    </tr>
-                    <tr>
-                        <td>Blood Group</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{staff.BloodGroup.BloodGroupName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Marital Status</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{staff.MaritalStatus.MaritalStatus}}</td>
-                    </tr>
-                    <tr>
-                        <td>Caste</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{staff.Caste.CasteName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Mother Tongue</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{staff.MotherTongue.MotherTongueName}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table table-hover mt-3">
-                <thead>
-                    <th class="fw-bold" colspan="3">Work Info</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Designation</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.Designation.DesignationName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Qualification</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.StaffQualification.StaffQualificationName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Professional Qualification</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.StaffProQualification.StaffProQualificationName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Subject 1</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.Subject1.StaffSubjectName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Subject 2</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.Subject2.StaffSubjectName}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table table-hover mt-3">
-                <thead>
-                    <th class="fw-bold" colspan="3">Contact Info</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Mobile</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.StaffMobile}}</td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.StaffEmailID}}</td>
-                    </tr>
-                    <tr>
-                        <td>StaffWhatsAppNo</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.StaffWhatsAppNo}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>
         </div>
-        
-        <div class="col-sm"> 
-            
-            <table class="table table-hover">
-                <thead>
-                    <th class="fw-bold" colspan="3">Address Info</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Address Line1</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.AddressLine1}}</td>
-                    </tr>
-                    <tr>
-                        <td>Address Line2</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.AddressLine2}}</td>
-                    </tr>
-                    <tr>
-                        <td>Village</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.Village.VillageName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Taluk</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{staff.Village.Taluk.TalukName}}</td>
-                    </tr>
-                    <tr>
-                        <td>District</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{staff.Village.Taluk.District.DistrictName}}</td>
-                    </tr>
-                    <tr>
-                        <td>State</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{staff.Village.Taluk.District.State.StateName}}</td>
-                    </tr>
-                    <tr>
-                        <td>Pincode</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.Pincode.Pincode}}</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            
-            <table class="table table-hover mt-3">
-                <thead>
-                    <th class="fw-bold" colspan="3">Appointment Info</th>
-                </thead>
-                <tbody>
-                    
-                    <tr>
-                        <td>Date Of Appointment</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.DateOfAppointment}} </td> 
-                    </tr>
-                    <tr>
-                        <td>Date Of Retirement</td>
-                        <td class="fw-bold">:</td>
-                        <td class="fw-bold">{{ staff.DateOfRetirement }}</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
 </div>
 
 {% endblock body %}
