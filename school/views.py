@@ -636,8 +636,10 @@ def collect_fee(request):
                 else:
                     print('else-----------------',request.POST.get('Class'))
                     messages.error(request, "Please select the class")   
-
-        pendingamount=totalamount- PaidAmount
+        if PaidAmount==totalamount:
+            pendingamount=0
+        else:
+            pendingamount=totalamount- PaidAmount
         context={
             # "student_data":student_data,
             "class_section_list":sm.AssignClass.objects.filter(School=request.session['school_id']).order_by('Class'),
