@@ -6,7 +6,29 @@
 
 {% block body %}
 <div class="content">
-    <div class="page-inner">
+
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Add Bank & Online</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Fees/CreateBank" class="text-white fw-bold">Add Bank & Online </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-inner mt--5">
         {% if messages %}
         <div>
             {% for message in messages %}
@@ -23,14 +45,16 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="home-tab">
-                    <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
                     <div class="row">
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
+                                        <div class="card-header">
+                                            <div class="card-title">Add Bank</div>
+                                        </div>
+                
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Bank </h4>
                                             <!-- form details here -->
                                             <form action="/Fees/CreateBank" method="post">
                                                 {% csrf_token %}
@@ -38,14 +62,14 @@
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                            <label for="" class="text-white form-label"> Bank Name
+                                                            <label for="" class="form-label"> Bank Name
                                                             </label>
                                                             {{bank_form.BankName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Order ID </label>
+                                                            <label for="" class="form-label"> Order ID </label>
                                                             {{ bank_form.OrderID | attr:"class=form-control" | attr:"type=number" }}
                                                         </div>
                                                     </div>
@@ -71,9 +95,11 @@
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
+                                        <div class="card-header">
+                                            <div class="card-title">Add Online App</div>
+                                        </div>
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Online App </h4>
                                             <!-- form details here -->
                                             <form action="/Fees/CreateBank" method="post">
                                                 {% csrf_token %}
@@ -81,14 +107,14 @@
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Online App Name
+                                                            <label for="" class="form-label"> Online App Name
                                                             </label>
                                                             {{ online_form.OnlineAppName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Order ID </label>
+                                                            <label for="" class="form-label"> Order ID </label>
                                                             {{ online_form.OrderID | attr:"class=form-control" | attr:"type=number" }}
                                                         </div>
                                                     </div>
@@ -118,17 +144,17 @@
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Bank List
+                                                    <h4 class="card-title card-title-dash">Bank List
                                                     </h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table text-white">
+                                                <table class="table">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
@@ -140,9 +166,7 @@
                                                         {% for bl in bank_list %}
                                                         <tr>
                                                             <td> {{ forloop.counter }} </td>
-                                                            <td> <a
-                                                                    href="/Updates/UpdateBank/{{ bl.BankID }}">
-                                                                    {{bl.BankName }}</a> </td>
+                                                            <td> {{bl.BankName }} </td>
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}
@@ -159,16 +183,16 @@
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Online App List</h4>
+                                                    <h4 class="card-title card-title-dash">Online App List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table text-white">
+                                                <table class="table">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
@@ -180,11 +204,7 @@
                                                         {% for ol in online_list %}
                                                         <tr>
                                                             <td> {{ forloop.counter }} </td>
-                                                            <td>
-                                                                <a
-                                                                    href="/Updates/UpdateOnline/{{ ol.OnlineID }}">
-                                                                    {{ ol.OnlineAppName }}</a>
-                                                            </td>
+                                                            <td> {{ ol.OnlineAppName }} </td>
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}

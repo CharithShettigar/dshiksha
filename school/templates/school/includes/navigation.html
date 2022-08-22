@@ -5,8 +5,13 @@
 			<div class="logo-header" data-background-color="dark2">
 				
 			     <a href="/Dashboard/AdminData" class="logo">
-					<h2 class='fw-bold text-white mt-3'>DSHIKSHA</H2>
+					{% comment %} <div class="mb-4"> {% endcomment %}
+					{% comment %} <div>
+						<img src="/static/assets/img/digital-shiksha.jpeg" alt="school img" class="avatar-img rounded">
+					</div> {% endcomment %}
+					<h2 class='fw-bold text-white mt-3'>DSHIKSHA</h2>
 					{% comment %} <img src="/static/assets/img/logo.svg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
+					{% comment %} <img src="/static/assets/img/digital-shiksha.jpeg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
@@ -27,32 +32,36 @@
 				
 				{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
 				<div class="container-fluid">
-					{% comment %} <div class="collapse" id="search-nav">
-						<form class="navbar-left navbar-form nav-search mr-md-3">
+					<div class="collapse" id="search-nav">
 							<div class="input-group">
-								<div class="input-group-prepend">
-									<button type="submit" class="btn btn-search pr-1">
-										<i class="fa fa-search search-icon"></i>
-									</button>
-								</div>
-								<input type="text" placeholder="Search ..." class="form-control">
+								<h1 class="input-group-prepend text-white">
+									{{request.session.school_name}}
+								</h1>
 							</div>
-						</form>
-					</div> {% endcomment %}
+					</div>
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-						
-						
-						
 						<li class="nav-item hidden-caret">
 							<a class="profile-pic"  href="#" aria-expanded="false">
 								
-								<div class="avatar-sm">
-									<a href="/">
-									<span class="avatar-title rounded-circle text-warning fw-bold">DS1</span>
-									</a>
-								</div>
+								<a href="/">
+									<div class="avatar">
+											<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">
+									</div>
+								</a>
 							</a>							
 						</li>
+						
+						<li class="nav-item hidden-caret mx-2" data-toggle="tooltip" data-placement="bottom" title="logout">
+							<a href="/accounts/logout">
+								<h2>
+									<i class="icon-logout fw-bold text-white"></i>
+									<span class="link-collapse "></span>
+								</h2>
+							</a>
+						</li>
+						
+						
+						
 					</ul>
 				</div>
 

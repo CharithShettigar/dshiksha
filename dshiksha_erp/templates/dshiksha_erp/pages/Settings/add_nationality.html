@@ -10,99 +10,110 @@
 {% block body %}
 
 <div class="content">
-    <div class="page-inner">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="home-tab">
-                <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
-                <div class="row">
-                    <div class="col-lg-12 d-flex flex-column">
-                        <div class="row flex-grow">
-                            <div class="col-12 grid-margin stretch-card">
-                                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title text-white">Add Country  </h4>
-                                         <!-- form details here -->
-                                         <form action="/Settings/AddNationality" method="post">
-                                            {% csrf_token %}
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="" class="text-white form-label"> Country Name</label>
-                                                        {{ nationality_form.NationalityName | attr:"class=form-control" }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-white"> Country Code</label>
-                                                        {{ nationality_form.CountryCode | attr:"class=form-control" }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputUsername1">&nbsp;</label>
-
-                                                        <div class="input-group col-xs-12">                                                        
-                                                            <span class="input-group-append">
-                                                                <button type="submit" class="btn btn-primary text-white"> Create </button>
-                                                            </span>
-                                                          </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header  text-white">
+                <h4 class="page-title  text-white">Assign Nationality  </h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home  text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow  text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Settings/AddNationality" class="text-white fw-bold">Assign Nationality</a>
+                    </li> 
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page-inner mt--5">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <h4 class="card-title ">Add Country  </h4>
+                            <!-- form details here -->
+                            <form action="/Settings/AddNationality" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class=" form-label"> Country Name</label>
+                                        {{ nationality_form.NationalityName | attr:"class=form-control" }}
                                     </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="form-label "> Country Code</label>
+                                        {{ nationality_form.CountryCode | attr:"class=form-control" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputUsername1">&nbsp;</label>
+
+                                        <div class="input-group col-xs-12">                                                        
+                                            <span class="input-group-append">
+                                                <button type="submit" class="btn btn-primary "> Create </button>
+                                            </span>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 d-flex flex-column">
+                <div class="row flex-grow">
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card card-rounded">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h4 class="card-title card-title-dash ">Country List</h4>
+                                    </div>
+                                </div>
+                                <div class="table-responsive  mt-1">
+                                    <!-- Table details here -->
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <th width="10%">Sr.No.</th>
+                                                <th>Country Code   </th>
+                                                <th>Country Name </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if nationality_list %}
+                                            {% for nat in nationality_list %}
+                                            <tr>
+                                                <td>  {{ forloop.counter }}  </td>
+                                                <td> {{ nat.CountryCode }}  </td>
+                                                <td>                                                 
+                                                     {{ nat.NationalityName }} - {{ nat.CountryCode }}
+                                            </td>                                                       
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 d-flex flex-column">
-                        <div class="row flex-grow">
-                            <div class="col-12 grid-margin stretch-card">
-                                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                    <div class="card-body">
-                                        <div class="d-sm-flex justify-content-between align-items-start">
-                                            <div>
-                                                <h4 class="card-title card-title-dash text-white">Country List</h4>
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive  mt-1">
-                                            <!-- Table details here -->
-											<table class="table text-white">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="10%">Sr.No.</th>
-                                                        <th>Country Code   </th>
-                                                        <th>Country Name </th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% if nationality_list %}
-                                                    {% for nat in nationality_list %}
-                                                    <tr>
-                                                        <td>  {{ forloop.counter }}  </td>
-                                                        <td> {{ nat.CountryCode }}  </td>
-                                                        <td>                                                 
-                                                             <a href="/Settings/UpdateNationality/{{ nat.NationalityID }}"> {{ nat.NationalityName }} - {{ nat.CountryCode }}</a>
-                                                    </td>                                                       
-                                                    </tr>
-                                                    {% endfor %}
-                                                    {% endif %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
             </div>
-        </div>
+        </div> 
     </div>
-</div>
 </div>
 {% endblock body %}
