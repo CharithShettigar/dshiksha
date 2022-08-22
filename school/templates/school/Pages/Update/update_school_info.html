@@ -107,7 +107,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> InsitutionLevel</label>
                                         <select name="InsitutionLevel" id="id_InsitutionLevel" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for i in institution_list %}
                                                 <option value="{{ i.InstitutionLevelID }}"> {{ i.InstitutionLevel }}</option>
                                             {% endfor %}
@@ -119,7 +118,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> CurrentAcademicYear</label>
                                         <select name="CurrentAcademicYear" id="id_CurrentAcademicYear" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for s in currentacademicYear_list %}
                                                 <option value="{{ s.AcademicYearID }}"> {{ s.AcademicYear }}</option>
                                             {% endfor %}
@@ -259,7 +257,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Area</label>
                                         <select name="Area" id="id_Area" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for area in area_list %}
                                                 <option value="{{ area.AreaID }}"> {{ area.AreaType }}</option>
                                             {% endfor %}
@@ -272,7 +269,6 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Village</label>
                                         <select name="Village" id="id_Village" class="form-control">
-                                            <option value=""> ---------- </option>
                                             {% for village in village_list %}
                                                 <option value="{{ village.VillageID }}"> {{ village.VillageName }}</option>
                                             {% endfor %}

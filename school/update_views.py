@@ -60,7 +60,13 @@ def update_school(request, school_id):
                 school_data.CorrespondentMobile=school_form.cleaned_data['CorrespondentMobile']
                 school_data.CorrespondentWhatsAppNo=school_form.cleaned_data['CorrespondentWhatsAppNo']
                 school_data.save()
-                messages.info(request,"Staff information updated successfully")
+
+                request.session['school_name'] = school_data.SchoolName
+                request.session['school_username'] = school_data.SchoolUsername
+                request.session['academic_year'] = str(school_data.CurrentAcademicYear.AcademicYearID)
+                request.session['school_logo']="/"+str(school_data.SchoolLogo)
+
+                messages.info(request,"School information updated successfully.")
                 return redirect(f"/Update/UpdateSchoolInfo/{school_id}")
             else:
                 messages.error(request,f"Wrong information entererd!!! {school_form.errors}")

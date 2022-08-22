@@ -68,7 +68,6 @@
                                             <div class="mb-3">
                                                 <label for="id_Class" class="form-label">Select Student Application Data:</label>
                                                 <select name="Application" id="id_Application" class="form-control" onchange="func()">
-                                                    <option value=""> ---------- </option>
                                                     {% for a in application_list %}
                                                     <option value="{{ a.ApplicationID }}"> 
                                                         {{ a.ApplicationNo }}-{{ a.StudentName }} 
@@ -111,7 +110,6 @@
                                             <div class="mb-3">
                                                 <label for="" class="form-label">Gender</label>
                                                 <select name="Gender" id="id_Gender" class="form-control">
-                                                    <option value=""> ---------- </option>
                                                     {% if gender_list %}
                                                         {% for gender in gender_list %}
                                                         <option value="{{ gender.GenderID }}"> 
@@ -135,7 +133,6 @@
                                             <div class="mb-3">
                                                 <label for="id_Class" class="form-label">Class of Joining</label>
                                                 <select name="Class" id="id_Class" class="form-control">
-                                                    <option value=""> ---------- </option>
                                                     {% for class in class_list %}
                                                     <option value="{{ class.Class.ClassID }}"> 
                                                         {{ class.Class.ClassList.ClassName }} 
