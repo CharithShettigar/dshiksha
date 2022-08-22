@@ -8,18 +8,38 @@
 
 {% block body %}
     <div class="content">
-        <div class="page-inner">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-4">
+                <div class="page-header text-white">
+                    <h4 class="page-title text-white">Add Class</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/">
+                                <i class="flaticon-home text-white fw-bold"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow text-white fw-bold"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/School/CreateClass" class="text-white fw-bold">Add Class</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-inner mt--5">
             <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12  grid-margin stretch-card">
                 <div class="home-tab">
-                    <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
                     <div class="row">
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Class Level </h4>
+                                            <h4 class="card-title mt-3">Add Class Level <hr></h4>
                                              <!-- form details here -->
                                              <form action="/School/CreateClass" method="post">
                                                 {% csrf_token %}
@@ -27,13 +47,13 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Class Level Name</label>
+                                                            <label for="" class="form-labele"> Class Level Name</label>
                                                             {{ class_level_form.ClassLevelName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Class Level Code</label>
+                                                            <label for="" class="form-label"> Class Level Code</label>
                                                             {{ class_level_form.ClassLevelCode | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
@@ -56,9 +76,9 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Class   </h4>
+                                            <h4 class="card-title">Add Class   </h4>
                                              <!-- form details here -->
                                              <form action="/School/CreateClass" method="post">
                                                 {% csrf_token %}
@@ -66,13 +86,13 @@
                                                 <div class="row">
                                                     <div class="col-md-12 ">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Class </label>
+                                                            <label for="" class="form-label"> Class </label>
                                                             {{ class_list_form.ClassName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> OrderID </label>
+                                                            <label for="" class="form-label"> OrderID </label>
                                                             {{ class_list_form.OrderID | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
@@ -95,9 +115,9 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Section   </h4>
+                                            <h4 class="card-title">Add Section   </h4>
                                              <!-- form details here -->
                                              <form action="/School/CreateClass" method="post">
                                                 {% csrf_token %}
@@ -105,7 +125,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Section </label>
+                                                            <label for="" class="form-label"> Section </label>
                                                             {{ section_form.SectionName | attr:"class=form-control" }}
                                                         </div>
                                                     </div>
@@ -130,20 +150,20 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Class Level List</h4>
+                                                    <h4 class="card-title card-title-dash">Class Level List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table text-white">
+                                                <table class="table">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
-                                                            <th>Academic Year </th>
+                                                            <th>Class level with code </th>
     
                                                         </tr>
                                                     </thead>
@@ -153,8 +173,7 @@
                                                         <tr>
                                                             <td>  {{ forloop.counter }}  </td>
                                                             <td> 
-                                                                   <a href="/Settings/UpdateClassLevel/{{ cl.ClassLevelID }}"> {{ cl.ClassLevelName }} - {{ cl.ClassLevelCode   }}
-                                                                    </a>
+                                                                {{ cl.ClassLevelName }} - {{ cl.ClassLevelCode   }}   
                                                             </td>                                                       
                                                         </tr>
                                                         {% endfor %}
@@ -170,35 +189,31 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Class List</h4>
+                                                    <h4 class="card-title card-title-dash">Class List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table text-white">
+                                                <table class="table text-center">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
-                                                            <th>Academic Year </th>
+                                                            <th>Class</th>
     
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% if class_list %}
-                                                        {% for class in class_list %}
-                                                        <tr>
-                                                            <td>  {{ forloop.counter }}  </td>
-                                                            <td> 
-                                                               
-                                                                    <a href="/Settings/UpdateClass/{{ class.ClassID }}">{{ class.ClassName }}</a>
-                                                             
-                                                            </td>                                                       
-                                                        </tr>
-                                                        {% endfor %}
+                                                            {% for class in class_list %}
+                                                                <tr>
+                                                                    <td> {{ forloop.counter }}  </td>
+                                                                    <td> {{ class.ClassName }} </td>                                                       
+                                                                </tr>
+                                                            {% endfor %}
                                                         {% endif %}
                                                     </tbody>
                                                 </table>
@@ -211,34 +226,30 @@
                         <div class="col-lg-4 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Class List</h4>
+                                                    <h4 class="card-title card-title-dash">Section List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table text-white">
+                                                <table class="table">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
-                                                            <th>Academic Year </th>
+                                                            <th>Section </th>
     
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% if section_list %}
                                                         {% for section in section_list %}
-                                                        <tr>
-                                                            <td>  {{ forloop.counter }}  </td>
-                                                            <td> 
-                                                               
-                                                                    <a href="/Settings/UpdateSection/{{ section.SectionID }}">{{ section.SectionName }}</a>
-                                                            
-                                                            </td>                                                       
-                                                        </tr>
+                                                            <tr>
+                                                                <td> {{ forloop.counter }}  </td>
+                                                                <td> {{ section.SectionName }} </td>                                                       
+                                                            </tr>
                                                         {% endfor %}
                                                         {% endif %}
                                                         </tbody>

@@ -8,102 +8,110 @@ Add Academic Year
 
 {% block body %}
 
-
 <div class="content">
-    <div class="page-inner">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="home-tab">
-                <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
-                <div class="row">
-                    <div class="col-lg-12 d-flex flex-column">
-                        <div class="row flex-grow">
-                            <div class="col-12 grid-margin stretch-card">
-                                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title text-white">Add Academic Year </h4>
-                                        <form action="/Settings/AddAcademicYear" method="post">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="form-type" value="add-academic-year">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="" class="text-white form-label"> Academic Year </label>
-                                                        {{ academic_year_form.AcademicYear | attr:"class=form-control" }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-white"> Order ID </label>
-                                                        {{ academic_year_form.OrderID | attr:"class=form-control" | attr:"type=number`" }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputUsername1">&nbsp;</label>
-
-                                                        <div class="input-group col-xs-12">                                                        
-                                                            <span class="input-group-append">
-                                                                <button type="submit" class="btn btn-primary text-white"> Create </button>
-                                                            </span>
-                                                          </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 d-flex flex-column">
-                        <div class="row flex-grow">
-                            <div class="col-12 grid-margin stretch-card">
-                                <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                    <div class="card-body">
-                                        <div class="d-sm-flex justify-content-between align-items-start">
-                                            <div>
-                                                <h4 class="card-title card-title-dash text-white">Academic Year List</h4>
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive  mt-1">
-                                            <table class="table text-white">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="10%">Sr.No.</th>
-                                                        <th>Order ID  </th>
-                                                        <th>Academic Year </th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% if academic_year_list %}
-                                                    {% for ay in academic_year_list %}
-                                                    <tr>
-                                                        <td>  {{ forloop.counter }}  </td>
-                                                        <td> {{ ay.OrderID }}  </td>
-                                                        <td>                                                           
-                                                            <div>
-                                                                <a href="/Settings/UpdateAcademicYear/{{ ay.AcademicYearID }}">{{ ay.AcademicYear }} - {{ ay.OrderID }}</a>
-                                                            </div>
-                                                        </td>                                                       
-                                                    </tr>
-                                                    {% endfor %}
-                                                    {% endif %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header  text-white">
+                <h4 class="page-title  text-white">Assign Academic Year  </h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home  text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow  text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Settings/AddAcademicYear" class="text-white fw-bold">Assign Academic Year</a>
+                    </li>
+                    
+                </ul>
             </div>
         </div>
     </div>
+    
+    <div class="page-inner mt--5">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-rounded">
+                    <div class="card-header">
+                        <div class="card-title">Add Academic Year </div>
+                    </div>
+
+                    <div class="card-body">
+                        <form action="/Settings/AddAcademicYear" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form-type" value="add-academic-year">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="text-white form-label"> Academic Year </label>
+                                        {{ academic_year_form.AcademicYear | attr:"class=form-control" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="form-label"> Order ID </label>
+                                        {{ academic_year_form.OrderID | attr:"class=form-control" | attr:"type=number`" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputUsername1">&nbsp;</label>
+
+                                        <div class="input-group col-xs-12">                                                        
+                                            <span class="input-group-append">
+                                                <button type="submit" class="btn btn-primary"> Create </button>
+                                            </span>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 d-flex flex-column">
+                <div class="card card-rounded">
+                    <div class="card-header">
+                        <div class="card-title">Academic Year List</div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Sr.No.</th>
+                                        <th>Order ID  </th>
+                                        <th>Academic Year </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if academic_year_list %}
+                                    {% for ay in academic_year_list %}
+                                    <tr>
+                                        <td>  {{ forloop.counter }}  </td>
+                                        <td> {{ ay.OrderID }}  </td>
+                                        <td>                                                           
+                                            <div>
+                                                {{ ay.AcademicYear }} - {{ ay.OrderID }}
+                                            </div>
+                                        </td>                                                       
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
 </div>
 

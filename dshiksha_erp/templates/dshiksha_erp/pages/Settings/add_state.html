@@ -1,4 +1,4 @@
-{% extends 'dshiksha_erp/index.html' %}
+{% extends 'dshiksha_erp/base.html' %}
 
 {% load static %}
 {% load widget_tweaks %}
@@ -6,230 +6,222 @@
 {% block title %} Add State {% endblock title %}
 
 {% block body %}
-
 <div class="content">
-    <div class="page-inner">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="home-tab">
-                <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4">  
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Add State,District,Taluk,Village  </h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Settings/AddState" class="text-white fw-bold">Add State</a>
+                    </li>
                     
-                </div>
-                    <div class="row">
-                        <div class="col-lg-3 d-flex flex-column">
-                            <div class="row flex-grow">
-                                <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <form action="/Settings/AddState" method="post" name="add-state-form">
-                                                        {% csrf_token %}
-                                                    <input type="hidden" name="form-type" value="add-state">
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label text-white"> State </label>
-                                                            {{ state_form.StateName | attr:"class=form-control" }}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-primary text-white"> Create  </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 d-flex flex-column">
-                            <div class="row flex-grow">
-                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                                        <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <form action="/Settings/AddState" method="post"
-                                                        name="add-state-form">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="form-type" value="add-district">
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label text-white"> State </label>
-                                                            <select name="State" id="id_State" class="form-control">
-                                                                <option value=""> ---------- </option>
-                                                                {% if state_list %}
-                                                                {% for state in state_list %}
-                                                                <option value="{{ state.StateID }}"> 
-                                                                    {{ state.StateName }} 
-                                                                </option>
-                                                                {% endfor %}
-                                                                {% endif %}
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label text-white"> District </label>
-                                                            {{ district_form.DistrictName | attr:"class=form-control" }}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary text-white"> Create
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 d-flex flex-column">
-                                <div class="row flex-grow">
-                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                                        <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <form action="/Settings/AddState" method="post"
-                                                        name="add-state-form">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="form-type" value="add-taluk">
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label text-white"> District </label>
-                                                            <select name="DistrictName" id="id_DistrictName"
-                                                                class="form-control">
-                                                                <option value=""> ---------- </option>
-                                                                {% if district_list %}
-                                                                {% for district in district_list %}
-                                                                <option value="{{ district.DistrictID }}"> 
-                                                                    {{ district.DistrictName }} </option>
-                                                                {% endfor %}
-                                                                {% endif %}
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Taluk </label>
-                                                            {{ taluk_form.TalukName | attr:"class=form-control" }}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary text-white"> Create
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 d-flex flex-column">
-                                <div class="row flex-grow">
-                                    <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                                        <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <form action="/Settings/AddState" method="post"
-                                                        name="add-state-form">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="form-type" value="add-village">
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Taluk </label>
-                                                            <select name="TalukName" id="id_TalukName"
-                                                                class="form-control">
-                                                                <option value=""> ---------- </option>
-                                                                {% if taluk_list %}
-                                                                {% for taluk in taluk_list %}
-                                                                <option value="{{ taluk.TalukID }}">
-                                                                     {{ taluk.TalukName   }} </option>
-                                                                {% endfor %}
-                                                                {% endif %}
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="" class=" text-white form-label"> Village </label>
-                                                            {{ village_form.VillageName | attr:"class=form-control" }}
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary text-white"> Create
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 d-flex flex-column">
-                                <div class="row flex-grow">
-                                    <div class="col-12 grid-margin stretch-card">
-                                        <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
-                                            <div class="card-body"> 
-                                                <div class="d-sm-flex justify-content-between align-items-start">
-                                                    <div>
-                                                        <h4 class="card-title card-title-dash text-white">Location Details</h4>
-                                                    </div>
-                                                </div>
-                                                <div class="table-responsive  mt-1">
-                                                    <table class="table text-white">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width="10%">Sr.No.</th>
-                                                                <th>State</th>
-                                                                <th>District</th>
-                                                                <th>Taluks</th>
-                                                                <th>Villages</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {% for state in state_list %}
-                                                            <tr>
-                                                                <td>{{ forloop.counter }}</td>
-                                                                <td>
-                                                                    {% if state_list %}
-                                                                    {% for state in state_list %}
-                                                                    <div>
-                                                                        <a href="/Settings/UpdateState/{{ state.StateID }}">
-                                                                            {{ state.StateName }} 
-                                                                        </a>
-                                                                    </div>
-                                                                    {% endfor %}
-                                                                    {% endif %}
-                                                                </td>
-                                                                <td>
-                                                                    {% if district_list %}
-                                                                    {% for district in district_list %}
-                                                                    <div><a href="/Settings/UpdateDistrict/{{ district.DistrictID }}">
-                                                                        {{ district.DistrictName }}</a></div>
-                                                                    {% endfor %}
-                                                                    {% endif %}
-                                                                </td>
-                                                                <td>
-                                                                    {% if taluk_list %}
-                                                                    {% for taluk in taluk_list %}
-                                                                    <div><a href="/Settings/UpdateTaluk/{{ taluk.TalukID }}">
-                                                                        {{ taluk.TalukName }}</a></div>
-                                                                    {% endfor %}
-                                                                    {% endif %}
-                                                                </td>
-                                                                <td>
-                                                                    {% if village_list %}
-                                                                    {% for village in village_list %}
-                                                                    <div><a href="/Settings/UpdateVillage/{{ village.VillageID }}">
-                                                                        {{ village.VillageName }}
-                                                                            - {{ village.Taluk.TalukName }}</a></div>
-                                                                    {% endfor %}
-                                                                    {% endif %}
-                                                                </td>
-                                                            </tr>
-                                                            {% endfor %}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                      
+                </ul>
             </div>
         </div>
     </div>
-</div>
+    
+    <div class="page-inner mt--5">
+        <div class="row">
+            <div class="col-lg-3 d-flex flex-column">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <div class="row">
+                            <form action="/Settings/AddState" method="post" name="add-state-form">
+                                    {% csrf_token %}
+                                <input type="hidden" name="form-type" value="add-state">
+                                <div class="form-group">
+                                    <label for="" class="form-label"> State </label>
+                                        {{ state_form.StateName | attr:"class=form-control" }}
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"> Create  </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 d-flex flex-column">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <div class="row">
+                            <form action="/Settings/AddState" method="post"
+                                name="add-state-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="form-type" value="add-district">
+                                <div class="form-group">
+                                    <label for="" class="form-label"> State </label>
+                                    <select name="State" id="id_State" class="form-control">
+                                        <option value=""> ---------- </option>
+                                        {% if state_list %}
+                                        {% for state in state_list %}
+                                        <option value="{{ state.StateID }}"> 
+                                            {{ state.StateName }} 
+                                        </option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="form-label"> District </label>
+                                    {{ district_form.DistrictName | attr:"class=form-control" }}
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"> Create
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>           
+            </div>
+            <div class="col-lg-3 d-flex flex-column">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <div class="row">
+                            <form action="/Settings/AddState" method="post"
+                                name="add-state-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="form-type" value="add-taluk">
+                                <div class="form-group">
+                                    <label for="" class="form-label"> District </label>
+                                    <select name="DistrictName" id="id_DistrictName"
+                                        class="form-control">
+                                        <option value=""> ---------- </option>
+                                        {% if district_list %}
+                                        {% for district in district_list %}
+                                        <option value="{{ district.DistrictID }}"> 
+                                            {{ district.DistrictName }} </option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="form-label"> Taluk </label>
+                                    {{ taluk_form.TalukName | attr:"class=form-control" }}
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"> Create
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            <div class="col-lg-3 d-flex flex-column">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <div class="row">
+                            <form action="/Settings/AddState" method="post"
+                                name="add-state-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="form-type" value="add-village">
+                                <div class="form-group">
+                                    <label for="" class="form-label"> Taluk </label>
+                                    <select name="TalukName" id="id_TalukName"
+                                        class="form-control">
+                                        <option value=""> ---------- </option>
+                                        {% if taluk_list %}
+                                        {% for taluk in taluk_list %}
+                                        <option value="{{ taluk.TalukID }}">
+                                                {{ taluk.TalukName   }} </option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="form-label"> Village </label>
+                                    {{ village_form.VillageName | attr:"class=form-control" }}
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"> Create
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 d-flex flex-column">
+                <div class="card card-rounded">
+                    <div class="card-header">
+                        <div class="card-title">Location Details</div>
+                    </div>
+                    <div class="card-body"> 
+                        <div class="table-responsive  mt-1">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Sr.No.</th>
+                                        <th>State</th>
+                                        <th>District</th>
+                                        <th>Taluks</th>
+                                        <th>Villages</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for state in state_list %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>
+                                            {% if state_list %}
+                                            {% for state in state_list %}
+                                            <div>
+                                                <a href="/Settings/UpdateState/{{ state.StateID }}">
+                                                    {{ state.StateName }} 
+                                                </a>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if district_list %}
+                                            {% for district in district_list %}
+                                            <div><a href="/Settings/UpdateDistrict/{{ district.DistrictID }}">
+                                                {{ district.DistrictName }}</a></div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if taluk_list %}
+                                            {% for taluk in taluk_list %}
+                                            <div><a href="/Settings/UpdateTaluk/{{ taluk.TalukID }}">
+                                                {{ taluk.TalukName }}</a></div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if village_list %}
+                                            {% for village in village_list %}
+                                            <div><a href="/Settings/UpdateVillage/{{ village.VillageID }}">
+                                                {{ village.VillageName }}
+                                                    - {{ village.Taluk.TalukName }}</a></div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+        </div>                      
+      
+    </div>
 </div>
 {% endblock body %}

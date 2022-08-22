@@ -6,7 +6,29 @@
 
 {% block body %}
 <div class="content">
-    <div class="page-inner">
+
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-4">
+            <div class="page-header text-white">
+                <h4 class="page-title text-white">Add Designation</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/">
+                            <i class="flaticon-home text-white fw-bold"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow text-white fw-bold"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Staff/AddDesignation" class="text-white fw-bold">Add Designation</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-inner mt--5">
         {% if messages %}
         <div>
             {% for message in messages %}
@@ -23,14 +45,14 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="home-tab">
-                    <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div>
+                    {% comment %} <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-4"> </div> {% endcomment %}
                     <div class="row">
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Designation </h4>
+                                            <h4 class="card-title">Add Designation <hr> </h4>
                                             <!-- form details here -->
                                             <form action="/Staff/AddDesignation" method="post">
                                                 {% csrf_token %}
@@ -38,7 +60,7 @@
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                            <label for="" class="text-white form-label"> Designation
+                                                            <label for="" class=" form-label"> Designation
                                                             </label>
                                                             
                                                             {{designation_form.DesignationName | attr:"class=form-control" }}
@@ -66,9 +88,9 @@
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
-                                            <h4 class="card-title text-white">Add Subject </h4>
+                                            <h4 class="card-title">Add Subject <hr></h4>
                                             <!-- form details here -->
                                             <form action="/Staff/AddDesignation" method="post">
                                                 {% csrf_token %}
@@ -76,7 +98,7 @@
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                            <label for="" class="form-label text-white"> Staff Subject
+                                                            <label for="" class="form-label"> Staff Subject
                                                             </label>
                                                             {{ staff_subject_form.StaffSubjectName | attr:"class=form-control" }}
                                                         </div>
@@ -107,17 +129,17 @@
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Designation List
+                                                    <h4 class="card-title card-title-dash">Designation List
                                                     </h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table text-white">
+                                                <table class="table">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
@@ -129,9 +151,7 @@
                                                         {% for dd in designation_list %}
                                                         <tr>
                                                             <td> {{ forloop.counter }} </td>
-                                                            <td> <a
-                                                                    href="/Updates/UpdateDesignation/{{ dd.DesignationID }}">
-                                                                    {{dd.DesignationName }}</a> </td>
+                                                            <td> {{dd.DesignationName }}</td>
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}
@@ -148,16 +168,16 @@
                         <div class="col-lg-6 d-flex flex-column">
                             <div class="row flex-grow">
                                 <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded bg-dark mt-5 mr-3 ml-3">
+                                    <div class="card card-rounded">
                                         <div class="card-body">
                                             <div class="d-sm-flex justify-content-between align-items-start">
                                                 <div>
-                                                    <h4 class="card-title card-title-dash text-white">Subject List</h4>
+                                                    <h4 class="card-title card-title-dash">Subject List</h4>
                                                 </div>
                                             </div>
                                             <div class="table-responsive  mt-1">
                                                 <!-- Table details here -->
-                                                <table class="table text-white">
+                                                <table class="table">
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Sr.No.</th>
@@ -169,12 +189,7 @@
                                                         {% for ss in staff_subject_list %}
                                                         <tr>
                                                             <td> {{ forloop.counter }} </td>
-                                                            <td>
-
-                                                                <a
-                                                                    href="/Settings/UpdateStaffSubject/{{ ss.StaffSubjectID }}">
-                                                                    {{ ss.StaffSubjectName }}</a>
-                                                            </td>
+                                                            <td> {{ ss.StaffSubjectName }} </td>
                                                         </tr>
                                                         {% endfor %}
                                                         {% endif %}

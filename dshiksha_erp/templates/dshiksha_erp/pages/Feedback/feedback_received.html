@@ -13,64 +13,74 @@
 {% block body %}
 
 <div class="content">
-    <div class="page-inner">
+
+    <div class="page-inner  bg-primary-gradient">
         <div class="page-header">
-            <h4 class="page-title">Feedback from Schools</h4>
+            <h4 class="page-title text-white">Feedback from Schools</h4>
             <ul class="breadcrumbs">
                 <li class="nav-home">
                     <a href="/">
-                        <i class="flaticon-home"></i>
+                        <i class="text-white fw-bold flaticon-home"></i>
                     </a>
                 </li>
-                <li class="separator">
-                    <i class="flaticon-right-arrow"></i>
+                <li class="separator text-white">
+                    <i class="flaticon-right-arrow fw-bold"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="/Feedback/FeedbackInfo">Recieved Feedbacks</a>
+                    <a class="text-white fw-bold" href="/Feedback/ReceiveFeedback"> Recieved Feedbacks </a>
                 </li>
                 
             </ul>
         </div>
-        
+    </div>
+    
+    <div class="page-inner mt--5">    
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-
-                        <form action="/Feedback/FeedbackInfo" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-
-                            <table class="table table-typo">
-								<tbody>
-                                    {% for fd in feedback_data %}
-
-                                    <tr>
+                <div class="card card-rounded">
+                    <div class="card-body ">
+                        {% if feedback_data%}
                         
-                                                <td ><blockquote>
-                                                    <br>
-                                                    <p class="blockquote blockquote-primary">
-                                                        {{fd.FeedbackData}} 
-                                                    </p>
-                                                    {% if fd.FeedbackFile %}
-                                                    <p>
-                                                        <a class="btn btn-primary" href="{{fd.FeedbackFile.url}}" role="button" target="_blank">View File</a>
-                                                    </p>
-                                                    {% endif %}
-                                                        <small>
-                                                            -{{fd.School}}
-                                                        </small>
-                                                        <p>
-                                                            <small>
-                                                                -Posted at {{fd.FeedbackDate}}
-                                                            </small>
-                                                        </p>
-                                                </blockquote></td>     
-                                                
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </form>
+                                <table class="table table-typo">
+                                    <tbody>
+                        
+                                        <tr>
+                                            {% for fd in feedback_data %}
+                                            <div class="card card-rounded">
+                                                <div class="card-body ">
+                                                    
+                    
+                                                  
+                                                        <blockquote>
+                                                            <br>
+                                                                <p class="blockquote blockquote-primary">
+                                                                    {{fd.FeedbackData}} 
+                                                                </p>
+                                                                {% if fd.FeedbackFile %}
+                                                                <p>
+                                                                    <a class="btn btn-primary" href="{{fd.FeedbackFile.url}}" role="button" target="_blank">View File</a>
+                                                                </p>     
+                                                                {% endif %}
+                                                                    <small>
+                                                                        -{{fd.School}}
+                                                                    </small>
+                                                                    <p>
+                                                                        <small>
+                                                                            -Posted at {{fd.FeedbackDate}}
+                                                                        </small>
+                                                                    </p>
+                                                        </blockquote> 
+                                                </div>
+                                            </div>   
+                                                    
+                                                {% endfor %}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                           
+                        {% else %}
+                        <h2 class="fw-bold text-center"> No Feedbacks yet <i class="fas fa-sad-tear"></i></h2> 
+                        {% endif%}
                     </div>
                 </div>
             </div>

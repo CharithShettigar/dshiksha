@@ -44,6 +44,7 @@ def login_view(request):
                         request.session['school_name'] = school_data.SchoolName
                         request.session['school_username'] = school_data.SchoolUsername
                         request.session['academic_year'] = str(school_data.CurrentAcademicYear.AcademicYearID)
+                        
                         request.session['school_logo']="/"+str(school_data.SchoolLogo)
                         return redirect(login_form.data['redirect_to_url'])
                     else:
@@ -654,11 +655,15 @@ def collect_fee(request):
                 
                 else:
                     print('else-----------------',request.POST.get('Class'))
-                    messages.error(request, "Please select the class")  
-                    return redirect("/Fees/CollectFee")
- 
-
-        pendingamount=totalamount- PaidAmount
+                    messages.error(request, "Please select the class")   
+                if PaidAmount==totalamount:
+                    pendingamount=0
+                else:
+                    pendingamount=totalamount- PaidAmount
+        
+                messages.error(request, "Please select the class")  
+                return redirect("/Fees/CollectFee") 
+        
         context={
             # "student_data":student_data,
             "class_section_list":sm.AssignClass.objects.filter(School=request.session['school_id']).order_by('Class'),
