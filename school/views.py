@@ -1,6 +1,6 @@
 from datetime import date, datetime
 import json
-from turtle import title
+import os
 import uuid
 from django.utils.dateformat import DateFormat
 from django.shortcuts import render,redirect
@@ -12,12 +12,8 @@ from school import models as sm
 from main.models import UserTypes, User
 import dshiksha_erp.models as erp
 from django.core import serializers
-from django.db.models import Sum
-import school
+from django.db.models import Sum,Count
 from num2words import num2words
-
-# Create your views here.
-
 
 def index(request):
     if request.user.is_authenticated:
@@ -44,8 +40,18 @@ def login_view(request):
                         request.session['school_name'] = school_data.SchoolName
                         request.session['school_username'] = school_data.SchoolUsername
                         request.session['academic_year'] = str(school_data.CurrentAcademicYear.AcademicYearID)
+
+                        if school_data.SchoolLogo != "":
+                            school_logo=school_data.SchoolLogo.url[1:]
+                            if os.path.isfile(school_logo) and os.access(school_logo,os.R_OK):
+                                request.session['school_logo']="/"+str(school_data.SchoolLogo)
+                                request.session['schoolimg_check']=True
+                            else:
+                                request.session['schoolimg_check']=False
+                        else:
+                            request.session['schoolimg_check']=False
+
                         
-                        request.session['school_logo']="/"+str(school_data.SchoolLogo)
                         return redirect(login_form.data['redirect_to_url'])
                     else:
                         messages.error(request, "You donot have permission to access this page")
@@ -75,11 +81,32 @@ def logout_view(request):
 
 def dashboard(request):
     if request.user.is_authenticated:
+        maincls=[]
+        for c in md.ClassList.objects.all().order_by("OrderID"):
+            clsno=[]
+            clsno.append(c.ClassName)
+            clsno.append(sm.Students.objects.filter(SchoolID = request.session['school_id'],AssignedClass__Class__ClassList=c).count())
+            maincls.append(clsno)
+
+        mainfees=[]
+        for c in md.ClassList.objects.all().order_by("OrderID"):
+            clsfee=[]
+            clsfee.append(c.ClassName)
+            clsfee.append(sm.AssignFeeAmount.objects.filter(School = request.session['school_id'],Class__ClassList=c).aggregate(Sum('Amount'))['Amount__sum'])
+            clsfee.append(sm.CollectFee.objects.filter(School = request.session['school_id'],AssignClass__Class__ClassList=c,PaymentStatus="Paid").count())
+            clsfee.append(sm.CollectFee.objects.filter(School = request.session['school_id'],AssignClass__Class__ClassList=c,PaymentStatus="No Updates").count() + sm.CollectFee.objects.filter(School = request.session['school_id'],AssignClass__Class__ClassList=c,PaymentStatus="Pending").count())
+            # clsfee.append()
+            mainfees.append(clsfee)
+
         context= {
-            "s_student_count": sm.Students.objects.filter(SchoolID = request.session['school_id']).count(),
+            "s_student_count": sm.Students.objects.filter(SchoolID = request.session['school_id'],AssignedClass__isnull=False).count(),
+            "student_boys_count":sm.Students.objects.filter(Gender__GenderName ='Male',SchoolID = request.session['school_id'],AssignedClass__isnull=False).count(),
+            "student_girls_count":sm.Students.objects.filter(Gender__GenderName ='Female',SchoolID = request.session['school_id'],AssignedClass__isnull=False).count(),
             "s_staff_count": sm.Staff.objects.filter(SchoolID = request.session['school_id']).count(),
-            "student_boys_count":sm.Students.objects.filter(Gender__GenderName ='Male', SchoolID=request.session['school_id']).count(),
-            "student_girls_count":sm.Students.objects.filter(Gender__GenderName ='Female', SchoolID=request.session['school_id']).count(),
+            "male_staff_count": sm.Staff.objects.filter(SchoolID = request.session['school_id'],Gender__GenderName ='Male').count(),
+            "female_staff_count": sm.Staff.objects.filter(SchoolID = request.session['school_id'],Gender__GenderName ='Female').count(),
+            "cls_std":maincls,
+            "cls_fees":mainfees,
         }
         return render(request, "school/Pages/dashboard.html",context)
     else:
@@ -335,8 +362,18 @@ def student_admission(request):
 def student_info_show(request,student_id):
     if request.user.is_authenticated:
         student_data=sm.Students.objects.get(AdmissionID = student_id)
+        if student_data.StudentPhoto != "":
+            student_img=student_data.StudentPhoto.url[1:]
+            if os.path.isfile(student_img) and os.access(student_img,os.R_OK):
+                stdimg_check=os.path.isfile(student_img)
+            else:
+                stdimg_check=os.path.isfile(student_img)
+        else:
+            stdimg_check=False
+
         context = {
             "student":student_data,
+            "stdimg_check":stdimg_check,
             "father_name":sm.Students.objects.get(AdmissionID = student_id).FatherName,
             "mother_name":sm.Students.objects.get(AdmissionID = student_id).MotherName,
             "gaurdian_name":sm.Students.objects.get(AdmissionID = student_id).GaurdianName,
@@ -377,6 +414,7 @@ def create_staff(request):
                             Designation=staff_form.cleaned_data['Designation'],
                             SchoolID = sm.School.objects.get(SchoolID = request.session['school_id']), 
                             StaffNo = request.POST.get('staff_id_no'),
+                            Gender = staff_form.cleaned_data['Gender'],
                             )
                     staff_save.save()
 
@@ -656,13 +694,16 @@ def collect_fee(request):
                 else:
                     print('else-----------------',request.POST.get('Class'))
                     messages.error(request, "Please select the class")   
-                if PaidAmount==totalamount:
-                    pendingamount=0
-                else:
-                    pendingamount=totalamount- PaidAmount
+                    return redirect("/Fees/CollectFee") 
+
+                if totalamount!=None:
+                    if PaidAmount==totalamount:
+                        pendingamount=0
+                    else:
+                        pendingamount=totalamount- PaidAmount
         
-                messages.error(request, "Please select the class")  
-                return redirect("/Fees/CollectFee") 
+                # messages.error(request, "Please select the class")  
+                # return redirect("/Fees/CollectFee") 
         
         context={
             # "student_data":student_data,
@@ -674,8 +715,7 @@ def collect_fee(request):
             "pendingamount":pendingamount,
             "totalamount":totalamount,
             "classobj":classobj,
-            "sectionobj":sectionobj,
-            
+            "sectionobj":sectionobj,            
         }
         return render(request, "school/Pages/Fees/collect_fee.html", context)
     else:

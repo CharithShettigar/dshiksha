@@ -5,8 +5,8 @@
 			<div class="logo-header" data-background-color="dark2">
 				
 			     <a href="/Dashboard/AdminData" class="logo">
-					<div class="avatar avatar-sm">
-						<img src="/static/assets/img/digital-shiksha.jpeg" alt="school img" class="avatar-img rounded-circle">
+					<div class="avatar avatar-lg">
+						<img src="/static/assets/img/digital-shiksha_blue_logo.png" alt="admin img" class="avatar-img">
 					</div>
 					<span class='fw-bold text-white mt-3 mx-2'>DSHIKSHA</span>
 					{% comment %} <img src="/static/assets/img/logo.svg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
@@ -50,7 +50,7 @@
 							<a class="profile-pic"  href="#" aria-expanded="false">
 								
 								<div class="avatar-sm">
-									<span class="avatar-title rounded-circle text-warning fw-bold">RC</span>
+									<span class="avatar-title rounded-circle text-white fw-bold" style="background-color:#39caf9; font-size:1.3rem">{{ request.user.username.0 | capfirst }}</span>
 								</div>
 							</a>							
 						</li>

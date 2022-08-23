@@ -4,11 +4,18 @@
 				<div class="sidebar-content">
 
 				{% comment %} {% if request.user.is_authenticated %}	 {% endcomment %}
-					<div class="user">
-						<div class="avatar-lg float-left mr-2">
-							<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">
-									
-						</div>
+					<div class="user" style="padding:0px;">
+						
+						{% if request.session.schoolimg_check %}
+							<div class="avatar float-left">
+								<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">			
+							</div>
+						{% else %}						
+							<div class="avatar-sm float-left mx-2">
+								<span class="avatar-title rounded-circle fw-bold" style="background-color:#39caf9; font-size:1.3rem">{{ request.user.username.0 | capfirst }}</span>
+							</div>
+						{% endif %}
+		
 						
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
@@ -17,7 +24,7 @@
 									<span class="user-level">
 										{{ request.user.Email }}
 									</span>
-									<span class="caret"></span>
+									<span class="caret mr-4"></span>
 								</span>
 							</a>
 							<div class="clearfix"></div>
@@ -26,7 +33,7 @@
 								<ul class="nav">
 									<li>
 										<a href="/accounts/logout">
-											<span class="link-collapse">logout</span>
+											<span class="link-collapse ml-5">logout</span>
 										</a>
 									</li>
 								</ul>

@@ -7,263 +7,380 @@
 
 {% block body %}
 			
-	<div class="content">
-		<div class="panel-header bg-primary-gradient">
-			<div class="page-inner py-4">
-				<div class="page-header text-white">
-					<h4 class="page-title text-white">Dashboard</h4>
-					<ul class="breadcrumbs">
-						<li class="nav-home">
-							<a href="/">
-								<i class="flaticon-home text-white fw-bold"></i>
-							</a>
-						</li>
-						<li class="separator">
-							<i class="flaticon-right-arrow text-white fw-bold"></i>
-						</li>
-						<li class="nav-item">
-							<a href="/" class="text-white fw-bold">Overview</a>
-						</li>
-					</ul>
-				</div>
+<div class="content">
+	<div class="panel-header bg-primary-gradient">
+		<div class="page-inner py-4">
+			<div class="page-header text-white">
+				<h4 class="page-title text-white">Dashboard</h4>
+				<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="/">
+							<i class="flaticon-home text-white fw-bold"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow text-white fw-bold"></i>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="text-white fw-bold">Overview</a>
+					</li>
+				</ul>
 			</div>
-		</div>
-		<div class="page-inner mt--5">
-
-			{% comment %} <h4 class="page-title">Overview</h4> {% endcomment %}
-			<div class="row">
-				<div class="col-sm-6 col-md-4">
-					<div class="card card-stats bg-info-gradient card-round">
-						<div class="card-body skew-shadow">
-							<div class="row">
-								<div class="col-5">
-									<div class="icon-big text-center text-white">
-										<i class="flaticon-users"></i>
-									</div>
-								</div>
-								<div class="col-7 col-stats">
-									<div class="numbers">
-										<h2 class="text-white">Students</h2>
-										<h1 class="card-title text-white">{{s_student_count}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4">
-					<div class="card card-stats bg-success-gradient card-round">
-						<div class="card-body skew-shadow">
-							<div class="row">
-								<div class="col-5">
-									<div class="icon-big text-center text-white">
-										<i class="icon-user"></i>
-									</div>
-								</div>
-								<div class="col-7 col-stats">
-									<div class="numbers">
-										<h2 class="text-white">Boys</h2>
-										<h1 class="card-title text-white">{{student_boys_count}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4">
-					<div class="card card-stats bg-warning-gradient card-round">
-						<div class="card-body skew-shadow">
-							<div class="row">
-								<div class="col-5">
-									<div class="icon-big text-center text-white">
-										<i class="icon-user-female"></i>
-										
-									</div>
-								</div>
-								<div class="col-7 col-stats">
-									<div class="numbers">
-										<h2 class="text-white">Girls</h2>
-										<h1 class="card-title text-white">{{student_girls_count}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-
-			<div class="row">
-				<div class="col-sm-6 col-md-4">
-					<div class="card card-stats bg-info-gradient card-round">
-						<div class="card-body skew-shadow">
-							<div class="row">
-								<div class="col-5">
-									<div class="icon-big text-center text-white">
-										<i class="icon-people"></i>
-									</div>
-								</div>
-								<div class="col-7 col-stats">
-									<div class="numbers">
-										<h3 class="text-white">Total Staff</h3>
-										<h1 class="card-title text-white">{{s_staff_count}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				
-				<div class="col-sm-6 col-md-4">
-					<div class="card card-stats bg-success-gradient card-round">
-						<div class="card-body skew-shadow">
-							<div class="row">
-								<div class="col-5">
-									<div class="icon-big text-center text-white">
-										<i class="icon-user"></i>
-									</div>
-								</div>
-								<div class="col-7 col-stats">
-									<div class="numbers">
-										<h2 class="text-white">Male Staff</h2>
-										<h1 class="card-title text-white">{{student_boys_count}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4">
-					<div class="card card-stats bg-warning-gradient card-round">
-						<div class="card-body skew-shadow">
-							<div class="row">
-								<div class="col-5">
-									<div class="icon-big text-center text-white">
-										<i class="icon-user-female"></i>
-										
-									</div>
-								</div>
-								<div class="col-7 col-stats">
-									<div class="numbers">
-										<h2 class="text-white">Female Staff</h2>
-										<h1 class="card-title text-white">{{student_girls_count}}</h1>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				
-			</div>
-			
-			
-			
 		</div>
 	</div>
+	<div class="page-inner mt--5">
+
+		{% comment %} <h4 class="page-title">Overview</h4> {% endcomment %}
+		<div class="row">
+			<div class="col-sm-6 col-md-4">
+				<div class="card card-stats bg-info-gradient card-round">
+					<div class="card-body skew-shadow">
+						<div class="row">
+							<div class="col-5">
+								<div class="icon-big text-center text-white fw-bold">
+									<i class="flaticon-users"></i>
+								</div>
+							</div>
+							<div class="col-7 col-stats">
+								<div class="numbers">
+									<h2 class="text-white">Students</h2>
+									<h1 class="card-title text-white">{{s_student_count}}</h1>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4">
+				<div class="card card-stats bg-success-gradient card-round">
+					<div class="card-body skew-shadow">
+						<div class="row">
+							<div class="col-5">
+								<div class="icon-big text-center text-white">
+									<i class="icon-user"></i>
+								</div>
+							</div>
+							<div class="col-7 col-stats">
+								<div class="numbers">
+									<h2 class="text-white">Boys</h2>
+									<h1 class="card-title text-white">{{student_boys_count}}</h1>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4">
+				<div class="card card-stats bg-warning-gradient card-round">
+					<div class="card-body skew-shadow">
+						<div class="row">
+							<div class="col-5">
+								<div class="icon-big text-center text-white">
+									<i class="icon-user-female"></i>
+									
+								</div>
+							</div>
+							<div class="col-7 col-stats">
+								<div class="numbers">
+									<h2 class="text-white">Girls</h2>
+									<h1 class="card-title text-white">{{student_girls_count}}</h1>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6 col-md-4">
+				<div class="card card-stats bg-info-gradient card-round">
+					<div class="card-body skew-shadow">
+						<div class="row">
+							<div class="col-5">
+								<div class="icon-big text-center text-white">
+									<i class="icon-people"></i>
+								</div>
+							</div>
+							<div class="col-7 col-stats">
+								<div class="numbers">
+									<h2 class="text-white">Total Staff</h2>
+									<h1 class="card-title text-white">{{s_staff_count}}</h1>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6 col-md-4">
+				<div class="card card-stats bg-success-gradient card-round">
+					<div class="card-body skew-shadow">
+						<div class="row">
+							<div class="col-5">
+								<div class="icon-big text-center text-white">
+									<i class="icon-user"></i>
+								</div>
+							</div>
+							<div class="col-7 col-stats">
+								<div class="numbers">
+									<h2 class="text-white">Male Staff</h2>
+									<h1 class="card-title text-white">{{male_staff_count}}</h1>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4">
+				<div class="card card-stats bg-warning-gradient card-round">
+					<div class="card-body skew-shadow">
+						<div class="row">
+							<div class="col-5">
+								<div class="icon-big text-center text-white">
+									<i class="icon-user-female"></i>
+									
+								</div>
+							</div>
+							<div class="col-7 col-stats">
+								<div class="numbers">
+									<h2 class="text-white">Female Staff</h2>
+									<h1 class="card-title text-white">{{female_staff_count}}</h1>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+
+		<div class="row">
+			<div class="col-md-12 grid-margin stretch-card">
+                <div class="card bg-secondary-gradient">
+                    <div class="card-header">
+                        <div class="card-title text-white fw-bold">Class wise Strength</div>
+                    </div>
+                    <div class="card-body">  
+						<div class="row">
+							{% for i in cls_std %}
+
+							{% if forloop.counter0|divisibleby:2 %}
+							<div class="col-sm-4 col-lg-3">
+								<div class="card p-3">
+									<div class="d-flex align-items-center">
+										<span class="stamp stamp-md bg-primary mr-3">
+											<i class="fa h2 fw-bold mt-1">{{i.0}}</i>
+										</span>
+										<div>
+											<h3 class="mb-1"><b><a href="#">{{i.1}}</a></b></h3>
+											<h5 class="text-muted">Students</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% else %}
+							<div class="col-sm-4 col-lg-3">
+								<div class="card p-3">
+									<div class="d-flex align-items-center">
+										<span class="stamp stamp-md bg-warning mr-3">
+											<i class="fa h2 fw-bold mt-1">{{i.0}}</i>
+										</span>
+										<div>
+											<h3 class="mb-1"><b><a href="#">{{i.1}}</a></b></h3>
+											<h5 class="text-muted">Students</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							{% endfor %}
+						</div>
+							
+							{% comment %} <div class="col-sm-6 col-lg-3">
+								<div class="card p-3">
+									<div class="d-flex align-items-center">
+										<span class="stamp stamp-md bg-warning mr-3">
+											<i class="fa h2 fw-bold">1</i>
+										</span>
+										<div>
+											<span class="mb-1 h5"><b><a href="#">Total</a></b></span>
+											<small class="text-muted">12</small><br>
+											<span class="mb-1 h5"><b><a href="#">Boys</a></b></span>
+											<small class="text-muted">6</small><br>
+											<span class="mb-1 h5"><b><a href="#">Girls</a></b></span>
+											<small class="text-muted">6</small>
+										</div>
+									</div>
+								</div>
+							</div> {% endcomment %}
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 grid-margin stretch-card">
+                <div class="card bg-info-gradient">
+                    <div class="card-header">
+                        <div class="card-title text-white fw-bold">Class wise Fees Collection</div>
+                    </div>
+                    <div class="card-body">  
+						<div class="row">
+
+							{% for cf in cls_fees %}
+
+							{% if forloop.counter0|divisibleby:2 %}
+
+							<div class="col-sm-6 col-lg-3">
+								<div class="card py-3 px-0">
+									<div class="d-flex align-items-center">
+										<div class="row justify-content-end align-items-start">
+											<div class="col-12 text-center">
+												<span class="stamp stamp-md bg-primary mb-3 ">
+													<i class="fa h2 fw-bold mt-1">{{cf.0}}</i>
+												</span>
+											</div>
+											<div class="col-5">
+												<span class="h5">Class Fees</span>
+											</div>
+											<div class="col-6">
+												{% if cf.1 == None %}
+													<small class="h5 fw-bold">0</small>
+												{% else %}
+												<small class="h5 fw-bold">{{cf.1}}</small>
+												{% endif %}
+											</div>
+											<div class="col-5">
+												<span class=" h5">Paid</span>
+											</div>
+											<div class="col-6">
+												<small class="h5 fw-bold">{{cf.2}}</small>
+											</div>
+											<div class="col-5">
+												<span class=" h5">Pending</span>
+											</div>
+											<div class="col-6">
+												<small class="h5 fw-bold">{{cf.3}}</small>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% else %}
+
+							<div class="col-sm-6 col-lg-3">
+								<div class="card py-3 px-0">
+									<div class="d-flex align-items-center">
+										<div class="row justify-content-end align-items-start">
+											<div class="col-12 text-center">
+												<span class="stamp stamp-md bg-warning mb-3 ">
+													<i class="fa h2 fw-bold mt-1">{{cf.0}}</i>
+												</span>
+											</div>
+											<div class="col-5">
+												<span class="h5">Class Fees</span>
+											</div>
+											<div class="col-6">
+												{% if cf.1 == None %}
+													<small class="h5 fw-bold">0</small>
+												{% else %}
+												<small class="h5 fw-bold">{{cf.1}}</small>
+												{% endif %}
+											</div>
+											<div class="col-5">
+												<span class=" h5">Paid</span>
+											</div>
+											<div class="col-6">
+												<small class="h5 fw-bold">{{cf.2}}</small>
+											</div>
+											<div class="col-5">
+												<span class=" h5">Pending</span>
+											</div>
+											<div class="col-6">
+												<small class="h5 fw-bold">{{cf.3}}</small>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							{% endif %}
+							{% endfor %}
+						</div>
+						
+						
+						{% comment %} <div class="col-sm-6 col-lg-3">
+							<div class="card py-3 px-0">
+								<div class="d-flex align-items-center">
+									<div class="row justify-content-end align-items-start">
+										<div class="col-12 text-center">
+											<span class="stamp stamp-md bg-warning mb-3 ">
+												<i class="fa h2 fw-bold mt-1">I</i>
+											</span>
+										</div>
+										<div class="col-5">
+											<span class="h5">Class Fees</span>
+										</div>
+										<div class="col-6">
+											<small class="h5 fw-bold">12,000</small>
+										</div>
+										<div class="col-5">
+											<span class=" h5">Paid</span>
+										</div>
+										<div class="col-6">
+											<small class="h5 fw-bold">6</small>
+										</div>
+										<div class="col-5">
+											<span class=" h5">Pending</span>
+										</div>
+										<div class="col-6">
+											<small class="h5 fw-bold">6</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-lg-3">
+							<div class="card p-3">
+								<div class="d-flex align-items-center">
+									<span class="stamp stamp-md bg-warning mr-3">
+										<i class="fa h2 fw-bold mt-1">1</i>
+									</span>
+									<div class="row justify-content-start">
+										<div class="col-6">
+											<span class="mb-1 text-muted"><b>Class Fees</b></span>
+										</div>
+										<div class="col-6">
+											<small class="h5">12,000</small><br>
+										</div>
+										<div class="col-6">
+											<span class="mb-1 h5 text-muted"><b>Paid</b></span>
+										</div>
+										<div class="col-6">
+											<small class="h5">6</small><br>
+										</div>
+										<div class="col-6">
+											<span class="mb-1 text-muted h5"><b>Pending</b></span>
+										</div>
+										<div class="col-6">
+											<small class="h5">6</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div> {% endcomment %}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock body %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-	<!-- Atlantis DEMO methods, don't include it in your project! -->
-	<script src="/static/assets/js/setting-demo.js"></script>
-	<script src="/static/assets/js/demo.js"></script>
-
-	<script>
-		Circles.create({
-			id:'circles-1',
-			radius:45,
-			value:60,
-			maxValue:100,
-			width:7,
-			text: 5,
-			colors:['#f1f1f1', '#FF9E27'],
-			duration:400,
-			wrpClass:'circles-wrp',
-			textClass:'circles-text',
-			styleWrapper:true,
-			styleText:true
-		})
-
-		Circles.create({
-			id:'circles-2',
-			radius:45,
-			value:70,
-			maxValue:100,
-			width:7,
-			text: 36,
-			colors:['#f1f1f1', '#2BB930'],
-			duration:400,
-			wrpClass:'circles-wrp',
-			textClass:'circles-text',
-			styleWrapper:true,
-			styleText:true
-		})
-
-		Circles.create({
-			id:'circles-3',
-			radius:45,
-			value:40,
-			maxValue:100,
-			width:7,
-			text: 12,
-			colors:['#f1f1f1', '#F25961'],
-			duration:400,
-			wrpClass:'circles-wrp',
-			textClass:'circles-text',
-			styleWrapper:true,
-			styleText:true
-		})
-
-		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
-
-		var mytotalIncomeChart = new Chart(totalIncomeChart, {
-			type: 'bar',
-			data: {
-				labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
-				datasets : [{
-					label: "Total Income",
-					backgroundColor: '#ff9e27',
-					borderColor: 'rgb(23, 125, 255)',
-					data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
-				}],
-			},
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				legend: {
-					display: false,
-				},
-				scales: {
-					yAxes: [{
-						ticks: {
-							display: false //this will remove only the label
-						},
-						gridLines : {
-							drawBorder: false,
-							display : false
-						}
-					}],
-					xAxes : [ {
-						gridLines : {
-							drawBorder: false,
-							display : false
-						}
-					}]
-				},
-			}
-		});
-
-		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
-			type: 'line',
-			height: '70',
-			width: '100%',
-			lineWidth: '2',
-			lineColor: '#ffa534',
-			fillColor: 'rgba(255, 165, 52, .14)'
-		});
-	</script>
 
 {% endblock javascripts %}
