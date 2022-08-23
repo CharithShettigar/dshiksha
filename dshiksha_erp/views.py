@@ -414,8 +414,7 @@ def create_school(request):
                         AccountantMobile = school_school_form.cleaned_data['AccountantMobile'],
                         AccountantWhatsAppNo = school_school_form.cleaned_data['AccountantWhatsAppNo'],
 
-                        CorrespondentFirstName = school_school_form.cleaned_data['CorrespondentFirstName'],
-                        CorrespondentLastName =school_school_form.cleaned_data['CorrespondentLastName'],
+                        CorrespondentFirstName = school_school_form.cleaned_data['CorrespondentName'],
                         CorrespondentEmail = school_school_form.cleaned_data['CorrespondentEmail'],
                         CorrespondentMobile = school_school_form.cleaned_data['CorrespondentMobile'],
                         CorrespondentWhatsAppNo = school_school_form.cleaned_data['CorrespondentWhatsAppNo']

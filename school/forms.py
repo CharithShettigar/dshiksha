@@ -19,7 +19,7 @@ class LoginForm(forms.ModelForm):
 class StaffCreateForm(forms.ModelForm):
     class Meta:
         model = sm.Staff    
-        fields = ['StaffName', 'StaffEmailID', 'StaffMobile','Designation','StaffQualification']
+        fields = ['StaffName', 'StaffEmailID', 'StaffMobile','Designation','StaffQualification','Gender']
         # exclude = ['UserID']
         # fields = ['StaffName', 'StaffEmailID', 'StaffMobile','DOB','Gender','BloodGroup','MaritalStatus','Caste','MotherTongue','AddressLine1','AddressLine2']
 
@@ -67,7 +67,7 @@ class ApplicationForm(forms.ModelForm):
 class SchoolForm(forms.ModelForm):
     class Meta:
         model = sm.School
-        exclude = ['UserID','SchoolID','SchoolName','SchoolType','SchoolUsername','SchoolCode','Email','SchoolLogo','SchoolSeal','SchoolSign']
+        exclude = ['UserID','SchoolID','SchoolType','SchoolUsername','SchoolCode','Email','SchoolLogo','SchoolSeal','SchoolSign']
 
 
 class StudentCreateForm(forms.ModelForm):

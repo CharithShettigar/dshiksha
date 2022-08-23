@@ -69,6 +69,7 @@
                                                 <label for="id_Class" class="form-label">Select Student Application Data:</label>
                                                 <select name="Application" id="id_Application" class="form-control" onchange="func()">
                                                     {% for a in application_list %}
+                                                    <option value="">-------------</option>
                                                     <option value="{{ a.ApplicationID }}"> 
                                                         {{ a.ApplicationNo }}-{{ a.StudentName }} 
                                                     </option>
@@ -222,7 +223,7 @@
                                         <td>
                                             <div>
                                                 <a name="" id="" class="btn btn-info p-2" href="/Student/StudentShow/{{ student.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="View">
-                                                    <i class="fa fa-search"></i>
+                                                    <i class="fa fa-eye"></i>
                                                 </a>
                                                 <a name="" id="" class="btn btn-warning p-2" href="/Update/UpdateStudentInfo/{{ student.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="Edit">
                                                     <i class="fas fa-edit"></i>

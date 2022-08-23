@@ -4,12 +4,17 @@
 			<!-- Logo Header -->
 			<div class="logo-header" data-background-color="dark2">
 				
-			     <a href="/Dashboard/AdminData" class="logo">
+			     <a href="/" class="logo">
+						<div class="avatar avatar-lg">
+							<img src="/static/assets/img/digital-shiksha_blue_logo.png" alt="admin logo" class="avatar-img">
+						</div>
+						<span class='fw-bold text-white mt-3 mx-2'>DSHIKSHA</span>
+						{% comment %} <img src="/static/assets/img/logo.svg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
 					{% comment %} <div class="mb-4"> {% endcomment %}
 					{% comment %} <div>
 						<img src="/static/assets/img/digital-shiksha.jpeg" alt="school img" class="avatar-img rounded">
 					</div> {% endcomment %}
-					<h2 class='fw-bold text-white mt-3'>DSHIKSHA</h2>
+					{% comment %} <h2 class='fw-bold text-white mt-3'>DSHIKSHA</h2> {% endcomment %}
 					{% comment %} <img src="/static/assets/img/logo.svg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
 					{% comment %} <img src="/static/assets/img/digital-shiksha.jpeg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
 				</a>
@@ -41,13 +46,22 @@
 					</div>
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 						<li class="nav-item hidden-caret">
-							<a class="profile-pic"  href="#" aria-expanded="false">
+							<a class="profile-pic"  href="/" aria-expanded="false">
 								
-								<a href="/">
-									<div class="avatar">
+									{% comment %} <div class="avatar">
 											<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">
-									</div>
-								</a>
+									</div> {% endcomment %}
+
+									{% if request.session.schoolimg_check %}
+										<div class="avatar">
+											<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">			
+										</div>
+									{% else %}						
+										<div class="avatar-sm">
+											<span class="avatar-title rounded-circle text-white fw-bold" style="background-color:#39caf9; font-size:1.3rem">{{ request.user.username.0 | capfirst }}</span>
+										</div>
+									{% endif %}
+									
 							</a>							
 						</li>
 						

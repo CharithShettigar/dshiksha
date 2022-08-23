@@ -64,6 +64,22 @@
                                                     {{ staff_form.StaffName | attr:"class=form-control" }}
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Gender</label>
+                                                    <select name="Gender" id="id_Gender" class="form-control">
+                                                        {% if gender_list %}
+                                                            {% for gender in gender_list %}
+                                                            <option value="{{ gender.GenderID }}"> 
+                                                                {{ gender.GenderName }} 
+                                                            </option>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </select>                 
+                                                </div>
+                                            </div>
                                             <div class="col-sm">
                                                 <div class="mb-3">
                                                     <label for="" class="form-label"> Staff ID </label>
@@ -197,13 +213,13 @@
                                     </td>
                                     <td>
                                         <div>
-                                            <a name="" id="" class="btn btn-info p-2" href="/Staff/StaffInfoShow/{{ staff.StaffID }}" role="button">
-                                                <i class=" fa fa-search"></i>
+                                            <a name="" id="" class="btn btn-info p-2" href="/Staff/StaffInfoShow/{{ staff.StaffID }}" role="button" data-toggle="tooltip" data-placement="top" title="View">
+                                                <i class=" fa fa-eye"></i>
                                             </a>
-                                            <a name="" id="" class="btn btn-warning p-2" href="/Update/UpdateStaffInfo/{{ staff.StaffID }}" role="button">
+                                            <a name="" id="" class="btn btn-warning p-2" href="/Update/UpdateStaffInfo/{{ staff.StaffID }}" role="button" data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a name="" id="" class="btn btn-dark p-2" href="/DeleteStaffInfo/{{ staff.StaffID }}" role="button">
+                                            <a name="" id="" class="btn btn-dark p-2" href="/DeleteStaffInfo/{{ staff.StaffID }}" role="button" data-toggle="tooltip" data-placement="top" title="Delete">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </div>     

@@ -100,13 +100,24 @@
                 </div>
                 <div class="col-sm">
                     <div class="mb-3">
+                        <label for="" class="form-label"> Pincode </label>
+                        <select name="Pincode" id="id_Pincode" class="form-control">
+                            <option value=""> ---------- </option>
+                            {% for pincode in post_office_list %}
+                                <option value="{{ pincode.PostOfficeID }}"> {{ pincode.Pincode }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% comment %} <div class="col-sm">
+                    <div class="mb-3">
                         <label for="" class="form-label"> TalukName </label>
                         
                         <select name="Taluk" id="id_Taluk" class="form-control bg-white" disabled></select>
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
-            <div class="row">
+            {% comment %} <div class="row">
                 <div class="col-sm">
                     <div class="mb-3">
                         <label for="" class="form-label"> District </label>
@@ -119,8 +130,8 @@
                         <select name="State" id="id_State" class="form-control bg-white" disabled></select>
                     </div>
                 </div>
-            </div>
-            <div class="row">
+            </div> {% endcomment %}
+            {% comment %} <div class="row">
                 <div class="col-sm">
                     <div class="mb-3">
                         <label for="" class="form-label"> Pincode </label>
@@ -138,7 +149,7 @@
                         <select class="form-control bg-white" name="PostOffice" id="id_PostOffice" disabled></select>
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
             <div class="row">
                 <div class="col-sm">
                     <div class="mb-3">
@@ -189,7 +200,7 @@
                     <div class="mb-3">
                         <label for="" class="form-label">Correspondent Name</label>
                         {% comment %} <select name="ParishArea" id="id_ParishArea" class="form-control bg-white" disabled></select> {% endcomment %}
-                        {{ school_form.CorrespondentFirstName | attr:"class=form-control" }}
+                        {{ school_form.CorrespondentName | attr:"class=form-control" }}
                     </div>
                 </div>
                 <div class="col-sm">

@@ -42,10 +42,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            {% if student.StudentPhoto %}
-                            <div class="avatar avatar-xxl">
-                                <img src="{{student.StudentPhoto.url}}" alt="student img" class="avatar-img rounded">
-                            </div>
+                            {% if stdimg_check %}
+                                <div class="avatar avatar-xxl">
+                                    <img src="{{student.StudentPhoto.url}}" alt="student img" class="avatar-img rounded">
+                                </div>
                             {% endif %}
                             <span class="ml-3 text-capitalize fw-bold h1">{{student.StudentName}}</span>
 

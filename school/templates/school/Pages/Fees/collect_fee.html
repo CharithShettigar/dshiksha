@@ -132,14 +132,14 @@
                                         <th>Pending Amount</th>    
                                         <th>Total Amount</th>    
                                         <th >Stauts</th>    
-                                        <th>Action</th>    
+                                        <th style="width: 115.75px;">Action</th>    
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% if "collectfee_list" %}
                                         {% for cf in collectfee_list %}
                                             <tr>
-                                                <td width="5%"> {{ forloop.counter }} </td>
+                                                <td> {{ forloop.counter }} </td>
                                                 <td> {{ cf.Admission.StudentName }} </td>
                                                 <td width="15%"> {{ cf.Installment.InstallmentName}}</td>
                                                 <td> {{ cf.PaidAmount}} </td>
@@ -155,7 +155,7 @@
                                                 {%endif%}
 
                                                 {% if cf.PaymentStatus == "No Updates" or cf.PaymentStatus == None %}
-                                                    <td>
+                                                    <td >
                                                         <div>
                                                             <a name="" id="" class="btn btn-warning p-2" href="/Fees/StudnetCollectFee/{{ cf.Admission.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="Edit">
                                                             <i class="fas fa-edit"></i></a>
@@ -168,14 +168,14 @@
                                                             <i class="fas fa-edit"></i></a>
                                                             
                                                             <a name="" id="" class="btn btn-info p-2" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="View">
-                                                                <i class="fa fa-search"></i></a>
+                                                                <i class="fa fa-eye"></i></a>
                                                         </div>
                                                     </td>
                                                 {% else %}
                                                     <td>
                                                         <div>
-                                                            <a name="" id="" class="btn btn-dark p-2" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="View">
-                                                                <i class="fa fa-search"></i>
+                                                            <a name="" id="" class="btn btn-info p-2" href="/Fees/ShowCollectFee/{{ cf.Admission.AdmissionID }}" role="button" data-toggle="tooltip" data-placement="top" title="View">
+                                                                <i class="fa fa-eye"></i>
                                                             </a>
                                                         </div>
                                                     </td>

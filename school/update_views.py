@@ -21,23 +21,24 @@ def update_school(request, school_id):
         if request.method == "POST":
             school_form = fm.SchoolForm(request.POST)
             if school_form.is_valid():
+                school_data.SchoolName=school_form.cleaned_data['SchoolName']
                 school_data.SchoolDISECode=school_form.cleaned_data['SchoolDISECode']
                 school_data.SyllabusType=school_form.cleaned_data['SyllabusType']
                 school_data.InsitutionLevel=school_form.cleaned_data['InsitutionLevel']
                 school_data.CurrentAcademicYear=school_form.cleaned_data['CurrentAcademicYear']
 
                 if request.FILES.get('school_img',False):
-                    if school_data.SchoolLogo != "":
+                    if school_data.SchoolLogo != "" and os.path.isfile(school_data.SchoolLogo.url[1:]):
                         os.remove(school_data.SchoolLogo.path)
                     school_data.SchoolLogo=request.FILES['school_img']
 
                 if request.FILES.get('schoolseal_img',False):
-                    if school_data.SchoolSeal != "":
+                    if school_data.SchoolSeal != "" and os.path.isfile(school_data.SchoolSeal.url[1:]):
                         os.remove(school_data.SchoolSeal.path)
                     school_data.SchoolSeal=request.FILES['schoolseal_img']
 
                 if request.FILES.get('schoolsign_img',False):
-                    if school_data.SchoolSign != "":
+                    if school_data.SchoolSign != "" and os.path.isfile(school_data.SchoolSign.url[1:]):
                         os.remove(school_data.SchoolSign.path)
                     school_data.SchoolSign=request.FILES['schoolsign_img']
 
@@ -64,7 +65,16 @@ def update_school(request, school_id):
                 request.session['school_name'] = school_data.SchoolName
                 request.session['school_username'] = school_data.SchoolUsername
                 request.session['academic_year'] = str(school_data.CurrentAcademicYear.AcademicYearID)
-                request.session['school_logo']="/"+str(school_data.SchoolLogo)
+
+                if school_data.SchoolLogo != "":
+                    school_logo=school_data.SchoolLogo.url[1:]
+                    if os.path.isfile(school_logo) and os.access(school_logo,os.R_OK):
+                        request.session['school_logo']="/"+str(school_data.SchoolLogo)
+                        request.session['schoolimg_check']=True
+                    else:
+                        request.session['schoolimg_check']=False
+                else:
+                    request.session['schoolimg_check']=False
 
                 messages.info(request,"School information updated successfully.")
                 return redirect(f"/Update/UpdateSchoolInfo/{school_id}")
@@ -132,7 +142,7 @@ def update_staff(request, staff_id):
                 staff_data.StaffMobile= staff_form.cleaned_data['StaffMobile']
 
                 if request.FILES.get('staff_img',False):
-                    if staff_data.StaffPhoto != "":
+                    if staff_data.StaffPhoto != "" and os.path.isfile(staff_data.StaffPhoto.url[1:]):
                         os.remove(staff_data.StaffPhoto.path)
                     staff_data.StaffPhoto=request.FILES['staff_img']
                 
@@ -208,7 +218,7 @@ def update_student(request, student_id):
                 student_data.StudentMobileNo=student_form.cleaned_data['StudentMobileNo']
 
                 if request.FILES.get('student_img',False):
-                    if student_data.StudentPhoto != "":
+                    if student_data.StudentPhoto != "" and os.path.isfile(student_data.StudentPhoto.url[1:]):
                         os.remove(student_data.StudentPhoto.path)
                     student_data.StudentPhoto=request.FILES['student_img']
 
@@ -321,6 +331,16 @@ def update_student(request, student_id):
         # objset=student_data
         # jsondata=serializers.serialize("json",objset)
 
+        if student_data.StudentPhoto != "":
+            student_img=student_data.StudentPhoto.url[1:]
+            if os.path.isfile(student_img) and os.access(student_img,os.R_OK):
+                stdimg_check=os.path.isfile(student_img)
+            else:
+                stdimg_check=os.path.isfile(student_img)
+        else:
+            stdimg_check=False
+
+
         context = {
             "student_form": student_form,
             "student_data": student_data,
@@ -342,6 +362,7 @@ def update_student(request, student_id):
             "AdmissionNo":sm.Students.objects.get(AdmissionID = student_id).AdmissionNo,
             "AdmissionDate":sm.Students.objects.get(AdmissionID = student_id).AdmissionDate,
             "data":student_data,
+            "stdimg_check":stdimg_check
         }
         return render(request, "school/Pages/Update/update_student_info.html", context)
     else:
