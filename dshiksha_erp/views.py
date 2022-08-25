@@ -93,32 +93,40 @@ def add_state(request):
             if request.POST.get("form-type") == 'add-state':
                 if state_form.is_valid():
                     md.State(StateID=uuid.uuid4(), StateName=state_form.cleaned_data['StateName'].capitalize()).save()
-                    return redirect("/Settings/AddState")
+                    messages.info(request,"State record saved successfully")              
                 else:
+                    messages.error(request, state_form.errors.as_text()[14:])
                     print("Error in state form")
+                return redirect("/Settings/AddState")
             elif request.POST.get("form-type") == 'add-district':
                 if district_form.is_valid():
                     md.District(DistrictID=uuid.uuid4(),
                                 DistrictName=district_form.cleaned_data['DistrictName'].capitalize(),
                                 State=district_form.cleaned_data['State']).save()
+                    messages.info(request,"District record saved successfully")              
                     return redirect("/Settings/AddState")
                 else:
+                    messages.error(request, district_form.errors.as_text()[14:])
                     print("error while submitting the district form")
             elif request.POST.get("form-type") == 'add-taluk':
                 if taluk_form.is_valid():
                     md.Taluk(TalukID=uuid.uuid4(), TalukName=taluk_form.cleaned_data['TalukName'].capitalize(),
                              District=taluk_form.cleaned_data['DistrictName']).save()
-                    return redirect("/Settings/AddState")
+                    messages.info(request,"Taluk record saved successfully")              
                 else:
+                    messages.error(request, taluk_form.errors.as_text()[14:])
                     print("error while submitting the taluk form")
+                return redirect("/Settings/AddState")
             elif request.POST.get("form-type") == 'add-village':
                 if village_form.is_valid():
                     md.Village(VillageID=uuid.uuid4(),
                                VillageName=village_form.cleaned_data['VillageName'].capitalize(),
                                Taluk=village_form.cleaned_data['TalukName']).save()
-                    return redirect("/Settings/AddState")
+                    messages.info(request,"Village record saved successfully")              
                 else:
+                    messages.error(request, village_form.errors.as_text()[14:])
                     print("error while submitting the village form")
+                return redirect("/Settings/AddState")
         else:
             state_form = fm.StateForm()
             district_form = fm.DistrictForm()
@@ -159,8 +167,10 @@ def add_academic_year(request):
                     md.AcademicYear(AcademicYearID=uuid.uuid4(),
                                     AcademicYear=academic_year_form.cleaned_data['AcademicYear'].capitalize(),
                                     OrderID=academic_year_form.cleaned_data['OrderID'], IsActive = academic_year_form.cleaned_data['IsActive']).save()
+                    messages.info(request,f"AcademicYear saved successfully")              
                     return redirect("/Settings/AddAcademicYear")
             else:
+                messages.error(request, academic_year_form.errors.as_text()[14:])
                 print("Error while submitting the academic year form")
                 print(academic_year_form.errors)
         else:
@@ -188,9 +198,11 @@ def add_nationality(request):
                     md.Nationality(NationalityID=uuid.uuid4(),
                                    NationalityName=nationality_form.cleaned_data['NationalityName'].capitalize(),
                                    CountryCode=nationality_form.cleaned_data['CountryCode'].upper()).save()
-                    return redirect("/Settings/AddNationality")
+                    messages.info(request,f"Nationality record saved successfully")              
             else:
+                messages.error(request, nationality_form.errors.as_text()[14:])
                 print("Something went wrong while adding the nationality data")
+            return redirect("/Settings/AddNationality")
         else:
             nationality_form = fm.NationalityForm()
         nationality_list = md.Nationality.objects.all()
@@ -233,7 +245,12 @@ def add_mother_tongue(request):
             if mother_tongue_form.is_valid():
                 md.MotherTongue(MotherTongueID=uuid.uuid4(), MotherTongueName=mother_tongue_form.cleaned_data[
                     'MotherTongueName'].capitalize()).save()
+                messages.info(request,f"Language data saved successfully")              
                 return redirect("/Settings/AddMotherTongue")
+            else:
+                messages.error(request, mother_tongue_form.errors.as_text()[14:])
+                print(mother_tongue_form.errors)
+
         else:
             mother_tongue_form = fm.MotherTongueForm()
         context = {
@@ -254,16 +271,20 @@ def add_religion(request):
                 if religion_form.is_valid():
                     md.Religion(ReligionID=uuid.uuid4(),
                                 ReligionName=religion_form.cleaned_data['ReligionName'].capitalize()).save()
-                    return redirect("/Settings/AddReligion")
+                    messages.info(request,f"Religion record saved successfully")              
                 else:
+                    messages.error(request, religion_form.errors.as_text()[14:])
                     print("Something went wrong while adding the religion data")
+                return redirect("/Settings/AddReligion")
             elif request.POST.get('form-type') == 'caste-category-form':
                 if caste_category_form.is_valid():
                     md.CasteCategory(CasteCategoryID=uuid.uuid4(), CasteCategoryName=caste_category_form.cleaned_data[
                         'CasteCategoryName'].capitalize()).save()
-                    return redirect("/Settings/AddReligion")
+                    messages.info(request,f"CasteCategory record saved successfully")  
                 else:
+                    messages.error(request, caste_category_form.errors.as_text()[14:])
                     print("Something went wrong while adding the caste category data")
+                return redirect("/Settings/AddReligion")
             elif request.POST.get('form-type') == 'caste-form':
                 if caste_form.is_valid():
                     if md.Caste.objects.filter(CasteName=caste_form.cleaned_data['CasteName']).exists():
@@ -272,8 +293,10 @@ def add_religion(request):
                         md.Caste(CasteID=uuid.uuid4(), CasteName=caste_form.cleaned_data['CasteName'].capitalize(),
                                  CasteCategory=caste_form.cleaned_data['CasteCategory'],
                                  Religion=caste_form.cleaned_data['Religion']).save()
-                        return redirect("/Settings/AddReligion")
+                    messages.info(request,f"Caste record saved successfully")  
+                    return redirect("/Settings/AddReligion")
                 else:
+                    messages.error(request, caste_form.errors.as_text()[14:])
                     print("Something went wrong while adding new caste data")
                     print(caste_form.errors)
         else:
@@ -306,7 +329,11 @@ def add_post_office(request):
                     md.PostOffice(PostOfficeID=uuid.uuid4(),
                                   PostOfficeName=post_office_form.cleaned_data['PostOfficeName'].capitalize(),
                                   Pincode=post_office_form.cleaned_data['Pincode']).save()
-                    return redirect("/Settings/AddPostOffice")
+                    messages.info(request,"PostOffice record saved successfully")              
+                return redirect("/Settings/AddPostOffice")
+            else:
+                messages.error(request, post_office_form.errors.as_text()[14:])
+                print(post_office_form.errors)
         else:
             post_office_form = fm.PostOfficeForm()
         context = {
@@ -327,12 +354,20 @@ def add_designation(request):
                 if designation_form.is_valid():
                     md.Designation(DesignationID=uuid.uuid4(),
                                    DesignationName=designation_form.cleaned_data['DesignationName'].capitalize()).save()
-                    return redirect("/Staff/AddDesignation")
+                    messages.info(request,"Designation record saved successfully")              
+                else:
+                    messages.error(request, designation_form.errors.as_text()[14:])
+                    print(designation_form.errors)
+                return redirect("/Staff/AddDesignation")
             elif request.POST.get('form-type') == 'staff-subject-form':
                 if staff_subject_form.is_valid():
                     md.StaffSubject(StaffSubjectID=uuid.uuid4(), StaffSubjectName=staff_subject_form.cleaned_data[
                         'StaffSubjectName'].capitalize()).save()
-                    return redirect("/Staff/AddDesignation")
+                    messages.info(request,"StaffSubject record saved successfully")              
+                else:
+                    messages.error(request, staff_subject_form.errors.as_text()[14:])
+                    print(staff_subject_form.errors)
+                return redirect("/Staff/AddDesignation")
         else:
             designation_form = fm.DesignationForm()
             staff_subject_form = fm.StaffSubjectForm()
@@ -392,7 +427,11 @@ def create_school(request):
                                                     username=school_school_form.cleaned_data['SchoolCode'],
                                                     password=school_school_form.cleaned_data['Password'],
                                                     UserType=UserTypes.objects.get(UserTypeName="School").UserTypeID)
-                    print("----------",user)
+                    if request.FILES.get('school_img',False):
+                        SchoolLogo=request.FILES['school_img']
+                    else:
+                        SchoolLogo=""
+
                     sm.School(
                         SchoolID=uuid.uuid4(),
                         SchoolName=school_school_form.cleaned_data['SchoolName'].capitalize(),
@@ -403,7 +442,7 @@ def create_school(request):
                         UserID=User.objects.get(UserID=user.UserID),
                         SchoolUsername=school_school_form.cleaned_data['SchoolUsername'],
                         SchoolCode=school_school_form.cleaned_data['SchoolCode'],
-                        SchoolLogo=request.FILES['school_img'],
+                        SchoolLogo=SchoolLogo,
                         CurrentAcademicYear = school_school_form.cleaned_data['CurrentAcademicYear'], # Add academic Year support in web page
                         Landline=school_school_form.cleaned_data['Landline'],
                                             
@@ -412,18 +451,20 @@ def create_school(request):
                         AccountantName=school_school_form.cleaned_data['AccountantName'],
                         AccountantEmail = school_school_form.cleaned_data['AccountantEmail'],
                         AccountantMobile = school_school_form.cleaned_data['AccountantMobile'],
-                        AccountantWhatsAppNo = school_school_form.cleaned_data['AccountantWhatsAppNo'],
 
-                        CorrespondentFirstName = school_school_form.cleaned_data['CorrespondentName'],
+                        CorrespondentName = school_school_form.cleaned_data['CorrespondentName'],
                         CorrespondentEmail = school_school_form.cleaned_data['CorrespondentEmail'],
                         CorrespondentMobile = school_school_form.cleaned_data['CorrespondentMobile'],
-                        CorrespondentWhatsAppNo = school_school_form.cleaned_data['CorrespondentWhatsAppNo']
                         ).save()
+                    messages.info(request,"School created succesfully")
+
                     # print('----------',school_data)
                     # school_data.save()
-                    redirect("/School/create_school")
             else:
                 print(school_school_form.errors)
+                messages.error(request,school_school_form.errors.as_text()[14:])
+
+            redirect("/School/create_school")
         else:
             school_school_form = fm.SchoolForm()
         context = {
@@ -452,24 +493,32 @@ def add_class(request):
                     else:
                         md.ClassLevel(ClassLevelID = uuid.uuid4(), ClassLevelName = class_level_form.cleaned_data[
                             'ClassLevelName'], ClassLevelCode = class_level_form.cleaned_data['ClassLevelCode'].upper()).save()
-                        return redirect("/School/CreateClass")
+                        messages.info(request,"ClassLevelCode Data saved succesfully")
+                    return redirect("/School/CreateClass")
                 else:
                     print(class_level_form.errors)
             elif request.POST.get("form-type") == "class-list-form":
                 if class_list_form.is_valid():
                     if not md.ClassList.objects.filter(ClassName = class_list_form.cleaned_data['ClassName'].upper()).exists() and not md.ClassList.objects.filter(OrderID = class_list_form.cleaned_data['OrderID']).exists():
                         md.ClassList(ClassID=uuid.uuid4(), ClassName=class_list_form.cleaned_data['ClassName'].upper(), OrderID = class_list_form.cleaned_data['OrderID']).save()
+                        messages.info(request,"Class Data saved succesfully")
                         return redirect("/School/CreateClass")
                     else:
                         messages.error(request, "Class Name already present")
+                    return redirect("/School/CreateClass")
+
             elif request.POST.get('form-type') == "section-form":
                 if section_form.is_valid():
                     if not md.Section.objects.filter(SectionName = section_form.cleaned_data['SectionName'].upper()).exists():
                         md.Section(SectionID=uuid.uuid4(),
                                    SectionName=section_form.cleaned_data['SectionName'].upper()).save()
+                        messages.info(request,"Section Data saved succesfully")
                         return redirect("/School/CreateClass")
                     else:
                         messages.error(request, "Section already present")
+                else:
+                    messages.error(request,section_form.errors.as_text()[14:])
+                return redirect("/School/CreateClass")
         else:
             class_list = md.ClassList.objects.all().order_by('OrderID')
             if md.ClassList.objects.last()==None:
@@ -487,7 +536,7 @@ def add_class(request):
             "class_level_list": md.ClassLevel.objects.all(),
             "class_list": class_list,
             "section_form": section_form,
-            "section_list": md.Section.objects.all(),
+            "section_list": md.Section.objects.all().order_by('SectionName'),
             }
         return render(request, "dshiksha_erp/Pages/School/add_class.html", context)
     else:
@@ -503,10 +552,12 @@ def school_assign_class_level(request):
                 else:
                     sm.Class(ClassID=uuid.uuid4(), ClassList=class_form.cleaned_data['ClassList'],
                              ClassLevel=class_form.cleaned_data['ClassLevel']).save()
-                    return redirect("/School/AssignClassLevel")
+                    messages.info(request,"Data saved succesfully")
             else:
                 print("Something went wrong")
+                messages.error(request,class_form.errors.as_text()[14:])
                 print(class_form.errors)
+            return redirect("/School/AssignClassLevel")
         else:
             class_form = fm.ClassForm()
         context = {
@@ -528,14 +579,16 @@ def create_institution_level(request):
                     messages.error(request, "Institution Level already exists")
                 else:
                     md.InstitutionLevel(InstitutionLevelID = uuid.uuid4(), InstitutionLevel = il_form.cleaned_data['InstitutionLevel']).save()
-                    return redirect("/School/CreateInstitutionLevel")
+                    messages.info(request,"InstitutionLevel data saved succesfully")
             else:
+                messages.error(request,il_form.errors.as_text()[14:])
                 print(il_form.errors)
+            return redirect("/School/CreateInstitutionLevel")
         else:
             il_form = fm.InstitutionLevelForm()
         context = {
             "il_form": il_form,
-            "il_list": md.InstitutionLevel.objects.all(),
+            "il_list": md.InstitutionLevel.objects.all().order_by('InstitutionLevel'),
         }
         return render(request, "dshiksha_erp/Pages/School/create_institution_level.html", context)
     else:
@@ -550,12 +603,12 @@ def add_staff_qualification(request):
                     md.StaffQualification(StaffQualificationID=uuid.uuid4(),
                                           StaffQualificationName=staff_qualification_form.cleaned_data[
                                               'StaffQualificationName']).save()
-                    return redirect("/Staff/AddStaffQualification")
+                    messages.info(request,"StaffQualification record saved successfully")              
                 else:
                     print("Something went wrong while adding the staff qualification data")
-            else:
-                print("something went wrong while adding the staff professional qualification data")
-                print(staff_qualification_form.errors)
+                    messages.error(request, staff_qualification_form.errors.as_text()[14:])
+                    print(staff_qualification_form.errors)
+                return redirect("/Staff/AddStaffQualification")
         else:
             staff_qualification_form = fm.StaffQualificationForm()
         context = {
@@ -577,9 +630,11 @@ def add_school_affiliation(request):
                 else:
                     md.SchoolAffiliation(SchoolAffiliationID=uuid.uuid4(),
                                          SchoolAffiliation=sa_form.cleaned_data['SchoolAffiliation']).save()
-                    return redirect("/School/AddSchoolAffiliation")
+                    messages.info(request,"SchoolAffiliation Data saved succesfully")
             else:
+                messages.error(request,sa_form.errors.as_text()[14:])
                 print(sa_form.errors)
+            return redirect("/School/AddSchoolAffiliation")
         else:
             sa_form = fm.SchoolAffiliationForm()
         context = {
@@ -607,7 +662,10 @@ def create_fees_type(request):
                         print("Something went wrong")
                         messages.error(request, "Fees Type already exists")
                 else:
+                    messages.error(request,ft_form.errors.as_text()[14:])
                     print(ft_form.errors)
+                return redirect("/Fees/CreateFeesType")
+
             elif request.POST.get("form-type") == "installment-form":
                 if installment_form.is_valid():
                     if not md.Installment.objects.filter(InstallmentName = installment_form.cleaned_data['InstallmentName']).exists():
@@ -616,7 +674,10 @@ def create_fees_type(request):
                     else:
                         messages.error(request, "Installment already exists")
                 else:
+                    messages.error(request,installment_form.errors.as_text()[14:])
                     print(installment_form.errors)
+                return redirect("/Fees/CreateFeesType")
+
         else:
             ft_form = fm.FeesTypeForm()
             installment_form = fm.InstallmentForm()
@@ -639,7 +700,9 @@ def create_sub_fee_type(request):
                 md.SubFee(SubFeeID=uuid.uuid4(), SubFeeName=sft_form.cleaned_data['SubFeeName'].capitalize(), FeesType=sft_form.cleaned_data['FeesType']).save()
                 return redirect("/Fees/CreateSubFeesType")
             else:
-                print("error while submitting the sub fee  form")
+                messages.error(request,sft_form.errors.as_text()[14:])
+                print("error while submitting the subfee form")
+                return redirect("/Fees/CreateSubFeesType")
         else:
             sft_form = fm.SubFeeForm()
         context = {
@@ -664,10 +727,13 @@ def create_bank(request):
                         print(bank_form.cleaned_data)
                         md.Bank(BankID=uuid.uuid4(),BankName=bank_form.cleaned_data['BankName'].upper(),
                                     OrderID=bank_form.cleaned_data['OrderID']).save()
+                        messages.info(request,"Bank data saved succesfully")
                         return redirect("/Fees/CreateBank")
                 else:
                     print("Error while submitting the bank form")
+                    messages.error(request,bank_form.errors.as_text()[14:])
                     print(bank_form.errors)
+                    return redirect("/Fees/CreateBank")
 
             elif request.POST.get('form-type')=="online-form":
                 if online_form.is_valid():
@@ -676,10 +742,14 @@ def create_bank(request):
                     else:
                         print(online_form.cleaned_data)
                         md.Online(OnlineID=uuid.uuid4(), OnlineAppName=online_form.cleaned_data['OnlineAppName'].upper(),OrderID=online_form.cleaned_data['OrderID']).save()
+                        messages.info(request,"Online data saved succesfully")
                         return redirect("/Fees/CreateBank")
                 else:
-                    print("Error while submitting the bank form")
+                    print("Error while submitting the online form")
+                    messages.error(request,online_form.errors.as_text()[14:])
                     print(online_form.errors)
+                    return redirect("/Fees/CreateBank")
+
         else:
             bank_form = fm.BankForm(initial = {'OrderID' : md.Bank.objects.count() + 1})
             bank_list = md.Bank.objects.all().order_by("OrderID")

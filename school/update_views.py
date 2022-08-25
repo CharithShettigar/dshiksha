@@ -47,8 +47,6 @@ def update_school(request, school_id):
                 school_data.Website=school_form.cleaned_data['Website']
                 school_data.EstDate=school_form.cleaned_data['EstDate']
                 school_data.History=school_form.cleaned_data['History']
-                school_data.SchoolPANNo=school_form.cleaned_data['SchoolPANNo']
-                school_data.GSTINo=school_form.cleaned_data['GSTINo']
                 school_data.Area=school_form.cleaned_data['Area']
                 school_data.Village=school_form.cleaned_data['Village']
                 school_data.Pincode=school_form.cleaned_data['Pincode']
@@ -79,7 +77,7 @@ def update_school(request, school_id):
                 messages.info(request,"School information updated successfully.")
                 return redirect(f"/Update/UpdateSchoolInfo/{school_id}")
             else:
-                messages.error(request,f"Wrong information entererd!!! {school_form.errors}")
+                messages.error(request,school_form.errors.as_text()[14:])
                 print("---------------",school_form.errors)
         else:
             school_form = fm.SchoolForm(
@@ -94,9 +92,6 @@ def update_school(request, school_id):
                     "Website": school_data.Website,
                     "EstDate": school_data.EstDate,
                     "History": school_data.History,
-                    "SchoolPANNo": school_data.SchoolPANNo,
-                    "GSTINo": school_data.GSTINo,
-                    # "SchoolCode": school_data.SchoolCode,
                     # "SchoolUsername": school_data.SchoolUsername,
                     "SyllabusType": school_data.SyllabusType,
 
@@ -168,7 +163,7 @@ def update_staff(request, staff_id):
                 messages.info(request,"Staff information updated successfully")
                 return redirect(f"/Update/UpdateStaffInfo/{staff_id}")
             else:
-                messages.error(request,f"Wrong information entererd!!! {staff_form.errors}")
+                messages.error(request,staff_form.errors.as_text()[14:])
                 print("---------------",staff_form.errors)
         else:
             staff_form = fm.StaffForm(
@@ -222,20 +217,20 @@ def update_student(request, student_id):
                         os.remove(student_data.StudentPhoto.path)
                     student_data.StudentPhoto=request.FILES['student_img']
 
-                student_data.Village=student_form.cleaned_data['Village']
                 student_data.Nationality=student_form.cleaned_data['Nationality']
                 student_data.BloodGroup=student_form.cleaned_data['BloodGroup']
-                student_data.Religion=student_form.cleaned_data['Religion']
-                student_data.CasteCategory=student_form.cleaned_data['CasteCategory']
+                student_data.Caste=student_form.cleaned_data['Caste']
+                student_data.Religion=student_form.cleaned_data['Caste'].Religion
+                student_data.CasteCategory=student_form.cleaned_data['Caste'].CasteCategory
                 student_data.PreviousSchoolName=student_form.cleaned_data['PreviousSchoolName']
                 student_data.MotherTongue=student_form.cleaned_data['MotherTongue']
-                student_data.Caste=student_form.cleaned_data['Caste']
                 student_data.AddressLine1=student_form.cleaned_data['AddressLine1']
                 student_data.AddressLine2=student_form.cleaned_data['AddressLine2']
                 student_data.Village=student_form.cleaned_data['Village']
                 student_data.Pincode=student_form.cleaned_data['Pincode']
                 student_data.Class=student_form.cleaned_data['Class']
                 student_data.AssignedClass=student_form.cleaned_data['AssignedClass']
+                student_data.AcademicYear=student_form.cleaned_data['AcademicYear']
 
                 if student_data.FatherName == None or student_data.FatherName == "None":
                     student_data.FatherName="None"
@@ -283,12 +278,11 @@ def update_student(request, student_id):
                         PaymentStatus="No Updates",
                         PaidAmount=0
                         ).save()
-                # else:
-                #     print("alredy created")
-                # # print('1st-----------------------',sm.Students.objects.get(AdmissionID=student_id))
 
-                return redirect(f"/Student/StudentShow/{student_id}")
+                messages.info(request,"Record Updated successfully")
+                return redirect(f"/Update/UpdateStudentInfo/{student_id}")
             else:
+                messages.error(request,student_form.errors.as_text()[14:])
                 print("---------------",student_form.errors)
         else:
             student_form = fm.StudentForm(
@@ -328,9 +322,6 @@ def update_student(request, student_id):
                     "GaurdianIncome": student_data.GaurdianIncome,
                     })
 
-        # objset=student_data
-        # jsondata=serializers.serialize("json",objset)
-
         if student_data.StudentPhoto != "":
             student_img=student_data.StudentPhoto.url[1:]
             if os.path.isfile(student_img) and os.access(student_img,os.R_OK):
@@ -354,6 +345,7 @@ def update_student(request, student_id):
             "mothertongue_list":md.MotherTongue.objects.all(),
             "nationality_list":md.Nationality.objects.all(),
             "village_list":md.Village.objects.all(),
+            "currentacademicYear_list":md.AcademicYear.objects.all(),
             "postoffice_list":md.PostOffice.objects.all(),
             "student_photo":student_data.StudentPhoto,
             "father_name":sm.Students.objects.get(AdmissionID = student_id).FatherName,

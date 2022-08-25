@@ -2,6 +2,7 @@
 {% load static %}
 
 {% load widget_tweaks %}
+{% load mathfilters %}
 
 {% block title %}
     Collect Fees
@@ -143,7 +144,8 @@
                                                 <td> {{ cf.Admission.StudentName }} </td>
                                                 <td width="15%"> {{ cf.Installment.InstallmentName}}</td>
                                                 <td> {{ cf.PaidAmount}} </td>
-                                                <td> {{pendingamount}} </td>
+                                                {% comment %} <td> {{pendingamount}} </td> {% endcomment %}
+                                                <td> {{ totalamount|sub:cf.PaidAmount }} </td>
                                                 <td> {{totalamount}} </td>
 
                                                 {% if cf.PaymentStatus == "No Updates" or cf.PaymentStatus == None %}

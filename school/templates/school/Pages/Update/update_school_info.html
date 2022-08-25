@@ -73,10 +73,11 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                {% if school_logo %}
-                                    <div class="avatar avatar-xxl">
-                                        <img src="{{school_logo.url}}" alt="school img" class="avatar-img rounded">
-                                    </div>
+
+                                {% if request.session.schoolimg_check %}
+                                <div class="avatar avatar-xxl">
+                                    <img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded">			
+                                </div>
                                 {% endif %}
 
                                 {{school_data.SchoolName}}
@@ -89,7 +90,7 @@
                             <div class="row">
                                 <div class="col-sm">
                                     <div class="mb-3">
-                                        <label for="" class="form-label"> SchoolDISECode</label>
+                                        <label for="" class="form-label">SchoolName</label>
                                         {{ school_form.SchoolName | attr:"class=form-control"}}
                                     </div>
                                 </div>
@@ -134,26 +135,6 @@
                                 </div>
                             </div>
 
-
-                            {% comment %} 3rd Row {% endcomment %}  
-                            
-                            <div class="row">
-                                <div class="col-sm">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label"> SchoolPANNo</label>
-                                        {{ school_form.SchoolPANNo | attr:"class=form-control"}}
-                                    </div>
-                                </div>
-
-                                <div class="col-sm">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label"> GSTINo</label>
-                                        {{ school_form.GSTINo | attr:"class=form-control"}}
-                                    </div>
-                                </div>              
-                    
-                            </div>
-
                             {% comment %} 4th Row {% endcomment %}
                             <div class="row">
                                 <div class="col-sm">
@@ -164,8 +145,8 @@
                                 </div>            
                                 <div class="col-sm">
                                     <div class="mb-3">
-                                        <label for="" class="form-label"> EstDate</label>
-                                        {{ school_form.EstDate | attr:"class=form-control"}}
+                                        <label for="" class="form-label">Established Date</label>
+                                        {% render_field school_form.EstDate type="date" class="form-control" %}                    
                                     </div>
                                 </div>
                             </div>       

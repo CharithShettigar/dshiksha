@@ -10,20 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='school',
-            name='CorrespondentFirstName',
-        ),
-        migrations.RemoveField(
-            model_name='school',
-            name='CorrespondentLastName',
-        ),
-        migrations.AddField(
-            model_name='school',
-            name='CorrespondentName',
-            field=models.CharField(default=1, max_length=100),
-            preserve_default=False,
-        ),
         migrations.AlterField(
             model_name='students',
             name='FatherEmail',
@@ -128,8 +114,5 @@ class Migration(migrations.Migration):
             model_name='students',
             name='MotherWhatsappNo',
             field=models.CharField(blank=True, max_length=100, null=True),
-        ),
-        migrations.DeleteModel(
-            name='Feedback',
-        ),
+        )
     ]

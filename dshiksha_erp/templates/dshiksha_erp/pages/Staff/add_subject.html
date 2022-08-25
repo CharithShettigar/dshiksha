@@ -1,4 +1,4 @@
-{% extends 'dshiksha_erp/index.html' %}
+{% extends 'dshiksha_erp/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -30,17 +30,21 @@
 
     <div class="page-inner mt--5">
         {% if messages %}
-        <div>
-            {% for message in messages %}
-            <div
-                class="{% if message.tags == 'error' %} alert alert-danger alert-dismissible d-flex align-items-center fade show my-1 {% endif %}">
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                 <i class="bi-exclamation-octagon-fill"></i>
                 <strong class="mx-2">Error!</strong> {{ message.message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert">
             </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
             {% endfor %}
-        </div>
-        {%endif%}
+        {% endif %}
 
         <div class="row">
             <div class="col-sm-12">
@@ -208,3 +212,13 @@
     </div>
 </div>
 {% endblock body %}
+
+{% block javascripts %}
+    <script>
+        
+    setTimeout(function () {
+        $('#alert').alert('close');
+    }, 2500);
+
+    </script>
+{% endblock javascripts %}

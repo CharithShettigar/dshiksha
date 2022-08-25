@@ -1,4 +1,4 @@
-{% extends 'dshiksha_erp/index.html' %}
+{% extends 'dshiksha_erp/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -29,188 +29,198 @@
     </div>
     
     <div class="page-inner mt--5">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="home-tab">
-                <div class="row">
-                    <div class="col-lg-12 d-flex flex-column">
-                        <div class="row flex-grow">
-                            <div class="col-6 grid-margin stretch-card">
-                                <div class="card card-rounded">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Add Fees Type <hr></h4>
-                                         <!-- form details here -->
-										 <form action="/Fees/CreateFeesType" method="post">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="form-type" value="fees-type-form">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label"> Fees Type Name </label>
-                                                        {{ ft_form.FeesTypeName | attr:"class=form-control" }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label"> Fees Type Code</label>
-                                                        {{ ft_form.FeeTypeCode | attr:"class=form-control" }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputUsername1">&nbsp;</label>
+        {% if messages %}
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-6 grid-margin stretch-card">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <h4 class="card-title">Add Fees Type <hr></h4>
+                            <!-- form details here -->
+                            <form action="/Fees/CreateFeesType" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form-type" value="fees-type-form">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="form-label"> Fees Type Name </label>
+                                        {{ ft_form.FeesTypeName | attr:"class=form-control" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="form-label"> Fees Type Code</label>
+                                        {{ ft_form.FeeTypeCode | attr:"class=form-control" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputUsername1">&nbsp;</label>
 
-                                                        <div class="input-group col-xs-12">                                                        
-                                                            <span class="input-group-append">
-                                                                <button type="submit" class="btn btn-primary text-white"> Create </button>
-                                                            </span>
-                                                          </div>
-                                                    </div>
-                                                </div>
+                                        <div class="input-group col-xs-12">                                                        
+                                            <span class="input-group-append">
+                                                <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                            </span>
                                             </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6 grid-margin stretch-card">
-                                <div class="card card-rounded">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Add Installment Name <hr></h4>
-                                         <!-- form details here -->
-										 <form action="/Fees/CreateFeesType" method="post">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="form-type" value="installment-form">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label"> Installment Name </label>
-                                                        {{ installment_form.InstallmentName | attr:"class=form-control" }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="" class="form-label"> Order ID</label>
-                                                        {{ installment_form.OrderID | attr:"class=form-control" }}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputUsername1">&nbsp;</label>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 grid-margin stretch-card">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <h4 class="card-title">Add Installment Name <hr></h4>
+                            <!-- form details here -->
+                            <form action="/Fees/CreateFeesType" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form-type" value="installment-form">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="form-label"> Installment Name </label>
+                                        {{ installment_form.InstallmentName | attr:"class=form-control" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="form-label"> Order ID</label>
+                                        {{ installment_form.OrderID | attr:"class=form-control" }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputUsername1">&nbsp;</label>
 
-                                                        <div class="input-group col-xs-12">                                                        
-                                                            <span class="input-group-append">
-                                                                <button type="submit" class="btn btn-primary text-white"> Create </button>
-                                                            </span>
-                                                          </div>
-                                                    </div>
-                                                </div>
+                                        <div class="input-group col-xs-12">                                                        
+                                            <span class="input-group-append">
+                                                <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                            </span>
                                             </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 grid-margin stretch-card">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <div class="d-sm-flex justify-content-between align-items-start">
+                            <div>
+                                <h4 class="card-title card-title-dash">Fees Type List</h4>
+                            </div>
+                        </div>
+                        <div class="table-responsive  mt-1">
+                            <!-- Table details here -->
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Sr.No.</th>
+                                        <th>Fees Type Name </th>
+                                        <th>Fees Type Code </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if ft_list %}
+                                    {% for ft in ft_list %}
+                                    <tr>
+                                        <td>  {{ forloop.counter }}  </td>
+                                        <td>                                                           
+                                            <div>
+                                                {{ ft.FeesTypeName }} 
+                                            </div>
+                                        </td>   
+                                        <td>                                                           
+                                            <div>
+                                                {{ ft.FeeTypeCode }}
+                                            </div>
+                                        </td>                                                    
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12 d-flex flex-column">
-                        <div class="row flex-grow">
-                            <div class="col-6 grid-margin stretch-card">
-                                <div class="card card-rounded">
-                                    <div class="card-body">
-                                        <div class="d-sm-flex justify-content-between align-items-start">
-                                            <div>
-                                                <h4 class="card-title card-title-dash">Fees Type List</h4>
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive  mt-1">
-                                            <!-- Table details here -->
-											<table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="10%">Sr.No.</th>
-                                                        <th>Fees Type Name </th>
-                                                        <th>Fees Type Code </th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% if ft_list %}
-                                                    {% for ft in ft_list %}
-                                                    <tr>
-                                                        <td>  {{ forloop.counter }}  </td>
-                                                        <td>                                                           
-                                                            <div>
-                                                                {{ ft.FeesTypeName }} 
-                                                            </div>
-                                                        </td>   
-                                                        <td>                                                           
-                                                            <div>
-                                                               {{ ft.FeeTypeCode }}
-                                                            </div>
-                                                        </td>                                                    
-                                                    </tr>
-                                                    {% endfor %}
-                                                    {% endif %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+            </div>
+            <div class="col-6 grid-margin stretch-card">
+                <div class="card card-rounded">
+                    <div class="card-body">
+                        <div class="d-sm-flex justify-content-between align-items-start">
+                            <div>
+                                <h4 class="card-title card-title-dash">Installment List</h4>
                             </div>
-                            <div class="col-6 grid-margin stretch-card">
-                                <div class="card card-rounded">
-                                    <div class="card-body">
-                                        <div class="d-sm-flex justify-content-between align-items-start">
-                                            <div>
-                                                <h4 class="card-title card-title-dash">Installment List</h4>
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive  mt-1">
-                                            <!-- Table details here -->
-											<table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="10%">Sr.No.</th>
-                                                        <th>Installment Name</th>
-                                                        <th>Order ID</th>
+                        </div>
+                        <div class="table-responsive  mt-1">
+                            <!-- Table details here -->
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Sr.No.</th>
+                                        <th>Installment Name</th>
+                                        <th>Order ID</th>
 
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% if installment_list %}
-                                                    {% for installment in installment_list %}
-                                                    <tr>
-                                                        <td>  {{ forloop.counter }}  </td>
-                                                        <td>                                                           
-                                                            <div>
-                                                                {{ installment.InstallmentName }}
-                                                            </div>
-                                                        </td>                                                       
-                                                        <td>                                                           
-                                                            <div>
-                                                                {{ installment.OrderID }}
-                                                            </div>
-                                                        </td>                                                       
-                                                    </tr>
-                                                    {% endfor %}
-                                                    {% endif %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-   
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if installment_list %}
+                                    {% for installment in installment_list %}
+                                    <tr>
+                                        <td>  {{ forloop.counter }}  </td>
+                                        <td>                                                           
+                                            <div>
+                                                {{ installment.InstallmentName }}
+                                            </div>
+                                        </td>                                                       
+                                        <td>                                                           
+                                            <div>
+                                                {{ installment.OrderID }}
+                                            </div>
+                                        </td>                                                       
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
-        </div>
-    </div>
+        </div> 
     </div>
 </div>
 
-
-
 {% endblock body %}
+
+{% block javascripts %}
+    <script>
+        
+    setTimeout(function () {
+        $('#alert').alert('close');
+    }, 2500);
+
+    </script>
+{% endblock javascripts %}

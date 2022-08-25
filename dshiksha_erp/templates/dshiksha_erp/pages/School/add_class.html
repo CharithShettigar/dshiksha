@@ -1,4 +1,4 @@
-{% extends 'dshiksha_erp/index.html' %}
+{% extends 'dshiksha_erp/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -30,240 +30,235 @@
         </div>
 
         <div class="page-inner mt--5">
+            {% if messages %}
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
             <div class="row">
-            <div class="col-sm-12  grid-margin stretch-card">
-                <div class="home-tab">
-                    <div class="row">
-                        <div class="col-lg-4 d-flex flex-column">
-                            <div class="row flex-grow">
-                                <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
-                                        <div class="card-body">
-                                            <h4 class="card-title mt-3">Add Class Level <hr></h4>
-                                             <!-- form details here -->
-                                             <form action="/School/CreateClass" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="form-type" value="class-level-form">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="" class="form-labele"> Class Level Name</label>
-                                                            {{ class_level_form.ClassLevelName | attr:"class=form-control" }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label"> Class Level Code</label>
-                                                            {{ class_level_form.ClassLevelCode | attr:"class=form-control" }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                          <div class="input-group col-xs-12">                                                        
-                                                                <span class="input-group-append">
-                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
-                                                                </span>
-                                                              </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
+                <div class="col-lg-4 d-flex flex-column">
+                    <div class="card card-rounded">
+                        <div class="card-body">
+                            <h4 class="card-title">Add Class Level <hr></h4>
+                                <!-- form details here -->
+                            <form action="/School/CreateClass" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="form-type" value="class-level-form">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-labele"> Class Level Name</label>
+                                            {{ class_level_form.ClassLevelName | attr:"class=form-control" }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label"> Class Level Code</label>
+                                            {{ class_level_form.ClassLevelCode | attr:"class=form-control" }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group col-xs-12">                                                        
+                                                <span class="input-group-append">
+                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
-                        <div class="col-lg-4 d-flex flex-column">
-                            <div class="row flex-grow">
-                                <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
-                                        <div class="card-body">
-                                            <h4 class="card-title">Add Class   </h4>
-                                             <!-- form details here -->
-                                             <form action="/School/CreateClass" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="form-type" value="class-list-form">
-                                                <div class="row">
-                                                    <div class="col-md-12 ">
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label"> Class </label>
-                                                            {{ class_list_form.ClassName | attr:"class=form-control" }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label"> OrderID </label>
-                                                            {{ class_list_form.OrderID | attr:"class=form-control" }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                          <div class="input-group col-xs-12">                                                        
-                                                                <span class="input-group-append">
-                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
-                                                                </span>
-                                                              </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 d-flex flex-column">
-                            <div class="row flex-grow">
-                                <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
-                                        <div class="card-body">
-                                            <h4 class="card-title">Add Section   </h4>
-                                             <!-- form details here -->
-                                             <form action="/School/CreateClass" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="form-type" value="section-form">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="" class="form-label"> Section </label>
-                                                            {{ section_form.SectionName | attr:"class=form-control" }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                          <div class="input-group col-xs-12">                                                        
-                                                                <span class="input-group-append">
-                                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
-                                                                </span>
-                                                              </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 d-flex flex-column">
-                            <div class="row flex-grow">
-                                <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
-                                        <div class="card-body">
-                                            <div class="d-sm-flex justify-content-between align-items-start">
-                                                <div>
-                                                    <h4 class="card-title card-title-dash">Class Level List</h4>
-                                                </div>
-                                            </div>
-                                            <div class="table-responsive  mt-1">
-                                                <!-- Table details here -->
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="10%">Sr.No.</th>
-                                                            <th>Class level with code </th>
-    
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% if class_level_list %}
-                                                        {% for cl in class_level_list %}
-                                                        <tr>
-                                                            <td>  {{ forloop.counter }}  </td>
-                                                            <td> 
-                                                                {{ cl.ClassLevelName }} - {{ cl.ClassLevelCode   }}   
-                                                            </td>                                                       
-                                                        </tr>
-                                                        {% endfor %}
-                                                        {% endif %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 d-flex flex-column">
-                            <div class="row flex-grow">
-                                <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
-                                        <div class="card-body">
-                                            <div class="d-sm-flex justify-content-between align-items-start">
-                                                <div>
-                                                    <h4 class="card-title card-title-dash">Class List</h4>
-                                                </div>
-                                            </div>
-                                            <div class="table-responsive  mt-1">
-                                                <!-- Table details here -->
-                                                <table class="table text-center">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="10%">Sr.No.</th>
-                                                            <th>Class</th>
-    
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% if class_list %}
-                                                            {% for class in class_list %}
-                                                                <tr>
-                                                                    <td> {{ forloop.counter }}  </td>
-                                                                    <td> {{ class.ClassName }} </td>                                                       
-                                                                </tr>
-                                                            {% endfor %}
-                                                        {% endif %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 d-flex flex-column">
-                            <div class="row flex-grow">
-                                <div class="col-12 grid-margin stretch-card">
-                                    <div class="card card-rounded">
-                                        <div class="card-body">
-                                            <div class="d-sm-flex justify-content-between align-items-start">
-                                                <div>
-                                                    <h4 class="card-title card-title-dash">Section List</h4>
-                                                </div>
-                                            </div>
-                                            <div class="table-responsive  mt-1">
-                                                <!-- Table details here -->
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="10%">Sr.No.</th>
-                                                            <th>Section </th>
-    
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% if section_list %}
-                                                        {% for section in section_list %}
-                                                            <tr>
-                                                                <td> {{ forloop.counter }}  </td>
-                                                                <td> {{ section.SectionName }} </td>                                                       
-                                                            </tr>
-                                                        {% endfor %}
-                                                        {% endif %}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
                     </div>
                 </div>
+                <div class="col-lg-4 d-flex flex-column">
+                    <div class="card card-rounded">
+                        <div class="card-body">
+                            <h4 class="card-title">Add Class<hr>   </h4>
+                                <!-- form details here -->
+                                <form action="/School/CreateClass" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="form-type" value="class-list-form">
+                                <div class="row">
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <label for="" class="form-label"> Class </label>
+                                            {{ class_list_form.ClassName | attr:"class=form-control" }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label"> OrderID </label>
+                                            {{ class_list_form.OrderID | attr:"class=form-control" | attr:"readonly" }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group col-xs-12">                                                        
+                                                <span class="input-group-append">
+                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex flex-column">
+                    <div class="card card-rounded">
+                        <div class="card-body">
+                            <h4 class="card-title">Add Section<hr>   </h4>
+                                <!-- form details here -->
+                            <form action="/School/CreateClass" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="form-type" value="section-form">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="" class="form-label"> Section </label>
+                                            {{ section_form.SectionName | attr:"class=form-control" }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group col-xs-12">                                                        
+                                                <span class="input-group-append">
+                                                    <button type="submit" class="btn btn-primary text-white"> Create </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 d-flex flex-column">
+                    <div class="card card-rounded">
+                        <div class="card-body">
+                            <div class="d-sm-flex justify-content-between align-items-start">
+                                <div>
+                                    <h4 class="card-title card-title-dash">Class Level List</h4>
+                                </div>
+                            </div>
+                            <div class="table-responsive  mt-1">
+                                <!-- Table details here -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">Sr.No.</th>
+                                            <th>Class level with code </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if class_level_list %}
+                                        {% for cl in class_level_list %}
+                                        <tr>
+                                            <td>  {{ forloop.counter }}  </td>
+                                            <td> 
+                                                {{ cl.ClassLevelName }} - {{ cl.ClassLevelCode   }}   
+                                            </td>                                                       
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex flex-column">
+                    <div class="card card-rounded">
+                        <div class="card-body">
+                            <div class="d-sm-flex justify-content-between align-items-start">
+                                <div>
+                                    <h4 class="card-title card-title-dash">Class List</h4>
+                                </div>
+                            </div>
+                            <div class="table-responsive  mt-1">
+                                <!-- Table details here -->
+                                <table class="table text-center">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">Sr.No.</th>
+                                            <th>Class</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if class_list %}
+                                            {% for class in class_list %}
+                                                <tr>
+                                                    <td> {{ forloop.counter }}  </td>
+                                                    <td> {{ class.ClassName }} </td>                                                       
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex flex-column">
+                    <div class="card card-rounded">
+                        <div class="card-body">
+                            <div class="d-sm-flex justify-content-between align-items-start">
+                                <div>
+                                    <h4 class="card-title card-title-dash">Section List</h4>
+                                </div>
+                            </div>
+                            <div class="table-responsive  mt-1">
+                                <!-- Table details here -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">Sr.No.</th>
+                                            <th>Section </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if section_list %}
+                                        {% for section in section_list %}
+                                            <tr>
+                                                <td> {{ forloop.counter }}  </td>
+                                                <td> {{ section.SectionName }} </td>                                                       
+                                            </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
 {% endblock body %}
+
+{% block javascripts %}
+<script>
+    setTimeout(function () {
+        $('#alert').alert('close');
+    }, 2500);
+</script>
+{% endblock javascripts %}

@@ -50,7 +50,7 @@
             {% if message.tags == 'error' %}
             <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                 <i class="bi-exclamation-octagon-fill"></i>
-                <strong class="mx-2">Error!</strong> {{ message.message }}
+                <strong class="mx-2">Error!</strong> {{ message.message }}<br>
             </div>
             {% endif %}
             {% if message.tags == 'info' %}
@@ -88,6 +88,7 @@
                                 <div class="col-sm">
                                     <div class="mb-3">
                                         <label for="" class="form-label"> StaffName</label>
+                                        {% if staff_form. %}{% endif %}
                                         {{ staff_form.StaffName | attr:"class=form-control"}}
                                     </div>
                                 </div>
@@ -376,7 +377,7 @@
     setTimeout(function () {
         // Closing the alert
         $('#alert').alert('close');
-    }, 2000);
+    }, 3000);
 
     
 </script>
