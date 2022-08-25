@@ -835,6 +835,15 @@ def student_attendance_show(request,student_id):
     if request.user.is_authenticated:
         school_id=request.session['school_id']
         student_data=sm.Students.objects.get(AdmissionID = student_id,SchoolID=school_id)
+        if student_data.StudentPhoto != "":
+            student_img=student_data.StudentPhoto.url[1:]
+            if os.path.isfile(student_img) and os.access(student_img,os.R_OK):
+                stdimg_check=os.path.isfile(student_img)
+            else:
+                stdimg_check=os.path.isfile(student_img)
+        else:
+            stdimg_check=False
+
         total_present=sm.Attendance.objects.filter(StudentID=student_id,SchoolID=school_id,AttendanceMark='Present').count()
         total_halfday=sm.Attendance.objects.filter(StudentID=student_id,SchoolID=school_id,AttendanceMark='Half Day').count()
         total_absent=sm.Attendance.objects.filter(StudentID=student_id,SchoolID=school_id,AttendanceMark='Absent').count()
@@ -850,6 +859,7 @@ def student_attendance_show(request,student_id):
             "total_absent":total_absent, 
             "total_attendance":total_attendance, 
             "data":jsondata,
+            "stdimg_check":stdimg_check,
         }
         return render(request, "school/Pages/Attendance/student_attendance_show.html", context)
     else:
