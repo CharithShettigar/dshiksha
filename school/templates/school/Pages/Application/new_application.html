@@ -273,6 +273,13 @@
 
 {% block javascripts %}
 <script>
+    var now=new Date()
+    prevdate=now.getFullYear()-6    
+    var joindate=new Date(prevdate+'-1-1');
+
+    var maxDate=joindate.toISOString().substring(0,10);
+    $('#id_StudentDOB').prop('max',maxDate)
+
     function func(){
         var res=JSON.parse('{{ data | safe }}')
         var getcls=document.getElementById('id_Class').value;
@@ -296,7 +303,7 @@
     setTimeout(function () {
         // Closing the alert
         $('#alert').alert('close');
-    }, 2000);
+    }, 2500);
 
 </script>
 {% endblock javascripts %}

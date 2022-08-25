@@ -31,6 +31,24 @@
         </div>
     </div>
     <div class="page-inner mt--5">
+        {% if messages %}
+            <div>
+                {% for message in messages %} 
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Error!</strong> {{ message.message }}
+                    </div>
+                {% endif %}
+                {% if message.tags == 'info' %}
+                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Success!</strong> {{ message.message }}
+                    </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
     
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
@@ -154,6 +172,12 @@
             $('#StudentData').DataTable({
             });
         });
+
+
+        setTimeout(function () {
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 2500);
     </script >
 
 {% endblock javascripts %}

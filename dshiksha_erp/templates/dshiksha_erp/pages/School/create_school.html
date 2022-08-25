@@ -1,4 +1,4 @@
-{% extends 'dshiksha_erp/index.html' %}
+{% extends 'dshiksha_erp/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -37,18 +37,16 @@
             <div>
                 {% for message in messages %} 
                     {% if message.tags == 'error' %}
-                    <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+                    <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                         <i class="bi-exclamation-octagon-fill"></i>
                         <strong class="mx-2">Error!</strong> {{ message.message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert">
                     </div>
                     {% endif %}
                     {% if message.tags == 'info' %}
                     <div class="alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
                         <i class="bi-exclamation-octagon-fill"></i>
                         <strong class="mx-2">Success!</strong> {{ message.message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert">
-                        </div>
+                    </div>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -186,12 +184,6 @@
                         {{ school_form.AccountantMobile | attr:"class=form-control" }}
                     </div>   
                 </div>
-                <div class="col-sm">
-                    <div class="mb-3">
-                        <label for="" class="form-label"> Accountant WhatsApp Number</label>
-                        {{ school_form.AccountantWhatsAppNo | attr:"class=form-control" }}
-                    </div>   
-                </div>
             </div>
 
             <!-- Correspondent info enter-->
@@ -213,12 +205,6 @@
                     <div class="mb-3">
                         <label for="" class="form-label"> Correspondent Mobile</label>
                         {{ school_form.CorrespondentMobile | attr:"class=form-control" }}
-                    </div>   
-                </div>
-                <div class="col-sm">
-                    <div class="mb-3">
-                        <label for="" class="form-label"> Correspondent WhatsApp Number</label>
-                        {{ school_form.CorrespondentWhatsAppNo | attr:"class=form-control" }}
                     </div>   
                 </div>
             </div>
@@ -301,66 +287,12 @@
     </div>
 {% endblock body %}
 
-{% block js_files %}
+{% block javascripts %}
     <script>
-        $("#id_Village").change(function (){
-            const village_id = $("#id_Village").val()
-            $.ajax({
-                url: "/ajax/select_taluk",
-                data: {
-                    'village_id': village_id,
-                },
-                success: function(data){
-                    $("#id_Taluk").html(data)
-                }
-            });
+        
+    setTimeout(function () {
+        $('#alert').alert('close');
+    }, 2500);
 
-            
-            $.ajax({
-                url: "/ajax/select_district",
-                data: {
-                    'village_id': village_id,
-                },
-                success: function(data){
-                    $("#id_District").html(data)
-                }
-            });
-
-            $.ajax({
-                url: "/ajax/select_state",
-                data: {
-                    'village_id': village_id,
-                },
-                success: function(data){
-                    $("#id_State").html(data)
-                }
-            });
-        })
-
-        $("#id_Pincode").change(function(){
-            const po_id = $("#id_Pincode").val()
-            $.ajax({
-                url: "/ajax/select_post_office",
-                data:{
-                    'post_office_id': po_id
-                },
-                success: function(data){
-                    $("#id_PostOffice").html(data)
-                }
-            })
-        })
-
-        $("#id_Parish").change(function(){
-            const parish_id = $("#id_Parish").val()
-            $.ajax({
-                url:'/ajax/select_parish',
-                data:{
-                    'parish_id': parish_id
-                },
-                success: function(data){
-                    $("#id_ParishArea").html(data)
-                }
-            })
-        })
     </script>
-{% endblock js_files %}
+{% endblock javascripts %}

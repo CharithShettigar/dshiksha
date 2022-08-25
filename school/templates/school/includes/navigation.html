@@ -1,22 +1,13 @@
 
 		<div class="main-header">
 
-			<!-- Logo Header -->
 			<div class="logo-header" data-background-color="dark2">
 				
 			     <a href="/" class="logo">
-						<div class="avatar avatar-lg">
-							<img src="/static/assets/img/digital-shiksha_blue_logo.png" alt="admin logo" class="avatar-img">
-						</div>
-						<span class='fw-bold text-white mt-3 mx-2'>DSHIKSHA</span>
-						{% comment %} <img src="/static/assets/img/logo.svg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
-					{% comment %} <div class="mb-4"> {% endcomment %}
-					{% comment %} <div>
-						<img src="/static/assets/img/digital-shiksha.jpeg" alt="school img" class="avatar-img rounded">
-					</div> {% endcomment %}
-					{% comment %} <h2 class='fw-bold text-white mt-3'>DSHIKSHA</h2> {% endcomment %}
-					{% comment %} <img src="/static/assets/img/logo.svg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
-					{% comment %} <img src="/static/assets/img/digital-shiksha.jpeg" alt="navbar brand" class="navbar-brand"> {% endcomment %}
+					<div class="avatar avatar-lg">
+						<img src="/static/assets/img/digital-shiksha_blue_logo.png" alt="admin logo" class="avatar-img">
+					</div>
+					<span class='fw-bold text-white mt-3 mx-2'>DSHIKSHA</span>
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
@@ -30,12 +21,9 @@
 					</button>
 				</div>
 			</div>
-			<!-- End Logo Header -->
 
-			<!-- Navbar Header -->
 			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue">
 				
-				{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
 				<div class="container-fluid">
 					<div class="collapse" id="search-nav">
 							<div class="input-group">
@@ -48,19 +36,15 @@
 						<li class="nav-item hidden-caret">
 							<a class="profile-pic"  href="/" aria-expanded="false">
 								
-									{% comment %} <div class="avatar">
-											<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">
-									</div> {% endcomment %}
-
-									{% if request.session.schoolimg_check %}
-										<div class="avatar">
-											<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">			
-										</div>
-									{% else %}						
-										<div class="avatar-sm">
-											<span class="avatar-title rounded-circle text-white fw-bold" style="background-color:#39caf9; font-size:1.3rem">{{ request.user.username.0 | capfirst }}</span>
-										</div>
-									{% endif %}
+								{% if request.session.schoolimg_check %}
+									<div class="avatar">
+										<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">			
+									</div>
+								{% else %}						
+									<div class="avatar-sm">
+										<span class="avatar-title rounded-circle text-white fw-bold" style="background-color:#39caf9; font-size:1.3rem">{{ request.user.username.0 | capfirst }}</span>
+									</div>
+								{% endif %}
 									
 							</a>							
 						</li>

@@ -30,6 +30,22 @@
     </div>
     
     <div class="page-inner mt--5">
+        {% if messages %}
+            {% for message in messages %} 
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Error!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% if message.tags == 'info' %}
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                <i class="bi-exclamation-octagon-fill"></i>
+                <strong class="mx-2">Success!</strong> {{ message.message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
         <div class="row">
             <div class="col-lg-3 d-flex flex-column">
                 <div class="card card-rounded">
@@ -179,9 +195,7 @@
                                             {% if state_list %}
                                             {% for state in state_list %}
                                             <div>
-                                                <a href="/Settings/UpdateState/{{ state.StateID }}">
                                                     {{ state.StateName }} 
-                                                </a>
                                             </div>
                                             {% endfor %}
                                             {% endif %}
@@ -189,25 +203,26 @@
                                         <td>
                                             {% if district_list %}
                                             {% for district in district_list %}
-                                            <div><a href="/Settings/UpdateDistrict/{{ district.DistrictID }}">
-                                                {{ district.DistrictName }}</a></div>
+                                            <div>
+                                                {{ district.DistrictName }}</div>
                                             {% endfor %}
                                             {% endif %}
                                         </td>
                                         <td>
                                             {% if taluk_list %}
                                             {% for taluk in taluk_list %}
-                                            <div><a href="/Settings/UpdateTaluk/{{ taluk.TalukID }}">
-                                                {{ taluk.TalukName }}</a></div>
+                                            <div>
+                                                {{ taluk.TalukName }}
+                                            </div>
                                             {% endfor %}
                                             {% endif %}
                                         </td>
                                         <td>
                                             {% if village_list %}
                                             {% for village in village_list %}
-                                            <div><a href="/Settings/UpdateVillage/{{ village.VillageID }}">
+                                            <div>
                                                 {{ village.VillageName }}
-                                                    - {{ village.Taluk.TalukName }}</a></div>
+                                                    - {{ village.Taluk.TalukName }}</div>
                                             {% endfor %}
                                             {% endif %}
                                         </td>
@@ -220,8 +235,18 @@
                 </div>
                     
             </div>
-        </div>                      
+        </div>
       
     </div>
 </div>
 {% endblock body %}
+
+{% block javascripts %}
+    <script>
+        
+    setTimeout(function () {
+        $('#alert').alert('close');
+    }, 2500);
+
+    </script>
+{% endblock javascripts %}

@@ -172,7 +172,7 @@
 											<i class="fa h2 fw-bold mt-1">{{i.0}}</i>
 										</span>
 										<div>
-											<h3 class="mb-1"><b><a href="#">{{i.1}}</a></b></h3>
+											<h3 class="mb-1"><b>{{i.1}}</b></h3>
 											<h5 class="text-muted">Students</h5>
 										</div>
 									</div>
@@ -186,7 +186,7 @@
 											<i class="fa h2 fw-bold mt-1">{{i.0}}</i>
 										</span>
 										<div>
-											<h3 class="mb-1"><b><a href="#">{{i.1}}</a></b></h3>
+											<h3 class="mb-1"><b>{{i.1}}</b></h3>
 											<h5 class="text-muted">Students</h5>
 										</div>
 									</div>
@@ -196,25 +196,6 @@
 							{% endfor %}
 						</div>
 							
-							{% comment %} <div class="col-sm-6 col-lg-3">
-								<div class="card p-3">
-									<div class="d-flex align-items-center">
-										<span class="stamp stamp-md bg-warning mr-3">
-											<i class="fa h2 fw-bold">1</i>
-										</span>
-										<div>
-											<span class="mb-1 h5"><b><a href="#">Total</a></b></span>
-											<small class="text-muted">12</small><br>
-											<span class="mb-1 h5"><b><a href="#">Boys</a></b></span>
-											<small class="text-muted">6</small><br>
-											<span class="mb-1 h5"><b><a href="#">Girls</a></b></span>
-											<small class="text-muted">6</small>
-										</div>
-									</div>
-								</div>
-							</div> {% endcomment %}
-
-
 					</div>
 				</div>
 			</div>
@@ -232,7 +213,7 @@
 
 							{% if forloop.counter0|divisibleby:2 %}
 
-							<div class="col-sm-6 col-lg-3">
+							<div class="col-sm-6 col-md-4 col-lg-3">
 								<div class="card py-3 px-0">
 									<div class="d-flex align-items-center">
 										<div class="row justify-content-end align-items-start">
@@ -241,26 +222,26 @@
 													<i class="fa h2 fw-bold mt-1">{{cf.0}}</i>
 												</span>
 											</div>
-											<div class="col-5">
+											<div class="col-6">
 												<span class="h5">Class Fees</span>
 											</div>
-											<div class="col-6">
+											<div class="col-5">
 												{% if cf.1 == None %}
 													<small class="h5 fw-bold">0</small>
 												{% else %}
 												<small class="h5 fw-bold">{{cf.1}}</small>
 												{% endif %}
 											</div>
-											<div class="col-5">
+											<div class="col-6">
 												<span class=" h5">Paid</span>
 											</div>
-											<div class="col-6">
+											<div class="col-5">
 												<small class="h5 fw-bold">{{cf.2}}</small>
 											</div>
-											<div class="col-5">
+											<div class="col-6">
 												<span class=" h5">Pending</span>
 											</div>
-											<div class="col-6">
+											<div class="col-5">
 												<small class="h5 fw-bold">{{cf.3}}</small>
 											</div>
 										</div>
@@ -269,7 +250,7 @@
 							</div>
 							{% else %}
 
-							<div class="col-sm-6 col-lg-3">
+							<div class="col-sm-6 col-md-4 col-lg-3">
 								<div class="card py-3 px-0">
 									<div class="d-flex align-items-center">
 										<div class="row justify-content-end align-items-start">
@@ -278,26 +259,26 @@
 													<i class="fa h2 fw-bold mt-1">{{cf.0}}</i>
 												</span>
 											</div>
-											<div class="col-5">
+											<div class="col-6">
 												<span class="h5">Class Fees</span>
 											</div>
-											<div class="col-6">
+											<div class="col-5">
 												{% if cf.1 == None %}
 													<small class="h5 fw-bold">0</small>
 												{% else %}
 												<small class="h5 fw-bold">{{cf.1}}</small>
 												{% endif %}
 											</div>
-											<div class="col-5">
+											<div class="col-6">
 												<span class=" h5">Paid</span>
 											</div>
-											<div class="col-6">
+											<div class="col-5">
 												<small class="h5 fw-bold">{{cf.2}}</small>
 											</div>
-											<div class="col-5">
+											<div class="col-6">
 												<span class=" h5">Pending</span>
 											</div>
-											<div class="col-6">
+											<div class="col-5">
 												<small class="h5 fw-bold">{{cf.3}}</small>
 											</div>
 										</div>
@@ -308,68 +289,6 @@
 							{% endif %}
 							{% endfor %}
 						</div>
-						
-						
-						{% comment %} <div class="col-sm-6 col-lg-3">
-							<div class="card py-3 px-0">
-								<div class="d-flex align-items-center">
-									<div class="row justify-content-end align-items-start">
-										<div class="col-12 text-center">
-											<span class="stamp stamp-md bg-warning mb-3 ">
-												<i class="fa h2 fw-bold mt-1">I</i>
-											</span>
-										</div>
-										<div class="col-5">
-											<span class="h5">Class Fees</span>
-										</div>
-										<div class="col-6">
-											<small class="h5 fw-bold">12,000</small>
-										</div>
-										<div class="col-5">
-											<span class=" h5">Paid</span>
-										</div>
-										<div class="col-6">
-											<small class="h5 fw-bold">6</small>
-										</div>
-										<div class="col-5">
-											<span class=" h5">Pending</span>
-										</div>
-										<div class="col-6">
-											<small class="h5 fw-bold">6</small>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-lg-3">
-							<div class="card p-3">
-								<div class="d-flex align-items-center">
-									<span class="stamp stamp-md bg-warning mr-3">
-										<i class="fa h2 fw-bold mt-1">1</i>
-									</span>
-									<div class="row justify-content-start">
-										<div class="col-6">
-											<span class="mb-1 text-muted"><b>Class Fees</b></span>
-										</div>
-										<div class="col-6">
-											<small class="h5">12,000</small><br>
-										</div>
-										<div class="col-6">
-											<span class="mb-1 h5 text-muted"><b>Paid</b></span>
-										</div>
-										<div class="col-6">
-											<small class="h5">6</small><br>
-										</div>
-										<div class="col-6">
-											<span class="mb-1 text-muted h5"><b>Pending</b></span>
-										</div>
-										<div class="col-6">
-											<small class="h5">6</small>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div> {% endcomment %}
 
 					</div>
 				</div>

@@ -48,13 +48,13 @@
         {% if messages %}
             {% for message in messages %} 
             {% if message.tags == 'error' %}
-            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1">
+            <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                 <i class="bi-exclamation-octagon-fill"></i>
                 <strong class="mx-2">Error!</strong> {{ message.message }}
             </div>
             {% endif %}
             {% if message.tags == 'info' %}
-            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1">
+            <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
                 <i class="bi-exclamation-octagon-fill"></i>
                 <strong class="mx-2">Success!</strong> {{ message.message }}
             </div>
@@ -139,30 +139,7 @@
 
                             {% comment %} 3rd Row {% endcomment %}                           
                             <div class="row">   
-                                <div class="col-sm">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label"> Religion</label>
-                                        <select name="Religion" id="id_Religion" class="form-control">
-                                            <option value=""> ----------- </option>
-                                            {% for r in religion_list %}
-                                            <option value="{{ r.ReligionID }}">{{ r.ReligionName }}</option>
-                                            {% endfor %}
-                                        </select>  
-                                    </div>
-                                </div>
-
-                                <div class="col-sm">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label"> CasteCategory</label>
-                                        <select name="CasteCategory" id="id_CasteCategory" class="form-control">
-                                            <option value=""> ---------- </option>
-                                            {% for c in castecategory_list %}
-                                            <option value="{{ c.CasteCategoryID }}"> {{c.CasteCategoryName}}</option>
-                                            {% endfor %}
-                                        </select>  
-                                    </div>
-                                </div>
-
+                                
                                 <div class="col-sm">
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Caste</label>
@@ -174,10 +151,7 @@
                                         </select>  
                                     </div>
                                 </div>
-                            </div>
 
-                            {% comment %} 4th Row {% endcomment %}
-                            <div class="row">
                                 <div class="col-sm">
                                     <div class="mb-3">
                                         <label for="" class="form-label"> MotherTongue</label>
@@ -200,8 +174,10 @@
                                             {% endfor %}
                                         </select>  
                                     </div>
-                                </div>              
-                            </div>              
+                                </div> 
+                            </div>
+
+            
                         </div>
                     </div>
                 </div>
@@ -231,7 +207,7 @@
                                 <div class="col-sm">
                                     <div class="mb-3">
                                         <label for="" class="form-label">PreviousSchoolName</label>
-                                        {{ student_form.PreviousSchoolName | attr:"class=form-control"}}
+                                        {{ student_form.PreviousSchoolName | attr:"class=form-control" | attr:"required" }}
                                     </div>
                                 </div>
                             </div>
@@ -255,6 +231,17 @@
                                                 <option value="{{ ac.AssignClassID }}"> {{ac.Class.ClassList.ClassName }}-{{ac.Section.SectionName}}</option>
                                             {% endfor %}
                                         </select>                            
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">AcademicYear</label>
+                                        <select name="AcademicYear" id="id_AcademicYear" class="form-control">
+                                            <option value=""> ---------- </option>
+                                            {% for c in currentacademicYear_list %}
+                                                <option value="{{ c.AcademicYearID }}"> {{ c.AcademicYear }}</option>
+                                            {% endfor %}
+                                        </select>  
                                     </div>
                                 </div>
                             </div>
@@ -525,14 +512,25 @@
 
 {% block javascripts %}
 <script>
+
+    var now=new Date()
+    prevdate=now.getFullYear()-5
+    var joindate=new Date(prevdate+'-1-1');
+
+    var maxDate=joindate.toISOString().substring(0,10);
+    $('#id_StudentDOB').prop('max',maxDate)
         
     document.getElementById("id_BloodGroup").value="{{data.BloodGroup.BloodGroupID}}";
     document.getElementById("id_Gender").value="{{data.Gender.GenderID}}";
     document.getElementById("id_MotherTongue").value="{{data.MotherTongue.MotherTongueID}}";
-    document.getElementById("id_Religion").value="{{data.Religion.ReligionID}}";
-    document.getElementById("id_CasteCategory").value="{{data.CasteCategory.CasteCategoryID}}";
     document.getElementById("id_Caste").value="{{data.Caste.CasteID}}";
     document.getElementById("id_Nationality").value="{{data.Nationality.NationalityID}}";
+    document.getElementById("id_Village").value="{{data.Village.VillageID}}";
+    document.getElementById("id_AcademicYear").value="{{data.AcademicYear.AcademicYearID}}";
+
+    setTimeout(function () {
+        $('#alert').alert('close');
+    }, 2500);
     
 </script>
 {% endblock javascripts %}

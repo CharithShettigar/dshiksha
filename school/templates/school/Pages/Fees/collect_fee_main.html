@@ -2,7 +2,6 @@
 {% load static %}
 
 {% load widget_tweaks %}
-
 {% block title %}
 Student Collect Fee | {{collect_data.Admission.StudentName}}
 {% endblock title %}
@@ -126,7 +125,7 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
                                 <div class="col-sm">
                                     <div class="mb-3">
                                         <label for="" class="form-label"> Amount </label>
-                                        {% render_field collectfee_form.PaidAmount class="form-control"%}
+                                        {% render_field collectfee_form.PaidAmount class="form-control" readonly="readonly" %}
                                     </div>
                                 </div>  
                             </div>
@@ -183,7 +182,8 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
 
 {% block javascripts %}
 <script>
-    {% comment %} $('#id_AttendanceDate').val(new Date().toJSON().slice(0, 10)); {% endcomment %}
+    document.getElementById('id_PaidAmount').value=0.0;
+
     function func(){
         //var getpayment=document.getElementById('id_modeofpayment').value;
         var getpayment=$('#id_modeofpayment option:selected').text();
@@ -212,24 +212,26 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
             var installment1=totalsum/2;
             console.log(paidamount)
             console.log(totalsum)
-            document.getElementById('id_PaidAmount').value=installment1
+            document.getElementById('id_PaidAmount').value=installment1;
         }
         else if(orderid == 2){
             var totalsum = {{totalamount}}
+            var installment2=totalsum/2;
             console.log(paidamount)
             console.log(totalsum)
-            document.getElementById('id_PaidAmount').value=totalsum
+            document.getElementById('id_PaidAmount').value=installment2;
         }
         else if(orderid == 0){
             var totalsum = {{totalamount}}
             var paidamount=totalsum;
             console.log(paidamount)
             console.log(totalsum)
-            document.getElementById('id_PaidAmount').value=totalsum
+            document.getElementById('id_PaidAmount').value=totalsum;
         }
         else{
-            document.getElementById('id_PaidAmount').value
+            document.getElementById('id_PaidAmount').value=0;
         }
+
     }
 
     function inst()    
@@ -250,8 +252,9 @@ Student Collect Fee | {{collect_data.Admission.StudentName}}
             instcheck(getinstallment,res[2].fields.OrderID);
         }
         else{
-            document.getElementById('id_PaidAmount').value
+            instcheck("","");
         }
+
     }
 
     setTimeout(function () {

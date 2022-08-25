@@ -46,6 +46,10 @@ urlpatterns = [
     path('Fees/StudnetCollectFee/<str:student_id>', views.collect_fee_student, name="collect_fee_student"),
     path('Fees/ShowCollectFee/<str:student_id>', views.fee_info_show,name="fee_info_show"),
 
+    # Print Reciept
+    path('PrintFees/<str:student_id>', views.fees_reciept_pdf,name="fee_reciept"),
+
+
     #update the information
     path('Update/UpdateSchoolInfo/<str:school_id>',update_views.update_school,name="update_school_info"),
     path('Update/UpdateStaffInfo/<str:staff_id>',update_views.update_staff,name="update_staff_info"),

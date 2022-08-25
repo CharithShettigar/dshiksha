@@ -1,221 +1,207 @@
-		<!-- Sidebar -->
-		<div class="sidebar sidebar-style-2" data-background-color="dark">	
-			<div class="sidebar-wrapper scrollbar scrollbar-inner">
-				<div class="sidebar-content">
+<div class="sidebar sidebar-style-2" data-background-color="dark">	
+	<div class="sidebar-wrapper scrollbar scrollbar-inner">
+		<div class="sidebar-content">
 
-				{% comment %} {% if request.user.is_authenticated %}	 {% endcomment %}
-					<div class="user" style="padding:0px;">
-						
-						{% if request.session.schoolimg_check %}
-							<div class="avatar float-left">
-								<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">			
-							</div>
-						{% else %}						
-							<div class="avatar-sm float-left mx-2">
-								<span class="avatar-title rounded-circle fw-bold" style="background-color:#39caf9; font-size:1.3rem">{{ request.user.username.0 | capfirst }}</span>
-							</div>
-						{% endif %}
-		
-						
-						<div class="info">
-							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span>
-									{{ request.user.username }}
-									<span class="user-level">
-										{{ request.user.Email }}
-									</span>
-									<span class="caret mr-4"></span>
-								</span>
-							</a>
-							<div class="clearfix"></div>
-
-							<div class="collapse in" id="collapseExample">
-								<ul class="nav">
-									<li>
-										<a href="/accounts/logout">
-											<span class="link-collapse ml-5">logout</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
+			<div class="user" style="padding:0px;">
+				
+				{% if request.session.schoolimg_check %}
+					<div class="avatar float-left">
+						<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded-circle">			
 					</div>
-					<ul class="nav nav-primary">
-						<li class="nav-item {% if 'index' in segment %} active {% endif %}">
-							<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-								<i class="fas fa-home"></i>
-								<p>Dashboard</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="dashboard">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/">
-											<span class="sub-item">Dashboard</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#school">
-								<i class="fas fa-school"></i>
-								<p>School</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="school">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/School/SchoolInfo">
-											<span class="sub-item">School Info</span>
-										</a>
-									</li>
-									<li>
-										<a href="/School/AssignClass">
-											<span class="sub-item">Assign Class</span>
-										</a>
-									</li>
-									{% comment %} <li>
-										<a href="/School/AssignApplicationFees">
-											<span class="sub-item">Assign Application Fees</span>
-										</a>
-									</li>
-									<li>
-										<a href="/School/NewApplication">
-											<span class="sub-item">New Application</span>
-										</a>
-									</li> {% endcomment %}
-									
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#staff">
-								<i class="fas fa-user-tie"></i>
-								<p>Staff</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="staff">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/Staff/CreateStaff">
-											<span class="sub-item">Staff Create</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Staff/StaffInfo">
-											<span class="sub-item">Staff Info</span>
-										</a>
-									</li>
-									
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#application">
-								<i class="fas fa-file-signature"></i>
-								<p>Application</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="application">
-								<ul class="nav nav-collapse">
-									
-									<li>
-										<a href="/Application/NewApplication">
-											<span class="sub-item">New Application</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Application/AssignApplicationFees">
-											<span class="sub-item">Assign Application Fees</span>
-										</a>
-									</li>
-									
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#admission">
-								<i class="fas fa-graduation-cap"></i>
-								<p>Admission</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="admission">
-								<ul class="nav nav-collapse">
-									
-									<li>
-										<a href="/Admission/NewAdmission">
-											<span class="sub-item">New Admission</span>
-										</a>
-									</li>
-									
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#attendance">
-								<i class="fas fa-user-check"></i>
-								<p>Attendance</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="attendance">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/Attendance/MarkAttendance">
-											<span class="sub-item">Attendance</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Attendance/ReportAttendance">
-											<span class="sub-item">Attendance Report</span>
-										</a>
-									</li>
-									
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#fees">
-								<i class="fas fa-dollar-sign"></i>
-								<p>Fees</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="fees">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="/Fees/AssignFeeAmount">
-											<span class="sub-item">Assign Fees Amount</span>
-										</a>
-									</li>
-									<li>
-										<a href="/Fees/CollectFee">
-											<span class="sub-item">Collect Fee</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#feedback">
-								<i class="fas fa-paper-plane"></i>
-								<p>Feedback</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="feedback">
-								<ul class="nav nav-collapse">
-									
-									<li>
-										<a href="/Feedback/FeedbackInfo">
-											<span class="sub-item">Feedback</span>
-										</a>
-									</li>
-									
-								</ul>
-							</div>
-						</li>
-					</ul>
+				{% else %}						
+					<div class="avatar-sm float-left mx-2">
+						<span class="avatar-title rounded-circle fw-bold" style="background-color:#39caf9; font-size:1.3rem">{{ request.user.username.0 | capfirst }}</span>
+					</div>
+				{% endif %}
+
+				
+				<div class="info">
+					<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+						<span>
+							{{ request.user.username }}
+							<span class="user-level">
+								{{ request.user.Email }}
+							</span>
+							<span class="caret mr-4"></span>
+						</span>
+					</a>
+					<div class="clearfix"></div>
+
+					<div class="collapse in" id="collapseExample">
+						<ul class="nav">
+							<li>
+								<a href="/accounts/logout">
+									<span class="link-collapse ml-5">logout</span>
+								</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
+			<ul class="nav nav-primary">
+				<li class="nav-item {% if 'index' in segment %} active {% endif %}">
+					<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+						<i class="fas fa-home"></i>
+						<p>Dashboard</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="dashboard">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/">
+									<span class="sub-item">Dashboard</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#school">
+						<i class="fas fa-school"></i>
+						<p>School</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="school">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/School/SchoolInfo">
+									<span class="sub-item">School Info</span>
+								</a>
+							</li>
+							<li>
+								<a href="/School/AssignClass">
+									<span class="sub-item">Assign Class</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#staff">
+						<i class="fas fa-user-tie"></i>
+						<p>Staff</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="staff">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/Staff/CreateStaff">
+									<span class="sub-item">Staff Create</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Staff/StaffInfo">
+									<span class="sub-item">Staff Info</span>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#application">
+						<i class="fas fa-file-signature"></i>
+						<p>Application</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="application">
+						<ul class="nav nav-collapse">
+							
+							<li>
+								<a href="/Application/NewApplication">
+									<span class="sub-item">New Application</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Application/AssignApplicationFees">
+									<span class="sub-item">Assign Application Fees</span>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#admission">
+						<i class="fas fa-graduation-cap"></i>
+						<p>Admission</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="admission">
+						<ul class="nav nav-collapse">
+							
+							<li>
+								<a href="/Admission/NewAdmission">
+									<span class="sub-item">New Admission</span>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#attendance">
+						<i class="fas fa-user-check"></i>
+						<p>Attendance</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="attendance">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/Attendance/MarkAttendance">
+									<span class="sub-item">Attendance</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Attendance/ReportAttendance">
+									<span class="sub-item">Attendance Report</span>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#fees">
+						<i class="fas fa-dollar-sign"></i>
+						<p>Fees</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="fees">
+						<ul class="nav nav-collapse">
+							<li>
+								<a href="/Fees/AssignFeeAmount">
+									<span class="sub-item">Assign Fees Amount</span>
+								</a>
+							</li>
+							<li>
+								<a href="/Fees/CollectFee">
+									<span class="sub-item">Collect Fee</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a data-toggle="collapse" href="#feedback">
+						<i class="fas fa-paper-plane"></i>
+						<p>Feedback</p>
+						<span class="caret"></span>
+					</a>
+					<div class="collapse" id="feedback">
+						<ul class="nav nav-collapse">
+							
+							<li>
+								<a href="/Feedback/FeedbackInfo">
+									<span class="sub-item">Feedback</span>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+				</li>
+			</ul>
 		</div>
-        <!-- End Sidebar -->
+	</div>
+</div>
         

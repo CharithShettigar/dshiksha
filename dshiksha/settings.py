@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'main',
     'django_hosts',
     'widget_tweaks',
+    'mathfilters',
 
 ]
 

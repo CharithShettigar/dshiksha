@@ -94,7 +94,7 @@ class Designation(models.Model):
 class PostOffice(models.Model):
     PostOfficeID = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     PostOfficeName = models.CharField(max_length=50)
-    Pincode = models.CharField(max_length=50)
+    Pincode = models.CharField(max_length=6)
 
 
 class ClassLevel(models.Model):

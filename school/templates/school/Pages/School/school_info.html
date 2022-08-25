@@ -38,13 +38,12 @@
                         <div class="card-title">{{school_data.SchoolName}} Information</div>
                     </div>
                     <div class="card-body">
-                        {% if school_logo %}
-                        <div class="col-sm mb-5">
-                            <div class="avatar avatar-xxl">
-                                <img src="{{school_data.SchoolLogo.url}}" alt="school img" class="avatar-img rounded">
-                            </div>
-                        </div>
-                        {% endif %}
+
+                    {% if request.session.schoolimg_check %}
+					<div class="avatar avatar-xxl">
+						<img src="{{request.session.school_logo}}" alt="school img" class="avatar-img rounded">			
+					</div>
+                    {% endif %}
                         <div class="row">
                             <div class="col-sm">
                                 <table class="table table-hover">
@@ -73,21 +72,6 @@
                                             <td>Insitution Level</td>
                                             <td class="fw-bold">:</td>
                                             <td class="fw-bold">{{school_data.InsitutionLevel.InstitutionLevel}}</td>
-                                        </tr>
-                                        {% comment %} <tr>
-                                            <td>Section</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{school_data.Section.SectionName}}</td>
-                                        </tr> {% endcomment %}
-                                        <tr>
-                                            <td>GSTI Number</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{school_data.GSTINo}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>School Pan Number</td>
-                                            <td class="fw-bold">:</td>
-                                            <td class="fw-bold">{{school_data.SchoolPANNo}}</td>
                                         </tr>
                                         <tr>
                                             <td>Area</td>

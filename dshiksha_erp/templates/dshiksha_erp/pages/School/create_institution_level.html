@@ -1,4 +1,4 @@
-{% extends 'dshiksha_erp/index.html' %}
+{% extends 'dshiksha_erp/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -33,6 +33,22 @@
         </div>
 
         <div class="page-inner mt--5">
+            {% if messages %}
+                {% for message in messages %} 
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Error!</strong> {{ message.message }}
+                </div>
+                {% endif %}
+                {% if message.tags == 'info' %}
+                <div class=" alert alert-success alert-dismissible d-flex align-items-center fade show my-1" id="alert">
+                    <i class="bi-exclamation-octagon-fill"></i>
+                    <strong class="mx-2">Success!</strong> {{ message.message }}
+                </div>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
             <div class="card card-rounded">
                 <div class="card-body">
                     <h4 class="card-title mb-3"> Add Institution Level <hr></h4>
@@ -81,3 +97,13 @@
         </div>
     </div>
 {% endblock body %}
+
+{% block javascripts %}
+    <script>
+        
+    setTimeout(function () {
+        $('#alert').alert('close');
+    }, 2500);
+
+    </script>
+{% endblock javascripts %}

@@ -26,12 +26,8 @@
 
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">	
-	<link rel="stylesheet" href="/static/assets/css/atlantis.css">
 	<link rel="stylesheet" href="/static/assets/css/style.css">
 
-
-	<!-- CSS Just for demo purpose, don't include it in your project -->
-	{% comment %} <link rel="stylesheet" href="/static/assets/css/demo.css"> {% endcomment %}
 
     <!-- Specific Page CSS goes HERE  -->
     {% block stylesheets %}{% endblock stylesheets %}
@@ -39,32 +35,15 @@
 </head>
 <body data-background-color="bg1">
 	<div class="wrapper">
+		
+		<div class="container justify-content-center">
 
-        {% comment %} {% include 'dshiksha_erp/includes/navigation.html' %} {% endcomment %}
-
-        {% comment %} {% include 'dshiksha_erp/includes/sidebar.html' %} {% endcomment %}
-
-		{% comment %} <div class="main-panel"> {% endcomment %}
+			{% block body %}{% endblock body %}
 			
-			<div class="container justify-content-center">
-
-                {% block body %}{% endblock body %}
-                
-                {% comment %} {% include 'dshiksha_erp/includes/footer.html' %} {% endcomment %}
-            </div>
-        {% comment %} </div> {% endcomment %}
-
-        
-		{% if request.user.is_authenticated %}
-
-			<!-- Custom template | don't include it in your project! -->
-			{% comment %} {% include 'includes/configuration-plugin.html' %} {% endcomment %}
-
-		{% endif %}		
+		</div>
 
 	</div>
 
-	{% include 'dshiksha_erp/includes/scripts.html' %}
 
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}{% endblock javascripts %}

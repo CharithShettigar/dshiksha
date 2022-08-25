@@ -9,7 +9,6 @@
 
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="icon" href="/static/assets/img/dshiksha_icon.png" type="image/x-icon"/>
-	<link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-atlantis-dark">
 
 	<!-- Fonts and icons -->
 	<script src="/static/assets/js/plugin/webfont/webfont.min.js"></script>
@@ -27,9 +26,6 @@
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/static/assets/css/atlantis.css">
-
-	<!-- CSS Just for demo purpose, don't include it in your project -->
-	<link rel="stylesheet" href="/static/assets/css/demo.css">
 
     <!-- Specific Page CSS goes HERE  -->
     {% block stylesheets %}{% endblock stylesheets %}
@@ -49,14 +45,6 @@
 			{% include 'dshiksha_erp/includes/footer.html' %}
 
 		</div>
-        
-		{% if request.user.is_authenticated %}
-
-			<!-- Custom template | don't include it in your project! -->
-			{% comment %} {% include 'includes/configuration-plugin.html' %} {% endcomment %}
-
-		{% endif %}		
-
 	</div>
 
 	{% include 'dshiksha_erp/includes/scripts.html' %}

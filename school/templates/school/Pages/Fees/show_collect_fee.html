@@ -129,12 +129,26 @@
                                                 </div>
                                                 <br>
                                                 <div class="row ml-2">
-                                                    <div class="col-sm-lg-xl-md-xs-4">
-                                                    <span class="mr-4 pr-1"> Paid By </span>
-                                                    <span class="ml-5 pl-5 mr-1">:</span>
-                                                    <span class="ml-4 pl-4">{{student_id_data.ModeOfPayment.ModeOfPayment}} 
-                                                    </span> 
+                                                    <div class="col-lg-sm-4 col-xl-md-4 h5">
+                                                        <span class=""> Received From </span>
                                                     </div>
+                                                    <div class="col-lg-sm-4 ml-5 pl-4 h5">:</div>
+                                                            {% comment %} <span class="ml-4 pl-4">{{student_id_data.ModeOfPayment.ModeOfPayment}}  {% endcomment %}
+                                                            <div class="ml-2 pl-5 h5">
+  
+                                                                {% if student_id_data.Bank %}
+                                                                    <b>Bank</b> <br>
+                                                                {% endif %}
+                                                                {% if student_id_data.Online %}
+                                                                    <b>Online</b><br>
+                                                                {% endif %}
+                                                                {% if student_id_data.ModeOfPayment.ModeOfPayment == "Cash" %}
+                                                                    <b>Cash</b>
+                                                                {% endif %}
+                                                            </div>
+                                                            {% comment %} <span class="ml-4 pl-4">{{student_id_data.Bank.BankName}} 
+                                                            <span class="ml-4 pl-4">{{student_id_data.Online.OnlineAppName}}  {% endcomment %}
+                                                    
                                                     <div class="col-sm-lg-xl-md-xs-4 ml-auto">
                                                             {% if school_sign %}
                                                                 <div class="avatar avatar-xl"><img src="{{school_sign.url}}" class="avatar-img" alt="school sign"></div>
@@ -160,6 +174,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row justify-content-center">
+                            <a name="" id="" class="btn btn-primary p-3" href="/PrintFees/{{ student_id_data.Admission.AdmissionID }}" role="button">
+                                <i class="fas fa-file-pdf">
+                                    <span class="ml-2 h4 text-bold">
+                                        <b>Print</b>
+                                    </span>
+                                </i>
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>
